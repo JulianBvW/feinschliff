@@ -8,6 +8,7 @@ import io.github.julianbvw.feinschliff.core.config.Settings;
 import io.github.julianbvw.feinschliff.core.hud.DebugOverlay;
 import io.github.julianbvw.feinschliff.core.input.Hotkey;
 import io.github.julianbvw.feinschliff.core.platform.Log;
+import io.github.julianbvw.feinschliff.core.window.VSync;
 
 /**
  * Entry point of the version-independent core.
@@ -75,6 +76,7 @@ public final class Feinschliff {
 			}
 
 			DebugOverlay.tick();
+			VSync.tick();
 		} catch (Throwable t) {
 			tickDisabled = true;
 			log.error(MOD_NAME + ": per-tick work failed and has been switched off"

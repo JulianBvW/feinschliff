@@ -30,6 +30,8 @@ public final class Settings {
 	public static final BooleanOption HUD_DEBUG_OVERLAY_LOOKING_AT;
 	public static final BooleanOption HUD_DEBUG_OVERLAY_SEED;
 
+	public static final BooleanOption WINDOW_VSYNC;
+
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
 	public static final KeyOption HOTKEY_DEBUG_OVERLAY;
 
@@ -72,6 +74,16 @@ public final class Settings {
 		HUD_DEBUG_OVERLAY_SEED = SPEC.add(new BooleanOption(
 			"hud.debugOverlay.seed", true,
 			"Show the world seed."));
+
+		SPEC.section("Window");
+
+		WINDOW_VSYNC = SPEC.add(new BooleanOption(
+			"window.vsync", false,
+			"Wait for the monitor before showing a frame. Removes tearing and",
+			"stops the game from rendering hundreds of frames nobody ever sees.",
+			"A graphics driver set to force vertical sync on or off overrides",
+			"this either way, and the game cannot tell which of the two won.",
+			"The frame rate on the debug overlay is the honest answer."));
 
 		SPEC.section("Hotkeys",
 			"Key names are the LWJGL 2 names: A-Z, 0-9, F1-F12, SPACE, RETURN,",
