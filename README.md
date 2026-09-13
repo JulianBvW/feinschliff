@@ -30,8 +30,11 @@ behaves exactly like vanilla until you decide otherwise.
 
 | ID | Feature | Category | Default | Config key |
 |----|---------|----------|---------|------------|
+| A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
 
-*Nothing released yet — the first feature is on its way.*
+The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
+press once to show the overlay, press again to hide it. Switching
+`hud.debugOverlay` off restores the vanilla F3 screen unchanged.
 
 ## Requirements
 

@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 
 import io.github.julianbvw.feinschliff.core.config.Config;
 import io.github.julianbvw.feinschliff.core.config.Settings;
+import io.github.julianbvw.feinschliff.core.hud.DebugOverlay;
 import io.github.julianbvw.feinschliff.core.input.Hotkey;
 import io.github.julianbvw.feinschliff.core.platform.Log;
 
@@ -67,9 +68,13 @@ public final class Feinschliff {
 			return;
 		}
 		try {
+			Hotkey.updateAll();
+
 			if (reloadConfigHotkey != null && reloadConfigHotkey.pressed()) {
 				reloadConfig();
 			}
+
+			DebugOverlay.tick();
 		} catch (Throwable t) {
 			tickDisabled = true;
 			log.error(MOD_NAME + ": per-tick work failed and has been switched off"
