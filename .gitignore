@@ -1,0 +1,31 @@
+# --- Build output ---------------------------------------------------------
+build/
+out/
+bin/
+
+# --- Gradle ---------------------------------------------------------------
+.gradle/
+local.properties
+
+# --- Loom / development launch --------------------------------------------
+run/
+.fabric/
+
+# --- Decompiled Minecraft reference ---------------------------------------
+# Named Minecraft sources for grepping. Mojang code: must never be committed.
+.reference/
+
+# --- IDE ------------------------------------------------------------------
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+*.launch
+
+# --- OS -------------------------------------------------------------------
+.DS_Store
+Thumbs.db

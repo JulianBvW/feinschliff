@@ -1,0 +1,117 @@
+plugins {
+	id 'fabric-loom'
+	id 'ploceus'
+}
+
+base {
+	archivesName = project.archives_base_name
+}
+version = "${project.version}+mc${project.minecraft_version}"
+
+// a1.1.2_01 predates the merged client/server jar (that starts at 1.3), so
+// both the game jar and the mappings have to be requested client-side.
+loom {
+	clientOnlyMinecraftJar()
+}
+
+ploceus {
+	setIntermediaryGeneration(2)
+	clientOnlyMappings()
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+
+	// Order matters: nests, exceptions and signatures must all be declared
+	// before the mappings dependency, or Ploceus refuses to configure.
+	exceptions ploceus.raven(project.raven_build)
+	signatures ploceus.sparrow(project.sparrow_build)
+	nests      ploceus.nests(project.nests_build)
+	mappings   ploceus.featherMappings(project.feather_build)
+
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// No OSL. The mod starts itself from a Minecraft.init() mixin, so it needs
+	// no entrypoints module and users need no extra download. If a later
+	// feature wants OSL (the keybinds module covers a1.0.1_01 to b1.7.3), add
+	// it here and bundle it with include().
+
+	implementation project(':core')
+}
+
+// The core module is bundled into the mod jar rather than shipped as a
+// separate dependency: it is an implementation detail, not a public library.
+tasks.named('jar', Jar) {
+	from project(':core').sourceSets.main.output
+}
+
+// "depends.minecraft" is a semver predicate evaluated by Fabric Loader, so a
+// raw "a1.1.2_01" would never match. The value comes from gradle.properties
+// rather than ploceus.normalizedMinecraftVersion(), because Ploceus and the
+// loader normalize legacy versions differently and the loader is the one that
+// decides at runtime.
+processResources {
+	inputs.property 'version', version
+	inputs.property 'minecraft_predicate', project.minecraft_predicate
+
+	filesMatching('fabric.mod.json') {
+		expand 'version': version, 'minecraft_predicate': project.minecraft_predicate
+	}
+}
+
+tasks.register('printVersions') {
+	group = 'feinschliff'
+	description = 'Shows the resolved version strings.'
+	doLast {
+		logger.lifecycle("mod version        : ${project.version}")
+		logger.lifecycle("minecraft (raw)    : ${project.minecraft_version}")
+		logger.lifecycle("depends.minecraft  : ${project.minecraft_predicate}   (Fabric Loader)")
+		logger.lifecycle("ploceus normalized : ${ploceus.normalizedMinecraftVersion()}   (NOT used)")
+	}
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+	withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+	options.release = 8
+}
+
+// Copy the built jar straight into a PrismLauncher instance.
+//
+// The path is intentionally not in the repository. Put it in your personal
+// ~/.gradle/gradle.properties instead:
+//
+//   prism_instance_dir = /path/to/PrismLauncher/instances/<name>/minecraft
+//
+// Prism's flatpak cannot see files outside its own data directory, so the jar
+// has to be copied; a symlink into the project would not resolve.
+def prismInstanceDir = providers.gradleProperty('prism_instance_dir')
+
+tasks.register('deploy', Copy) {
+	group = 'feinschliff'
+	description = 'Copies the built mod into the PrismLauncher instance.'
+
+	dependsOn tasks.named('remapJar')
+	onlyIf {
+		if (!prismInstanceDir.isPresent()) {
+			logger.warn('deploy: prism_instance_dir is not set, skipping. ' +
+				'Add it to ~/.gradle/gradle.properties.')
+			return false
+		}
+		return true
+	}
+
+	from tasks.named('remapJar').flatMap { it.archiveFile }
+	into prismInstanceDir.map { "${it}/mods" }
+	// Stable file name so old builds never pile up in the mods folder.
+	rename { "${project.archives_base_name}-dev.jar" }
+
+	doLast {
+		logger.lifecycle("deploy: ${prismInstanceDir.get()}/mods/${project.archives_base_name}-dev.jar")
+	}
+}

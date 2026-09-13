@@ -1,0 +1,42 @@
+pluginManagement {
+	repositories {
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+		maven {
+			name = 'Ornithe Releases'
+			url = 'https://maven.ornithemc.net/releases'
+		}
+		maven {
+			name = 'Ornithe Snapshots'
+			url = 'https://maven.ornithemc.net/snapshots'
+		}
+		gradlePluginPortal()
+	}
+
+	// Plugin versions live in gradle.properties together with everything else
+	// that is pinned, so there is exactly one place to look.
+	resolutionStrategy {
+		eachPlugin {
+			switch (requested.id.id) {
+				case 'fabric-loom':
+					useVersion(loom_version)
+					break
+				case 'ploceus':
+					useVersion(ploceus_version)
+					break
+			}
+		}
+	}
+}
+
+rootProject.name = 'feinschliff'
+
+// Version-independent feature logic. Never sees Minecraft.
+include 'core'
+
+// Alpha-era adapter. Currently a1.1.2_01 only; intended to grow into the rest
+// of the alpha line, since Ornithe's intermediary names are stable across it
+// (404 of 405 classes are shared with a1.2.6).
+include 'mc-alpha'

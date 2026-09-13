@@ -1,0 +1,24 @@
+{
+	"schemaVersion": 1,
+	"id": "feinschliff",
+	"version": "${version}",
+	"name": "Feinschliff",
+	"description": "German for 'the final polish'. A quality-of-life collection for Minecraft Alpha: HUD information, window and performance options, camera helpers and inventory comfort. Adds no blocks, items or entities and never touches world generation, so a world stays playable in unmodified vanilla.",
+	"authors": [
+		"JulianBvW"
+	],
+	"contact": {
+		"homepage": "https://github.com/JulianBvW/feinschliff",
+		"sources": "https://github.com/JulianBvW/feinschliff",
+		"issues": "https://github.com/JulianBvW/feinschliff/issues"
+	},
+	"license": "MIT",
+	"environment": "client",
+	"mixins": [
+		"feinschliff.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.17.0",
+		"minecraft": "${minecraft_predicate}"
+	}
+}
