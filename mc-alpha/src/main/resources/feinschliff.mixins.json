@@ -7,6 +7,7 @@
 	],
 	"client": [
 		"GameGuiMixin",
+		"ItemStackMixin",
 		"MinecraftMixin"
 	],
 	"server": [

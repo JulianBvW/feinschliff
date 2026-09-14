@@ -33,6 +33,7 @@ public final class Settings {
 
 	public static final BooleanOption WINDOW_VSYNC;
 
+	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
 	public static final KeyOption HOTKEY_DEBUG_OVERLAY;
@@ -86,6 +87,16 @@ public final class Settings {
 			"A graphics driver set to force vertical sync on or off overrides",
 			"this either way, and the game cannot tell which of the two won.",
 			"The frame rate on the debug overlay is the honest answer."));
+
+		SPEC.section("Gameplay",
+			"Unlike the sections above, these change how the game plays rather than",
+			"how it looks.");
+
+		GAMEPLAY_NO_EATING_AT_FULL_HEALTH = SPEC.add(new BooleanOption(
+			"gameplay.noEatingAtFullHealth", true,
+			"Keep food in your hand instead of eating it when you are already at",
+			"full health. This version has no hunger bar, so such a meal heals",
+			"nothing and is simply gone."));
 
 		SPEC.section("Hotkeys",
 			"Key names are the LWJGL 2 names: A-Z, 0-9, F1-F12, SPACE, RETURN,",

@@ -31,6 +31,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | ID | Feature | Category | Default | Config key |
 |----|---------|----------|---------|------------|
 | B2 | **Vertical sync.** Waits for the monitor before showing a frame, instead of rendering hundreds nobody sees. A driver forcing vsync on or off still overrides it. | Window | on | `window.vsync` |
+| F3 | **No eating at full health.** Keeps food in your hand instead of using it up for nothing. This version has no hunger bar, so a meal at full health heals nothing. | Gameplay | on | `gameplay.noEatingAtFullHealth` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
