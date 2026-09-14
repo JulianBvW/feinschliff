@@ -24,13 +24,13 @@ left alone unless they are genuinely in the way.
 
 ## Features
 
-Every feature can be switched on and off individually in `config/feinschliff.txt`.
-Anything that changes game behaviour is **off by default**, so a fresh install
-behaves exactly like vanilla until you decide otherwise.
+Every feature can be switched on and off individually in `config/feinschliff.txt`,
+and every one of them is **on out of the box** — installing the mod is meant to be
+enough. Set a key to `false` to get the vanilla behaviour back for that one feature.
 
 | ID | Feature | Category | Default | Config key |
 |----|---------|----------|---------|------------|
-| B2 | **Vertical sync.** Waits for the monitor before showing a frame, instead of rendering hundreds nobody sees. A driver forcing vsync on or off still overrides it. | Window | off | `window.vsync` |
+| B2 | **Vertical sync.** Waits for the monitor before showing a frame, instead of rendering hundreds nobody sees. A driver forcing vsync on or off still overrides it. | Window | on | `window.vsync` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:

@@ -6,9 +6,10 @@ package io.github.julianbvw.feinschliff.core.config;
  * <p>Conventions:
  * <ul>
  *   <li>Keys are grouped by a dotted prefix: {@code hud.}, {@code hotkey.}, ...</li>
- *   <li>Anything that changes game behaviour defaults to {@code false}, so a
- *       freshly installed mod treats the world exactly like vanilla.</li>
- *   <li>Pure display and window features may default to {@code true}.</li>
+ *   <li>Every feature defaults to {@code true}. Whoever installs the mod wants
+ *       what it does, so switching one back to vanilla is the deliberate act,
+ *       not switching it on.</li>
+ *   <li>Diagnostics are the exception and stay off until someone needs them.</li>
  * </ul>
  */
 public final class Settings {
@@ -31,6 +32,7 @@ public final class Settings {
 	public static final BooleanOption HUD_DEBUG_OVERLAY_SEED;
 
 	public static final BooleanOption WINDOW_VSYNC;
+
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
 	public static final KeyOption HOTKEY_DEBUG_OVERLAY;
@@ -78,7 +80,7 @@ public final class Settings {
 		SPEC.section("Window");
 
 		WINDOW_VSYNC = SPEC.add(new BooleanOption(
-			"window.vsync", false,
+			"window.vsync", true,
 			"Wait for the monitor before showing a frame. Removes tearing and",
 			"stops the game from rendering hundreds of frames nobody ever sees.",
 			"A graphics driver set to force vertical sync on or off overrides",
