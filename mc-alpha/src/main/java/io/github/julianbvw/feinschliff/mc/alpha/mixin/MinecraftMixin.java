@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 
 import io.github.julianbvw.feinschliff.core.Feinschliff;
 import io.github.julianbvw.feinschliff.core.camera.Freecam;
+import io.github.julianbvw.feinschliff.core.config.Settings;
 import io.github.julianbvw.feinschliff.mc.alpha.FeinschliffClient;
 
 @Mixin(Minecraft.class)
@@ -44,6 +45,24 @@ public class MinecraftMixin {
 	@Inject(method = "tick", at = @At("TAIL"))
 	private void feinschliff$onTick(CallbackInfo ci) {
 		Feinschliff.clientTick();
+	}
+
+	/**
+	 * The end of the game loop, and the end of the game: vanilla's finally is
+	 * empty here, and the applet frame the mod loader wraps the game in does
+	 * not exit either. Nothing is left running that would end the process on
+	 * its own, so without this it stands around until the loader's watchdog
+	 * halts it half a minute later.
+	 *
+	 * <p>TAIL is the last return. A game that failed to start leaves through
+	 * an earlier one and keeps its crash report on screen.
+	 */
+	@Inject(method = "run", at = @At("TAIL"))
+	private void feinschliff$exitWhenTheGameEnds(CallbackInfo ci) {
+		if (!Settings.WINDOW_EXIT_ON_CLOSE.on()) {
+			return;
+		}
+		System.exit(0);
 	}
 
 	/**

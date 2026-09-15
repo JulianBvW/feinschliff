@@ -32,6 +32,7 @@ public final class Settings {
 	public static final BooleanOption HUD_DEBUG_OVERLAY_SEED;
 
 	public static final BooleanOption WINDOW_VSYNC;
+	public static final BooleanOption WINDOW_EXIT_ON_CLOSE;
 
 	public static final BooleanOption CAMERA_FREECAM;
 	public static final DoubleOption CAMERA_FREECAM_SPEED;
@@ -93,6 +94,13 @@ public final class Settings {
 			"A graphics driver set to force vertical sync on or off overrides",
 			"this either way, and the game cannot tell which of the two won.",
 			"The frame rate on the debug overlay is the honest answer."));
+
+		WINDOW_EXIT_ON_CLOSE = SPEC.add(new BooleanOption(
+			"window.exitOnClose", true,
+			"Leave the process once the game loop ends, which is what closing",
+			"the window starts. Without it the window stays on screen and the",
+			"process lives on for another thirty seconds, until the mod loader",
+			"gives up waiting and halts it."));
 
 		SPEC.section("Camera",
 			"The free camera flies on its own while you stay where you are. You",
