@@ -34,6 +34,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | B3 | **Clean exit.** Ends the process when you close the window, instead of leaving it on screen for half a minute. Nothing is saved on the way out — leave through *Save and Quit* as you would without the mod. | Window | on | `window.exitOnClose` |
 | F3 | **No eating at full health.** Keeps food in your hand instead of using it up for nothing. This version has no hunger bar, so a meal at full health heals nothing. | Gameplay | on | `gameplay.noEatingAtFullHealth` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
+| C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles the same
@@ -41,6 +42,10 @@ way. While it is out you cannot mine, build, attack, drop or change items, and
 it stops at the edge of the world the game has drawn — there is nothing to see
 beyond it, since only the chunks around your body are rendered. Leaving the
 world puts the camera away.
+
+Flying is on `hotkey.fly`, `L` by default. Letting go in mid-air means falling,
+with everything that comes with it, and flying is no kind of shield: lava still
+burns and deep water still drowns.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

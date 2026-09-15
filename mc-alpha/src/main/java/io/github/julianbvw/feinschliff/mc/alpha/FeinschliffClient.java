@@ -29,8 +29,14 @@ import io.github.julianbvw.feinschliff.mc.alpha.adapter.LwjglKeys;
 public final class FeinschliffClient {
 
 	private static boolean started;
+	private static Minecraft minecraft;
 
 	private FeinschliffClient() {
+	}
+
+	/** The running game, for the one place that has to recognise the player. */
+	public static Minecraft minecraft() {
+		return minecraft;
 	}
 
 	public static void bootstrap(Minecraft minecraft) {
@@ -38,6 +44,7 @@ public final class FeinschliffClient {
 			return;
 		}
 		started = true;
+		FeinschliffClient.minecraft = minecraft;
 
 		// Nothing here may keep the game from starting. A mod that fails to
 		// initialise has to stay out of the way, not take Minecraft with it.

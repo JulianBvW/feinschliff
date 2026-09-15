@@ -39,11 +39,15 @@ public final class Settings {
 	public static final BooleanOption CAMERA_FREECAM_SHOW_PLAYER;
 	public static final BooleanOption CAMERA_FREECAM_LIMIT;
 
+	public static final BooleanOption MOVEMENT_FLY;
+	public static final DoubleOption MOVEMENT_FLY_SPEED;
+
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
 	public static final KeyOption HOTKEY_DEBUG_OVERLAY;
 	public static final KeyOption HOTKEY_FREECAM;
+	public static final KeyOption HOTKEY_FLY;
 
 	static {
 		SPEC.section("General");
@@ -129,6 +133,23 @@ public final class Settings {
 			"chunks around the player are rendered, so beyond that edge there is",
 			"nothing to see anyway."));
 
+		SPEC.section("Movement",
+			"Unlike the free camera, flying moves you. It therefore loads and",
+			"generates terrain wherever you go, exactly as walking there would,",
+			"and it is no kind of shield: lava burns you, deep water drowns you.");
+
+		MOVEMENT_FLY = SPEC.add(new BooleanOption(
+			"movement.fly", true,
+			"Fly with the movement keys, jump and sneak. You keep colliding with",
+			"the world, so there is no flying through walls."));
+
+		MOVEMENT_FLY_SPEED = SPEC.add(new DoubleOption(
+			"movement.fly.speed", 11.0, 0.5, 30.0,
+			"Flying speed in blocks per second. Walking is about four. The upper",
+			"limit is deliberate: much faster and you outrun the terrain being",
+			"made for you, and the game stops moving you at all until it catches",
+			"up."));
+
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",
 			"how it looks.");
@@ -161,6 +182,11 @@ public final class Settings {
 			"Press to send the camera off, press again to bring it back. F6",
 			"shows the vanilla profiler chart while held, which this takes over",
 			"unless the camera is put on another key."));
+
+		HOTKEY_FLY = SPEC.add(new KeyOption(
+			"hotkey.fly", "L",
+			"Press to take off, press again to drop. Letting go in mid-air means",
+			"falling, with everything that comes with it."));
 	}
 
 	private Settings() {

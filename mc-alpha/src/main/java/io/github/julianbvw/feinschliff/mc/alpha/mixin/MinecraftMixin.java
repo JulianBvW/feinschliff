@@ -23,7 +23,9 @@ import net.minecraft.world.World;
 import io.github.julianbvw.feinschliff.core.Feinschliff;
 import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.config.Settings;
+import io.github.julianbvw.feinschliff.core.movement.Fly;
 import io.github.julianbvw.feinschliff.mc.alpha.FeinschliffClient;
+import io.github.julianbvw.feinschliff.mc.alpha.movement.FlyPhysics;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
@@ -159,5 +161,10 @@ public class MinecraftMixin {
 	@Inject(method = "setWorld(Lnet/minecraft/world/World;Ljava/lang/String;)V", at = @At("HEAD"))
 	private void feinschliff$stopFreecam(World world, String message, CallbackInfo ci) {
 		Freecam.stop();
+		Fly.stop();
+
+		// The player this flight belonged to is about to be replaced, so there
+		// is nothing left to hand the movement back to.
+		FlyPhysics.forget();
 	}
 }

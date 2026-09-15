@@ -6,11 +6,13 @@
 	"mixins": [
 	],
 	"client": [
+		"EntityAccessor",
 		"GameGuiMixin",
 		"GameRendererMixin",
 		"ItemStackMixin",
 		"KeyboardInputMixin",
 		"MinecraftMixin",
+		"MobEntityMixin",
 		"WorldRendererMixin"
 	],
 	"server": [

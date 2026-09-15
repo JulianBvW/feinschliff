@@ -8,6 +8,7 @@ import io.github.julianbvw.feinschliff.core.config.Config;
 import io.github.julianbvw.feinschliff.core.config.Settings;
 import io.github.julianbvw.feinschliff.core.hud.DebugOverlay;
 import io.github.julianbvw.feinschliff.core.input.Hotkey;
+import io.github.julianbvw.feinschliff.core.movement.Fly;
 import io.github.julianbvw.feinschliff.core.platform.Log;
 import io.github.julianbvw.feinschliff.core.window.VSync;
 
@@ -81,11 +82,13 @@ public final class Feinschliff {
 
 			DebugOverlay.tick();
 			Freecam.tick();
+			Fly.tick();
 			VSync.tick();
 		} catch (Throwable t) {
 			// Anything that is on and can only be switched off from here has to
 			// go off now, or it stays on with nothing left to end it.
 			Freecam.stop();
+			Fly.stop();
 
 			tickDisabled = true;
 			log.error(MOD_NAME + ": per-tick work failed and has been switched off"
