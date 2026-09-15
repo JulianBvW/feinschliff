@@ -83,6 +83,10 @@ public final class Feinschliff {
 			Freecam.tick();
 			VSync.tick();
 		} catch (Throwable t) {
+			// Anything that is on and can only be switched off from here has to
+			// go off now, or it stays on with nothing left to end it.
+			Freecam.stop();
+
 			tickDisabled = true;
 			log.error(MOD_NAME + ": per-tick work failed and has been switched off"
 				+ " for this session. The game keeps running. Please report this.", t);

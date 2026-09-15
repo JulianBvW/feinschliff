@@ -87,7 +87,9 @@ public final class Freecam {
 			return;
 		}
 
-		if (TOGGLE.pressed()) {
+		// An open screen filters no hotkey, so a rebound letter would take off
+		// while a sign is being written. See Hotkey.
+		if (TOGGLE.pressed() && !host.screenOpen()) {
 			if (active) {
 				stop();
 			} else {

@@ -12,6 +12,11 @@ import io.github.julianbvw.feinschliff.core.config.KeyOption;
  * <p>Polls the physical key state instead of consuming keyboard events, so it
  * never interferes with the vanilla {@code Keyboard.next()} loops in
  * {@code Minecraft.tick()} and {@code Screen.handleInputs()}.
+ *
+ * <p>That is also why an open screen does not filter these the way it filters
+ * the movement keys: nothing takes the events away, because none are taken in
+ * the first place. Whoever binds a key that can be typed has to ask whether a
+ * screen is open before acting on it.
  */
 public final class Hotkey {
 
