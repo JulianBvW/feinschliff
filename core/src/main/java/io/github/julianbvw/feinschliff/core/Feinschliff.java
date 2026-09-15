@@ -10,6 +10,7 @@ import io.github.julianbvw.feinschliff.core.hud.DebugOverlay;
 import io.github.julianbvw.feinschliff.core.input.Hotkey;
 import io.github.julianbvw.feinschliff.core.movement.Fly;
 import io.github.julianbvw.feinschliff.core.platform.Log;
+import io.github.julianbvw.feinschliff.core.screenshot.Screenshots;
 import io.github.julianbvw.feinschliff.core.window.VSync;
 
 /**
@@ -57,6 +58,8 @@ public final class Feinschliff {
 			"costs you one setting, never the game.");
 		config.loadOrCreate();
 
+		Screenshots.setRoot(gameDir);
+
 		reloadConfigHotkey = new Hotkey(Settings.HOTKEY_RELOAD_CONFIG);
 
 		log.info(MOD_NAME + " ready, settings at " + config.file().toAbsolutePath());
@@ -81,6 +84,7 @@ public final class Feinschliff {
 			}
 
 			DebugOverlay.tick();
+			Screenshots.tick();
 			Freecam.tick();
 			Fly.tick();
 			VSync.tick();
@@ -89,6 +93,7 @@ public final class Feinschliff {
 			// go off now, or it stays on with nothing left to end it.
 			Freecam.stop();
 			Fly.stop();
+			Screenshots.clearMessage();
 
 			tickDisabled = true;
 			log.error(MOD_NAME + ": per-tick work failed and has been switched off"

@@ -34,6 +34,8 @@ public final class Settings {
 	public static final BooleanOption WINDOW_VSYNC;
 	public static final BooleanOption WINDOW_EXIT_ON_CLOSE;
 
+	public static final BooleanOption SCREENSHOT_ENABLED;
+
 	public static final BooleanOption CAMERA_FREECAM;
 	public static final DoubleOption CAMERA_FREECAM_SPEED;
 	public static final BooleanOption CAMERA_FREECAM_SHOW_PLAYER;
@@ -46,6 +48,7 @@ public final class Settings {
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
 	public static final KeyOption HOTKEY_DEBUG_OVERLAY;
+	public static final KeyOption HOTKEY_SCREENSHOT;
 	public static final KeyOption HOTKEY_FREECAM;
 	public static final KeyOption HOTKEY_FLY;
 
@@ -105,6 +108,15 @@ public final class Settings {
 			"the window starts. Without it the window stays on screen and the",
 			"process lives on for another thirty seconds, until the mod loader",
 			"gives up waiting and halts it."));
+
+		SPEC.section("Screenshots",
+			"Pictures land in screenshots/ beside your worlds, named after the",
+			"moment they were taken.");
+
+		SCREENSHOT_ENABLED = SPEC.add(new BooleanOption(
+			"screenshot.enabled", true,
+			"Save a picture of the screen to a file. It holds exactly what you",
+			"see, including the hud, the debug screen and your own hand."));
 
 		SPEC.section("Camera",
 			"The free camera flies on its own while you stay where you are. You",
@@ -176,6 +188,11 @@ public final class Settings {
 			"Rebinding this leaves F3 without a function, because the vanilla",
 			"screen is switched off while the overlay is on. NONE brings the",
 			"vanilla screen back."));
+
+		HOTKEY_SCREENSHOT = SPEC.add(new KeyOption(
+			"hotkey.screenshot", "F2",
+			"Take a picture. The game stutters for a moment while the file is",
+			"written, which is the whole of it."));
 
 		HOTKEY_FREECAM = SPEC.add(new KeyOption(
 			"hotkey.freecam", "F6",

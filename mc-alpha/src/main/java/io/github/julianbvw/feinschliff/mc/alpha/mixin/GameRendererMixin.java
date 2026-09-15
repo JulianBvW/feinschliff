@@ -14,12 +14,26 @@ import net.minecraft.client.render.GameRenderer;
 
 import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.mc.alpha.camera.FreecamView;
+import io.github.julianbvw.feinschliff.mc.alpha.screenshot.ScreenshotCapture;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
 
 	@Shadow
 	private Minecraft minecraft;
+
+	/**
+	 * The end of a frame: the world, the hud and any open screen have all
+	 * been drawn, and the swap that puts them on the monitor has not
+	 * happened yet. Nothing else in the game reaches that moment.
+	 *
+	 * <p>TAIL rather than RETURN, because the method also leaves early when
+	 * there is no frame to draw at all.
+	 */
+	@Inject(method = "render", at = @At("TAIL"))
+	private void feinschliff$takeScreenshot(float partialTick, CallbackInfo ci) {
+		ScreenshotCapture.endOfFrame(this.minecraft);
+	}
 
 	/**
 	 * The only place the view matrix is aimed, and the only one the free camera

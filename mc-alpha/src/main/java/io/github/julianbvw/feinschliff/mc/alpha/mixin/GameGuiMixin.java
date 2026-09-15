@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GameGui;
 import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.hud.DebugOverlay;
 import io.github.julianbvw.feinschliff.mc.alpha.hud.DebugOverlayRenderer;
+import io.github.julianbvw.feinschliff.mc.alpha.screenshot.ScreenshotMessage;
 
 @Mixin(GameGui.class)
 public class GameGuiMixin {
@@ -58,5 +59,6 @@ public class GameGuiMixin {
 	@Inject(method = "render", at = @At("TAIL"))
 	private void feinschliff$renderDebugOverlay(float partialTick, boolean screenOpen, int mouseX, int mouseY, CallbackInfo ci) {
 		DebugOverlayRenderer.render(this.minecraft);
+		ScreenshotMessage.render(this.minecraft, partialTick);
 	}
 }
