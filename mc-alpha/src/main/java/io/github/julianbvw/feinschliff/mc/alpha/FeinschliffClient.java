@@ -6,11 +6,11 @@ import java.nio.file.Paths;
 import net.minecraft.client.Minecraft;
 
 import io.github.julianbvw.feinschliff.core.Feinschliff;
-import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.config.KeyOption;
 import io.github.julianbvw.feinschliff.core.input.Keys;
+import io.github.julianbvw.feinschliff.core.platform.Game;
 import io.github.julianbvw.feinschliff.core.window.VSync;
-import io.github.julianbvw.feinschliff.mc.alpha.adapter.GameCameraHost;
+import io.github.julianbvw.feinschliff.mc.alpha.adapter.MinecraftGameHost;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.Log4jLog;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.LwjglDisplay;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.LwjglKeys;
@@ -45,7 +45,7 @@ public final class FeinschliffClient {
 			KeyOption.setResolver(LwjglKeys::resolve);
 			Keys.setKeyState(LwjglKeys::isDown);
 			VSync.setVideo(LwjglDisplay::setVSync);
-			Freecam.setHost(new GameCameraHost(minecraft));
+			Game.setHost(new MinecraftGameHost(minecraft));
 
 			// The instance directory, i.e. where settings.txt belongs.
 			// Minecraft.getWorkingDirectory() is not usable here: it is only

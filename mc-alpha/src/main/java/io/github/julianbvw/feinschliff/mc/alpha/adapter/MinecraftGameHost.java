@@ -3,10 +3,10 @@ package io.github.julianbvw.feinschliff.mc.alpha.adapter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.options.GameOptions;
 
-import io.github.julianbvw.feinschliff.core.platform.CameraHost;
+import io.github.julianbvw.feinschliff.core.platform.GameHost;
 
-/** Answers the free camera's questions about the running game. */
-public final class GameCameraHost implements CameraHost {
+/** Answers the core's questions about the running game. */
+public final class MinecraftGameHost implements GameHost {
 
 	/** Widest the render chunk grid ever gets, from {@code WorldRenderer.reload}. */
 	private static final int MAX_GRID_WIDTH = 400;
@@ -19,7 +19,7 @@ public final class GameCameraHost implements CameraHost {
 
 	private final Minecraft minecraft;
 
-	public GameCameraHost(Minecraft minecraft) {
+	public MinecraftGameHost(Minecraft minecraft) {
 		this.minecraft = minecraft;
 	}
 

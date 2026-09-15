@@ -1,13 +1,14 @@
 package io.github.julianbvw.feinschliff.core.platform;
 
 /**
- * Everything the free camera needs to know about the running game.
+ * What the core is allowed to know about the running game.
  *
- * <p>Implemented by the adapter. The camera pulls through this interface rather
- * than being pushed at, which keeps the call surface between adapter and core
- * at the three methods on {@code Feinschliff}.
+ * <p>Implemented by the adapter and reached through {@link Game}. Features pull
+ * through this interface rather than being pushed at, which keeps the call
+ * surface between adapter and core at the three methods on
+ * {@code Feinschliff}.
  */
-public interface CameraHost {
+public interface GameHost {
 
 	/** The six directions the camera can be steered in. */
 	enum Move {

@@ -4,8 +4,9 @@ import io.github.julianbvw.feinschliff.core.Feinschliff;
 import io.github.julianbvw.feinschliff.core.config.Settings;
 import io.github.julianbvw.feinschliff.core.input.Hotkey;
 import io.github.julianbvw.feinschliff.core.input.Keys;
-import io.github.julianbvw.feinschliff.core.platform.CameraHost;
-import io.github.julianbvw.feinschliff.core.platform.CameraHost.Move;
+import io.github.julianbvw.feinschliff.core.platform.Game;
+import io.github.julianbvw.feinschliff.core.platform.GameHost;
+import io.github.julianbvw.feinschliff.core.platform.GameHost.Move;
 
 /**
  * A camera that flies on its own while the player stays where they are.
@@ -42,8 +43,6 @@ public final class Freecam {
 
 	private static final Hotkey TOGGLE = new Hotkey(Settings.HOTKEY_FREECAM);
 
-	private static CameraHost host;
-
 	private static boolean active;
 	private static double x;
 	private static double y;
@@ -56,10 +55,6 @@ public final class Freecam {
 	private static double speed;
 
 	private Freecam() {
-	}
-
-	public static void setHost(CameraHost host) {
-		Freecam.host = host;
 	}
 
 	/** The feature is available: switched on and reachable by a key. */
@@ -78,6 +73,7 @@ public final class Freecam {
 	}
 
 	public static void tick() {
+		GameHost host = Game.host();
 		if (host == null) {
 			return;
 		}
@@ -159,12 +155,9 @@ public final class Freecam {
 		return pitch;
 	}
 
-	public static double speed() {
-		return speed;
-	}
-
 	/** Starts where the player's eyes are, so switching over shows no jump. */
 	private static void start() {
+		GameHost host = Game.host();
 		x = host.playerX();
 		y = host.playerY();
 		z = host.playerZ();
@@ -221,6 +214,7 @@ public final class Freecam {
 			return;
 		}
 
+		GameHost host = Game.host();
 		double radius = host.renderedRadius();
 		double offsetX = x - host.playerX();
 		double offsetZ = z - host.playerZ();
@@ -239,7 +233,7 @@ public final class Freecam {
 
 	/** Steered with the player's own bindings, read straight off the keyboard. */
 	private static boolean held(Move direction) {
-		return Keys.isDown(host.movementKey(direction));
+		return Keys.isDown(Game.host().movementKey(direction));
 	}
 
 	private static double clamp(double value, double min, double max) {
