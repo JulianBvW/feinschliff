@@ -33,10 +33,16 @@ public final class Settings {
 
 	public static final BooleanOption WINDOW_VSYNC;
 
+	public static final BooleanOption CAMERA_FREECAM;
+	public static final DoubleOption CAMERA_FREECAM_SPEED;
+	public static final BooleanOption CAMERA_FREECAM_SHOW_PLAYER;
+	public static final BooleanOption CAMERA_FREECAM_LIMIT;
+
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
 	public static final KeyOption HOTKEY_DEBUG_OVERLAY;
+	public static final KeyOption HOTKEY_FREECAM;
 
 	static {
 		SPEC.section("General");
@@ -88,6 +94,33 @@ public final class Settings {
 			"this either way, and the game cannot tell which of the two won.",
 			"The frame rate on the debug overlay is the honest answer."));
 
+		SPEC.section("Camera",
+			"The free camera flies on its own while you stay where you are. You",
+			"cannot mine, build, attack or change items while it is out, and",
+			"nothing you do with it touches the world.");
+
+		CAMERA_FREECAM = SPEC.add(new BooleanOption(
+			"camera.freecam", true,
+			"Detach the camera and fly it around with the movement keys, jump",
+			"and sneak. Your body stays put and stays vulnerable."));
+
+		CAMERA_FREECAM_SPEED = SPEC.add(new DoubleOption(
+			"camera.freecam.speed", 10.0, 0.5, 100.0,
+			"Flying speed in blocks per second, as it is every time the camera",
+			"comes out. Walking is about four. The mouse wheel changes it while",
+			"flying, and that change lasts until the camera is put away."));
+
+		CAMERA_FREECAM_SHOW_PLAYER = SPEC.add(new BooleanOption(
+			"camera.freecam.showPlayer", true,
+			"Draw your own body, which is otherwise only visible in third",
+			"person."));
+
+		CAMERA_FREECAM_LIMIT = SPEC.add(new BooleanOption(
+			"camera.freecam.limitToRendered", true,
+			"Stop the camera at the edge of the world the game has drawn. Only",
+			"chunks around the player are rendered, so beyond that edge there is",
+			"nothing to see anyway."));
+
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",
 			"how it looks.");
@@ -114,6 +147,12 @@ public final class Settings {
 			"Rebinding this leaves F3 without a function, because the vanilla",
 			"screen is switched off while the overlay is on. NONE brings the",
 			"vanilla screen back."));
+
+		HOTKEY_FREECAM = SPEC.add(new KeyOption(
+			"hotkey.freecam", "F6",
+			"Press to send the camera off, press again to bring it back. F6",
+			"shows the vanilla profiler chart while held, which this takes over",
+			"unless the camera is put on another key."));
 	}
 
 	private Settings() {

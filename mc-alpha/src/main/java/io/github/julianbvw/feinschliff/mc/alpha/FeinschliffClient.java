@@ -3,10 +3,14 @@ package io.github.julianbvw.feinschliff.mc.alpha;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import net.minecraft.client.Minecraft;
+
 import io.github.julianbvw.feinschliff.core.Feinschliff;
+import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.config.KeyOption;
-import io.github.julianbvw.feinschliff.core.input.Hotkey;
+import io.github.julianbvw.feinschliff.core.input.Keys;
 import io.github.julianbvw.feinschliff.core.window.VSync;
+import io.github.julianbvw.feinschliff.mc.alpha.adapter.GameCameraHost;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.Log4jLog;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.LwjglDisplay;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.LwjglKeys;
@@ -29,7 +33,7 @@ public final class FeinschliffClient {
 	private FeinschliffClient() {
 	}
 
-	public static void bootstrap() {
+	public static void bootstrap(Minecraft minecraft) {
 		if (started) {
 			return;
 		}
@@ -39,8 +43,9 @@ public final class FeinschliffClient {
 		// initialise has to stay out of the way, not take Minecraft with it.
 		try {
 			KeyOption.setResolver(LwjglKeys::resolve);
-			Hotkey.setKeyState(LwjglKeys::isDown);
+			Keys.setKeyState(LwjglKeys::isDown);
 			VSync.setVideo(LwjglDisplay::setVSync);
+			Freecam.setHost(new GameCameraHost(minecraft));
 
 			// The instance directory, i.e. where settings.txt belongs.
 			// Minecraft.getWorkingDirectory() is not usable here: it is only

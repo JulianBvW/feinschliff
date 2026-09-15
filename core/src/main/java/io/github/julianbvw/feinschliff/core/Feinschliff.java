@@ -3,6 +3,7 @@ package io.github.julianbvw.feinschliff.core;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.config.Config;
 import io.github.julianbvw.feinschliff.core.config.Settings;
 import io.github.julianbvw.feinschliff.core.hud.DebugOverlay;
@@ -79,6 +80,7 @@ public final class Feinschliff {
 			}
 
 			DebugOverlay.tick();
+			Freecam.tick();
 			VSync.tick();
 		} catch (Throwable t) {
 			tickDisabled = true;

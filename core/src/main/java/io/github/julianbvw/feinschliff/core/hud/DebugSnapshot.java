@@ -28,6 +28,12 @@ public final class DebugSnapshot {
 	public double y;
 	public double z;
 
+	/** Set while the free camera is out, when it is somewhere else than the player. */
+	public boolean freecam;
+	public double cameraX;
+	public double cameraY;
+	public double cameraZ;
+
 	public int blockX;
 	public int blockY;
 	public int blockZ;

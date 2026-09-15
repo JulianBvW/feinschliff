@@ -1,16 +1,19 @@
 package io.github.julianbvw.feinschliff.mc.alpha.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GameGui;
 
+import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.hud.DebugOverlay;
 import io.github.julianbvw.feinschliff.mc.alpha.hud.DebugOverlayRenderer;
 
@@ -31,6 +34,20 @@ public class GameGuiMixin {
 		at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Keyboard;isKeyDown(I)Z"))
 	private boolean feinschliff$hideVanillaDebugScreen(boolean pressed) {
 		return pressed && !DebugOverlay.enabled();
+	}
+
+	/**
+	 * The crosshair: the first thing drawn once the inverting blend mode is on.
+	 * It aims from the player, so with the camera elsewhere it points at
+	 * nothing the viewer can see, and every click it invites is blocked anyway.
+	 */
+	@WrapWithCondition(
+		method = "render",
+		slice = @Slice(
+			from = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glBlendFunc(II)V", ordinal = 0)),
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GameGui;drawTexture(IIIIII)V", ordinal = 0))
+	private boolean feinschliff$hideCrosshairInFreecam(GameGui gui, int x, int y, int u, int v, int width, int height) {
+		return !Freecam.active();
 	}
 
 	/**

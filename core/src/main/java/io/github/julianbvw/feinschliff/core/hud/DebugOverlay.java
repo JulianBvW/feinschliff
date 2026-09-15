@@ -108,6 +108,12 @@ public final class DebugOverlay {
 			+ RED + decimals(snapshot.x) + " "
 			+ GREEN + decimals(snapshot.y) + " "
 			+ BLUE + decimals(snapshot.z));
+		if (snapshot.freecam) {
+			position.add(GRAY + "Camera: "
+				+ RED + decimals(snapshot.cameraX) + " "
+				+ GREEN + decimals(snapshot.cameraY) + " "
+				+ BLUE + decimals(snapshot.cameraZ));
+		}
 		position.add(GRAY + "Chunk: " + WHITE + (snapshot.blockX >> 4) + " " + (snapshot.blockZ >> 4)
 			+ DARK_GRAY + " (" + GRAY + "in chunk " + WHITE + (snapshot.blockX & 15) + " " + (snapshot.blockZ & 15)
 			+ DARK_GRAY + ")");

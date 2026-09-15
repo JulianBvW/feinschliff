@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import io.github.julianbvw.feinschliff.core.Feinschliff;
+import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.hud.DebugOverlay;
 import io.github.julianbvw.feinschliff.core.hud.DebugSnapshot;
 
@@ -90,6 +91,16 @@ public final class DebugOverlayRenderer {
 		snapshot.x = player.x;
 		snapshot.y = player.y;
 		snapshot.z = player.z;
+
+		snapshot.freecam = Freecam.active();
+		if (snapshot.freecam) {
+			// Whole ticks, the way the player's own numbers above are read.
+			// Interpolating would make the last decimal jitter every frame.
+			snapshot.cameraX = Freecam.x(1.0F);
+			snapshot.cameraY = Freecam.y(1.0F);
+			snapshot.cameraZ = Freecam.z(1.0F);
+		}
+
 		snapshot.blockX = floor(player.x);
 		snapshot.blockY = floor(player.y);
 		snapshot.blockZ = floor(player.z);
