@@ -30,6 +30,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 
 | ID | Feature | Category | Default | Config key |
 |----|---------|----------|---------|------------|
+| B1 | **Borderless fullscreen.** Puts `F11` on a window that fills the screen at the desktop resolution with nothing drawn around it, one press each way. The fullscreen this version ships with changes the monitor's display mode and then only tells the game about the new size when a menu happens to be open. | Window | on | `window.borderless` |
 | B2 | **Vertical sync.** Waits for the monitor before showing a frame, instead of rendering hundreds nobody sees. A driver forcing vsync on or off still overrides it. | Window | on | `window.vsync` |
 | B3 | **Clean exit.** Ends the process when you close the window, instead of leaving it on screen for half a minute. Nothing is saved on the way out — leave through *Save and Quit* as you would without the mod. | Window | on | `window.exitOnClose` |
 | F3 | **No eating at full health.** Keeps food in your hand instead of using it up for nothing. This version has no hunger bar, so a meal at full health heals nothing. | Gameplay | on | `gameplay.noEatingAtFullHealth` |
@@ -59,6 +60,12 @@ The screenshot key is `hotkey.screenshot`, `F2` by default. The game pauses
 for a moment while the file is written, and a line above the hotbar says where
 it went; the log says the same. Two pictures taken in the same second get a
 `_1`, `_2` suffix, so nothing is ever overwritten.
+
+Borderless fullscreen sits on `F11`, the key the game already uses for
+fullscreen, so there is no hotkey of its own. Set `window.borderless.onStart` to
+fill the screen from the moment the game starts. Switching `window.borderless`
+off hands `F11` back to the game's own fullscreen, which in this version leaves
+the picture in a corner at the old size unless a menu is open when you press it.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

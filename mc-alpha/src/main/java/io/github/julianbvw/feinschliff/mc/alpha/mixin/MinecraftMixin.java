@@ -24,6 +24,7 @@ import io.github.julianbvw.feinschliff.core.Feinschliff;
 import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.config.Settings;
 import io.github.julianbvw.feinschliff.core.movement.Fly;
+import io.github.julianbvw.feinschliff.core.window.Borderless;
 import io.github.julianbvw.feinschliff.mc.alpha.FeinschliffClient;
 import io.github.julianbvw.feinschliff.mc.alpha.movement.FlyPhysics;
 
@@ -32,8 +33,8 @@ public class MinecraftMixin {
 
 	/**
 	 * Startup. HEAD of init() is the earliest useful point: it runs before
-	 * Display.setDisplayMode() and Display.create(), which is what the
-	 * borderless-window feature will need, and before GameOptions is built.
+	 * Display.create() and before GameOptions is built, so the mod's own
+	 * settings are read and answering before anything can ask for them.
 	 */
 	@Inject(method = "init", at = @At("HEAD"))
 	private void feinschliff$bootstrap(CallbackInfo ci) {
@@ -65,6 +66,43 @@ public class MinecraftMixin {
 			return;
 		}
 		System.exit(0);
+	}
+
+	/**
+	 * The fullscreen key, which this version answers badly: it switches the
+	 * monitor's display mode and then only tells the game about the new size
+	 * when a screen happens to be open, so leaving the pause menu out of it
+	 * leaves the picture in a corner at the old size.
+	 */
+	@Inject(method = "toggleFullscreen", at = @At("HEAD"), cancellable = true)
+	private void feinschliff$borderlessInsteadOfFullscreen(CallbackInfo ci) {
+		if (!Borderless.enabled()) {
+			return;
+		}
+		ci.cancel();
+		Borderless.toggle();
+	}
+
+	/**
+	 * The size check at the end of every frame, which follows the awt canvas
+	 * the game is normally drawn into. While the window is borderless it is
+	 * not drawn into that canvas, and the canvas keeps the size it had, so
+	 * this would pull the picture back down to it every frame.
+	 *
+	 * <p>The ordinal picks the second of the two reads in run(). The first
+	 * belongs to a branch that drops out of fullscreen when the window loses
+	 * focus, which has nothing to do with this and should keep believing that
+	 * no fullscreen is on.
+	 */
+	@ModifyExpressionValue(
+		method = "run",
+		at = @At(
+			value = "FIELD",
+			target = "Lnet/minecraft/client/Minecraft;fullscreen:Z",
+			opcode = Opcodes.GETFIELD,
+			ordinal = 1))
+	private boolean feinschliff$keepBorderlessSize(boolean fullscreen) {
+		return fullscreen || Borderless.active();
 	}
 
 	/**

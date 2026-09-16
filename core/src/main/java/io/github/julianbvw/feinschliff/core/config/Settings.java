@@ -34,6 +34,8 @@ public final class Settings {
 	public static final BooleanOption HUD_DEBUG_OVERLAY_LOOKING_AT;
 	public static final BooleanOption HUD_DEBUG_OVERLAY_SEED;
 
+	public static final BooleanOption WINDOW_BORDERLESS;
+	public static final BooleanOption WINDOW_BORDERLESS_ON_START;
 	public static final BooleanOption WINDOW_VSYNC;
 	public static final BooleanOption WINDOW_EXIT_ON_CLOSE;
 
@@ -108,6 +110,19 @@ public final class Settings {
 			"Show the world seed."));
 
 		SPEC.section("Window");
+
+		WINDOW_BORDERLESS = SPEC.add(new BooleanOption(
+			"window.borderless", true,
+			"Put the fullscreen key on a borderless window instead: the whole",
+			"screen at the resolution the desktop already runs at, with nothing",
+			"drawn around it. The key keeps working as a switch, one press each",
+			"way. Off hands the key back to the game's own fullscreen, which",
+			"changes the monitor's display mode and, in this version, forgets to",
+			"tell the game how large the screen now is."));
+
+		WINDOW_BORDERLESS_ON_START = SPEC.add(new BooleanOption(
+			"window.borderless.onStart", false,
+			"Fill the screen straight away instead of waiting for the key."));
 
 		WINDOW_VSYNC = SPEC.add(new BooleanOption(
 			"window.vsync", true,

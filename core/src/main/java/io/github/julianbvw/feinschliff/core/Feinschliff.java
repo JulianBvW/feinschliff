@@ -11,6 +11,7 @@ import io.github.julianbvw.feinschliff.core.input.Hotkey;
 import io.github.julianbvw.feinschliff.core.movement.Fly;
 import io.github.julianbvw.feinschliff.core.platform.Log;
 import io.github.julianbvw.feinschliff.core.screenshot.Screenshots;
+import io.github.julianbvw.feinschliff.core.window.Borderless;
 import io.github.julianbvw.feinschliff.core.window.VSync;
 
 /**
@@ -89,6 +90,7 @@ public final class Feinschliff {
 			Freecam.tick();
 			Fly.tick();
 			VSync.tick();
+			Borderless.tick();
 		} catch (Throwable t) {
 			// Anything that is on and can only be switched off from here has to
 			// go off now, or it stays on with nothing left to end it.

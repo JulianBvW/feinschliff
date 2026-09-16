@@ -11,8 +11,10 @@
 		"GameRendererMixin",
 		"ItemStackMixin",
 		"KeyboardInputMixin",
+		"MinecraftInvoker",
 		"MinecraftMixin",
 		"MobEntityMixin",
+		"MouseMixin",
 		"WorldRendererMixin"
 	],
 	"server": [

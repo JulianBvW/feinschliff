@@ -9,22 +9,24 @@ import io.github.julianbvw.feinschliff.core.Feinschliff;
 import io.github.julianbvw.feinschliff.core.config.KeyOption;
 import io.github.julianbvw.feinschliff.core.input.Keys;
 import io.github.julianbvw.feinschliff.core.platform.Game;
+import io.github.julianbvw.feinschliff.core.platform.WindowMode;
+import io.github.julianbvw.feinschliff.core.window.Borderless;
 import io.github.julianbvw.feinschliff.core.window.VSync;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.MinecraftGameHost;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.Log4jLog;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.LwjglDisplay;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.LwjglKeys;
+import io.github.julianbvw.feinschliff.mc.alpha.window.BorderlessWindow;
 
 /**
  * Alpha-era adapter: wires the platform pieces into the core.
  *
- * <p>Startup deliberately does not go through OSL's entrypoints module. That
- * module hooks {@code MinecraftApplet}, but an Ornithe PrismLauncher instance
- * starts the game without the applet wrapper, so the entrypoint would not
- * reliably fire. Hooking {@code Minecraft.init()} ourselves works in both
- * launch modes, costs no runtime dependency, and is the same place the
- * borderless-window feature will need later -- it runs before
- * {@code Display.create()}.
+ * <p>Startup deliberately does not go through OSL's entrypoints module. It
+ * would fire -- the loader starts this version through its own applet wrapper,
+ * so the {@code MinecraftApplet} that module hooks really is there -- but it
+ * drags in osl-core, which then has to be bundled or installed alongside.
+ * Hooking {@code Minecraft.init()} ourselves costs no runtime dependency at
+ * all.
  */
 public final class FeinschliffClient {
 
@@ -52,6 +54,18 @@ public final class FeinschliffClient {
 			KeyOption.setResolver(LwjglKeys::resolve);
 			Keys.setKeyState(LwjglKeys::isDown);
 			VSync.setVideo(LwjglDisplay::setVSync);
+			Borderless.setWindow(new WindowMode() {
+
+				@Override
+				public void setBorderless(boolean borderless) {
+					BorderlessWindow.set(minecraft, borderless);
+				}
+
+				@Override
+				public void takePointer() {
+					BorderlessWindow.takePointer(minecraft);
+				}
+			});
 			Game.setHost(new MinecraftGameHost(minecraft));
 
 			// The instance directory, i.e. where feinschliff.txt belongs.
