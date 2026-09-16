@@ -34,17 +34,12 @@ public final class FlyPhysics {
 	 * Moves the player for this tick and says whether it did. Where it did not,
 	 * it has handed them back to their own physics instead.
 	 *
-	 * <p>Two things end a flight besides switching it off. A dead player would
-	 * hover, because {@code mobTick} keeps asking for movement while the death
-	 * screen is up. And a passenger is placed by whatever it rides immediately
-	 * afterwards, so flying there would be a full collision sweep worked out and
-	 * then thrown away.
+	 * <p>A passenger ends a flight besides switching it off: whatever it rides
+	 * places it immediately afterwards, so flying there would be a full
+	 * collision sweep worked out and then thrown away. Death is handled a step
+	 * earlier, in {@link Fly#tick()}, along with every other way a flight ends.
 	 */
 	public static boolean tookOver(MobEntity self, float sideways, float forwards, boolean jumping) {
-		if (self.health <= 0) {
-			Fly.stop();
-		}
-
 		if (!Fly.active() || self.vehicle != null) {
 			handBack(self);
 			return false;

@@ -64,6 +64,13 @@ public final class Fly {
 			return;
 		}
 
+		// The death screen goes up over a body that would otherwise hang in
+		// the air until somebody pressed the key again.
+		if (!host.playerAlive()) {
+			stop();
+			return;
+		}
+
 		// An open screen filters no hotkey, so without this an L written on a
 		// sign would take off. See Hotkey.
 		if (TOGGLE.pressed() && !host.screenOpen()) {
