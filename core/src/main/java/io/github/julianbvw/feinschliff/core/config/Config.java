@@ -11,7 +11,7 @@ import java.util.Properties;
 import io.github.julianbvw.feinschliff.core.platform.Log;
 
 /**
- * Reads {@code settings.txt} and keeps the options in sync with it.
+ * Reads {@code feinschliff.txt} and keeps the options in sync with it.
  *
  * <p>Rules, all of them deliberate:
  * <ul>

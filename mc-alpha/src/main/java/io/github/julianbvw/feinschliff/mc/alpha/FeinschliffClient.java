@@ -54,7 +54,7 @@ public final class FeinschliffClient {
 			VSync.setVideo(LwjglDisplay::setVSync);
 			Game.setHost(new MinecraftGameHost(minecraft));
 
-			// The instance directory, i.e. where settings.txt belongs.
+			// The instance directory, i.e. where feinschliff.txt belongs.
 			// Minecraft.getWorkingDirectory() is not usable here: it is only
 			// filled in further down init(), after Display.create().
 			Path gameDir = Paths.get(System.getProperty("user.dir", "."));

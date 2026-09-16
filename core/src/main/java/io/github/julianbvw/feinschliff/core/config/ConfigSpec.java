@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The ordered description of {@code settings.txt}: which sections and options
+ * The ordered description of {@code feinschliff.txt}: which sections and options
  * exist, in which order, with which comments.
  *
  * <p>This is also the generator for the default file. {@code Properties.store()}

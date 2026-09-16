@@ -1,7 +1,7 @@
 package io.github.julianbvw.feinschliff.core.config;
 
 /**
- * A single {@code key=value} line in {@code settings.txt}.
+ * A single {@code key=value} line in {@code feinschliff.txt}.
  *
  * <p>An option always holds a usable value: it starts at its default and falls
  * back to the default whenever the file is missing, unreadable or malformed.

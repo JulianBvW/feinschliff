@@ -1,7 +1,8 @@
 package io.github.julianbvw.feinschliff.core.config;
 
 /**
- * Every setting the mod has, in the order they appear in {@code settings.txt}.
+ * Every setting the mod has, in the order they appear in
+ * {@code feinschliff.txt}.
  *
  * <p>Conventions:
  * <ul>
