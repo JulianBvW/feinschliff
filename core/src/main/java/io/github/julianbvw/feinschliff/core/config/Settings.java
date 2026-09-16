@@ -24,6 +24,8 @@ public final class Settings {
 
 	public static final BooleanOption DEBUG_LOGGING;
 
+	public static final BooleanOption HUD_HIDE;
+
 	public static final BooleanOption HUD_DEBUG_OVERLAY;
 	public static final BooleanOption HUD_DEBUG_OVERLAY_COLOURS;
 	public static final BooleanOption HUD_DEBUG_OVERLAY_BACKGROUND;
@@ -47,6 +49,7 @@ public final class Settings {
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
+	public static final KeyOption HOTKEY_HIDE_HUD;
 	public static final KeyOption HOTKEY_DEBUG_OVERLAY;
 	public static final KeyOption HOTKEY_SCREENSHOT;
 	public static final KeyOption HOTKEY_FREECAM;
@@ -59,6 +62,17 @@ public final class Settings {
 			"general.debugLogging", false,
 			"Write extra diagnostic output to the log.",
 			"Turn this on before reporting a problem."));
+
+		SPEC.section("HUD",
+			"The hotbar, the crosshair, the hearts and everything else the game",
+			"draws on top of the world.");
+
+		HUD_HIDE = SPEC.add(new BooleanOption(
+			"hud.hide", true,
+			"Take the whole hud off the screen at a keypress, both debug screens",
+			"and your own hand along with it. The water and fire tints stay, so a",
+			"cleared screen still tells you that you are drowning or burning.",
+			"Opening a menu brings the hud back until you close it again."));
 
 		SPEC.section("Debug overlay",
 			"The screen the debug key switches on. While it is on it replaces the",
@@ -181,6 +195,12 @@ public final class Settings {
 			"Re-read this file without restarting the game.",
 			"Note: display settings are read before the window is created and",
 			"therefore still need a restart."));
+
+		HOTKEY_HIDE_HUD = SPEC.add(new KeyOption(
+			"hotkey.hideHud", "F1",
+			"Press to clear the screen, press again to bring it back. It does",
+			"nothing while a menu is open, so a letter put on this key cannot",
+			"blank the screen while you write on a sign."));
 
 		HOTKEY_DEBUG_OVERLAY = SPEC.add(new KeyOption(
 			"hotkey.debugOverlay", "F3",

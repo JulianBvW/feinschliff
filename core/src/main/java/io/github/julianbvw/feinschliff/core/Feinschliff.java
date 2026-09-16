@@ -7,6 +7,7 @@ import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.config.Config;
 import io.github.julianbvw.feinschliff.core.config.Settings;
 import io.github.julianbvw.feinschliff.core.hud.DebugOverlay;
+import io.github.julianbvw.feinschliff.core.hud.Hud;
 import io.github.julianbvw.feinschliff.core.input.Hotkey;
 import io.github.julianbvw.feinschliff.core.movement.Fly;
 import io.github.julianbvw.feinschliff.core.platform.Log;
@@ -83,6 +84,7 @@ public final class Feinschliff {
 				reloadConfig();
 			}
 
+			Hud.tick();
 			DebugOverlay.tick();
 			Screenshots.tick();
 			Freecam.tick();
@@ -94,6 +96,7 @@ public final class Feinschliff {
 			Freecam.stop();
 			Fly.stop();
 			Screenshots.clearMessage();
+			Hud.show();
 
 			tickDisabled = true;
 			log.error(MOD_NAME + ": per-tick work failed and has been switched off"

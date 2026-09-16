@@ -10,9 +10,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.mob.player.ClientPlayerEntity;
+import net.minecraft.client.gui.GameGui;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.ItemInHandRenderer;
 
 import io.github.julianbvw.feinschliff.core.camera.Freecam;
+import io.github.julianbvw.feinschliff.core.hud.Hud;
 import io.github.julianbvw.feinschliff.mc.alpha.camera.FreecamView;
 import io.github.julianbvw.feinschliff.mc.alpha.screenshot.ScreenshotCapture;
 
@@ -21,6 +24,19 @@ public class GameRendererMixin {
 
 	@Shadow
 	private Minecraft minecraft;
+
+	/**
+	 * The hud is drawn in a single call, so a single condition takes all of it:
+	 * hotbar, crosshair, health, the vanilla debug screen and the overlay this
+	 * mod hangs on the end of the same method.
+	 */
+	@WrapWithCondition(
+		method = "render",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GameGui;render(FZII)V"))
+	private boolean feinschliff$hideHud(GameGui gui, float partialTick, boolean screenOpen,
+			int mouseX, int mouseY) {
+		return !Hud.hidden();
+	}
 
 	/**
 	 * The end of a frame: the world, the hud and any open screen have all
@@ -46,6 +62,20 @@ public class GameRendererMixin {
 		}
 		FreecamView.applyCamera(this.minecraft, partialTick);
 		ci.cancel();
+	}
+
+	/**
+	 * Only the hand, not the method that draws it. The water, fire and in-wall
+	 * tints come from the same place, and those say what is happening to the
+	 * player rather than belonging to the hud.
+	 */
+	@WrapWithCondition(
+		method = "renderItemInHand",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/client/render/ItemInHandRenderer;renderHand(F)V"))
+	private boolean feinschliff$hideHandWithHud(ItemInHandRenderer renderer, float partialTick) {
+		return !Hud.hidden();
 	}
 
 	/**

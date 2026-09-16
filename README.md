@@ -36,6 +36,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
 | C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
+| A5 | **Hide the hud.** `F1` clears the screen of everything drawn on top of the world — hotbar, crosshair, health, both debug screens and your own hand. The water and fire tints stay, so you can still tell that you are drowning. | HUD | on | `hud.hide` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles the same
@@ -47,6 +48,12 @@ world puts the camera away.
 Flying is on `hotkey.fly`, `L` by default. Letting go in mid-air means falling,
 with everything that comes with it, and flying is no kind of shield: lava still
 burns and deep water still drowns.
+
+The hud key is `hotkey.hideHud`, `F1` by default, and it toggles. Any open
+menu — the pause screen, your inventory, a chest — brings the hud back for as
+long as it is open, so nothing is ever invisible while you are trying to use
+it. The screen also comes back on its own when the game is restarted: the
+setting is never written to the config.
 
 The screenshot key is `hotkey.screenshot`, `F2` by default. The game pauses
 for a moment while the file is written, and a line above the hotbar says where
