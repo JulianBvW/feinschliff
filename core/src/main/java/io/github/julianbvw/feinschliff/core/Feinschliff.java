@@ -1,7 +1,6 @@
 package io.github.julianbvw.feinschliff.core;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.config.Config;
