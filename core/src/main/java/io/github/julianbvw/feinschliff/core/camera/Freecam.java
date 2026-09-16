@@ -83,6 +83,13 @@ public final class Freecam {
 			return;
 		}
 
+		// Dying leaves the death screen on a view of somewhere else entirely,
+		// with the body it is asking about nowhere near the middle of it.
+		if (!host.playerAlive()) {
+			stop();
+			return;
+		}
+
 		// An open screen filters no hotkey, so a rebound letter would take off
 		// while a sign is being written. See Hotkey.
 		if (TOGGLE.pressed() && !host.screenOpen()) {

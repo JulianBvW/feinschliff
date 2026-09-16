@@ -34,6 +34,13 @@ public final class MinecraftGameHost implements GameHost {
 	}
 
 	@Override
+	public boolean playerAlive() {
+		// The entity stays around with the death screen up, which is exactly
+		// the stretch this has to answer for.
+		return this.minecraft.player != null && this.minecraft.player.health > 0;
+	}
+
+	@Override
 	public double playerX() {
 		return this.minecraft.player.x;
 	}

@@ -26,6 +26,9 @@ public interface GameHost {
 	/** True while a menu, an inventory or the pause screen is open. */
 	boolean screenOpen();
 
+	/** False from the moment the player dies until they respawn. */
+	boolean playerAlive();
+
 	double playerX();
 
 	double playerY();
