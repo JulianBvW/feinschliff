@@ -39,6 +39,15 @@ public interface Slots {
 	int capacity(int to, int from);
 
 	/**
+	 * The same, for a slot the pointer chose rather than one a policy picked.
+	 *
+	 * <p>The crafting grid is the whole difference between the two. A stack
+	 * being sent away has no business there -- there is no sensible square to
+	 * pick -- while a stack put on one square has been put there on purpose.
+	 */
+	int capacityPointedAt(int to, int from);
+
+	/**
 	 * Moves exactly {@code amount} items. The caller guarantees the amount is
 	 * at least one, no more than the source holds, and no more than the target
 	 * has room for.
@@ -58,6 +67,12 @@ public interface Slots {
 	 * therefore be one stack.
 	 */
 	boolean cursorStackable(int index);
+
+	/**
+	 * Exchanges the contents of two slots outright. The caller guarantees each
+	 * of them would take what the other is holding.
+	 */
+	void swap(int a, int b);
 
 	/**
 	 * How much of what the hand is holding the slot could hold in total,

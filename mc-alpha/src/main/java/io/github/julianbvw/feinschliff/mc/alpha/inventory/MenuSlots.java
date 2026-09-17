@@ -139,6 +139,11 @@ public final class MenuSlots implements Slots {
 		return capacityFor(to, slot(from).getItem(), false);
 	}
 
+	@Override
+	public int capacityPointedAt(int to, int from) {
+		return capacityFor(to, slot(from).getItem(), true);
+	}
+
 	private int capacityFor(int to, ItemStack stack, boolean intoCrafting) {
 		// An id with no item behind it comes out of a hand-edited save and
 		// would throw in every question asked below.
@@ -215,6 +220,18 @@ public final class MenuSlots implements Slots {
 			return false;
 		}
 		return held.id == stack.id && held.metadata == stack.metadata;
+	}
+
+	@Override
+	public void swap(int a, int b) {
+		InventoryMenuSlot first = slot(a);
+		InventoryMenuSlot second = slot(b);
+
+		// Both are read before either is written, because one of them is
+		// about to be overwritten with the other.
+		ItemStack held = first.getItem();
+		first.setItem(second.getItem());
+		second.setItem(held);
 	}
 
 	@Override

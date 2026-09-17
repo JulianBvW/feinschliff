@@ -46,6 +46,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | D4 | **Sort a chest.** The middle mouse button over a chest tidies it: everything of one kind together, stacks filled up, empty slots at the end. Over the three rows above your hotbar it tidies those instead. Plain sorts by item id, with shift held by how much of each you have. | Inventory | on | `inventory.sort` |
 | D6 | **Wheel moves single items.** Turn the wheel over a stack to move it one item at a time: down sends one across, up brings one back. Across means the same place a shift-click would send it. | Inventory | on | `inventory.scroll` |
 | D7 | **Quick stack into a chest.** Control and the middle mouse button put away everything the chest already has some of. What it has never held stays with you, and so does your hotbar. | Inventory | on | `inventory.quickStack` |
+| D8 | **Number keys.** Point at a stack in a menu and press 1 to 9 to put it on that place of your hotbar, trading places with whatever was there. It works on a crafting result too, but only onto a free place. | Inventory | on | `inventory.hotbarKeys` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles the same
@@ -130,6 +131,13 @@ makes it so is that the chest decides: only what it has already started on goes
 in. It uses the same route a shift-click uses, so part-used stacks in the chest
 are filled up before an empty slot is taken, and a chest that runs out of room
 simply keeps the rest with you.
+
+A number key means one slot and no other, so it reaches the crafting grid as
+well — pointing at a square is how a square gets picked. It trades places, and
+an exchange only happens when both sides would hold what the other has. That is what stops a diamond going into a crafting
+result or a furnace output: those hand things out and take nothing back, so on
+them the key works onto a free place and does nothing at all onto a taken one.
+Whole stacks only — half a stack on a numbered key is nobody's idea of one.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

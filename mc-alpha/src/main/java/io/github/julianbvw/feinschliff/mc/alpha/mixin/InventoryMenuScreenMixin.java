@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screen.game.inventory.InventoryMenuScreen;
 
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Drags;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Gathers;
+import io.github.julianbvw.feinschliff.mc.alpha.inventory.Hotbars;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.QuickMoves;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Scrolls;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Sorts;
@@ -54,6 +55,18 @@ public class InventoryMenuScreenMixin {
 				|| Stows.handled(this.menuSlots, mouseX, mouseY, button)
 				|| Sorts.handled(this.menuSlots, mouseX, mouseY, button)
 				|| Drags.startedOn(this.menuSlots, mouseX, mouseY, button)) {
+			ci.cancel();
+		}
+	}
+
+	/**
+	 * A keypress carries no position, so the one gesture on this hook reads
+	 * the pointer itself. The two keys the game uses here, escape and the
+	 * inventory key, are not among the nine this looks at.
+	 */
+	@Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
+	private void feinschliff$putOnTheHotbar(char chr, int key, CallbackInfo ci) {
+		if (Hotbars.handled(this.menuSlots, key)) {
 			ci.cancel();
 		}
 	}

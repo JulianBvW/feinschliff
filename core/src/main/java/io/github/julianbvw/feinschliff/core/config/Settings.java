@@ -57,6 +57,7 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_SORT;
 	public static final BooleanOption INVENTORY_SCROLL;
 	public static final BooleanOption INVENTORY_QUICK_STACK;
+	public static final BooleanOption INVENTORY_HOTBAR_KEYS;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
@@ -265,6 +266,14 @@ public final class Settings {
 			"everything the chest already has some of. What it has never held",
 			"stays with you, and so does your hotbar -- this tidies up, it does",
 			"not empty your pockets into the first box you pass."));
+
+		INVENTORY_HOTBAR_KEYS = SPEC.add(new BooleanOption(
+			"inventory.hotbarKeys", true,
+			"Point at a stack in a menu and press 1 to 9 to put it on that",
+			"place of your hotbar, trading places with whatever was there. It",
+			"works on a crafting result too, but only onto a free place: a full",
+			"one would mean putting something into a slot that never gives",
+			"anything back."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",
