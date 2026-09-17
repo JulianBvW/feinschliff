@@ -59,6 +59,9 @@ public final class QuickMoves {
 			} else {
 				QuickMove.move(slots, from);
 			}
+			// Keeping the button down and moving on carries this across the
+			// next slots.
+			Sweeps.startedOn(slots, from);
 		} catch (Throwable t) {
 			// Screen.handleMouse has no net of its own, and an escape here
 			// would be a crash report in the middle of a move.
@@ -105,7 +108,8 @@ public final class QuickMoves {
 		}
 	}
 
-	private static boolean shiftDown() {
+	/** Shared with the line a held shift draws. */
+	static boolean shiftDown() {
 		// Polled, not read off an event, for the same reason every other key
 		// in this mod is: it must not take anything out of the vanilla event
 		// loops. See Hotkey.

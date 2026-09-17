@@ -53,6 +53,7 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_SHIFT_CLICK;
 	public static final BooleanOption INVENTORY_DOUBLE_CLICK;
 	public static final BooleanOption INVENTORY_DRAG;
+	public static final BooleanOption INVENTORY_SHIFT_DRAG;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
@@ -228,6 +229,14 @@ public final class Settings {
 			"over them: the left button shares it out evenly, the right button",
 			"puts one in each. What does not divide stays in your hand. A press",
 			"that never leaves its slot is an ordinary click."));
+
+		INVENTORY_SHIFT_DRAG = SPEC.add(new BooleanOption(
+			"inventory.shiftDrag", true,
+			"Keep shift and the button held after a shift-click and draw across",
+			"more slots to send each of them across as well. A row of your",
+			"inventory into a chest, or five stacks of cobble back out, in one",
+			"movement. The crafting result is left out of it, so a line passing",
+			"over it does not craft the grid empty."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

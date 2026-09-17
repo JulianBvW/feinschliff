@@ -13,6 +13,7 @@ import net.minecraft.client.gui.screen.game.inventory.InventoryMenuScreen;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Drags;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Gathers;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.QuickMoves;
+import io.github.julianbvw.feinschliff.mc.alpha.inventory.Sweeps;
 
 /**
  * The one place every click in every menu goes through. This class is the base
@@ -61,5 +62,6 @@ public class InventoryMenuScreenMixin {
 	@Inject(method = "mouseReleased", at = @At("HEAD"))
 	private void feinschliff$followTheGesture(int mouseX, int mouseY, int button, CallbackInfo ci) {
 		Drags.released(this.menuSlots, mouseX, mouseY, button);
+		Sweeps.released(this.menuSlots, mouseX, mouseY, button);
 	}
 }

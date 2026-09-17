@@ -42,6 +42,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | D1 | **Shift-click.** Hold shift and click a stack to send it across instead of picking it up: between you and a chest, into a furnace as fuel or as something to smelt, out of a furnace again, onto your armour, and otherwise between your hotbar and the rest of your inventory. On a crafting result it makes as many as the grid and your free space allow. | Inventory | on | `inventory.shiftClick` |
 | D2 | **Double-click fills a stack.** Click a stack twice in quick succession to pull everything of the same kind in the menu into your hand, up to a full stack. It takes the part-used stacks first, so what stays behind is whole ones. | Inventory | on | `inventory.doubleClick` |
 | D3 | **Drag across slots.** Hold a stack, press and drag over several slots to lay it out over them: the left button shares it out evenly, the right button puts one in each. What does not divide stays in your hand. | Inventory | on | `inventory.drag` |
+| D5 | **Shift-drag.** Keep shift and the button held after a shift-click and draw across more slots to send each of them across as well — a whole row of your inventory into a chest, or five stacks of cobble back out, in one movement. | Inventory | on | `inventory.shiftDrag` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles the same
@@ -101,6 +102,12 @@ second slot on the stack is really laid out as you go, and every further slot
 takes it back and shares it out again, so what you see while dragging is the
 outcome rather than a picture of it. Slots that cannot take what you are
 holding are not part of the line, and what does not fit stays in your hand.
+
+Shift-dragging puts nothing off, because a shift-click has already acted by the
+time the pointer moves on: every slot the line reaches is simply another
+shift-click, and each is visited once. The crafting result is left out of it,
+so a line passing over it does not craft the grid empty on its way — clicking
+it is how that is asked for.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching
