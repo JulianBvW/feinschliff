@@ -136,7 +136,10 @@ public final class MenuSlots implements Slots {
 
 	@Override
 	public int capacity(int to, int from) {
-		ItemStack stack = slot(from).getItem();
+		return capacityFor(to, slot(from).getItem(), false);
+	}
+
+	private int capacityFor(int to, ItemStack stack, boolean intoCrafting) {
 		// An id with no item behind it comes out of a hand-edited save and
 		// would throw in every question asked below.
 		if (stack == null || stack.getItem() == null) {
@@ -144,7 +147,7 @@ public final class MenuSlots implements Slots {
 		}
 
 		InventoryMenuSlot target = slot(to);
-		if (!takes(to, stack) || !target.isItemAllowed(stack)) {
+		if (!takes(to, stack, intoCrafting) || !target.isItemAllowed(stack)) {
 			return 0;
 		}
 
@@ -215,11 +218,45 @@ public final class MenuSlots implements Slots {
 	}
 
 	@Override
+	public int cursorCapacity(int index) {
+		return capacityFor(index, this.player.cursorItem, true);
+	}
+
+	@Override
+	public void fromCursor(int to, int amount) {
+		ItemStack held = this.player.cursorItem;
+		if (held == null || amount <= 0 || amount > held.size) {
+			throw new IllegalStateException("refusing to put down " + amount + " out of a hand holding "
+				+ (held == null ? "nothing" : String.valueOf(held.size)));
+		}
+
+		InventoryMenuSlot target = slot(to);
+		ItemStack existing = target.getItem();
+		if (existing == null) {
+			// split takes the amount off the held stack and hands back a stack
+			// of exactly that size, which is what setItem wants.
+			target.setItem(held.split(amount));
+		} else {
+			existing.size += amount;
+			held.size -= amount;
+			// Vanilla marks the clicked slot once at the end of every click,
+			// and a click that ends here never reaches that line.
+			target.markDirty();
+		}
+
+		// A stack of nothing survives saving and is swallowed without a word
+		// the next time something is picked up.
+		if (held.size <= 0) {
+			this.player.cursorItem = null;
+		}
+	}
+
+	@Override
 	public void toCursor(int from, int amount) {
 		ItemStack held = this.player.cursorItem;
 		InventoryMenuSlot source = slot(from);
 		ItemStack stack = source.getItem();
-		if (held == null || stack == null || amount <= 0 || amount > stack.size) {
+		if (stack == null || amount <= 0 || amount > stack.size) {
 			throw new IllegalStateException("refusing to take " + amount + " out of a slot holding "
 				+ (stack == null ? "nothing" : String.valueOf(stack.size)));
 		}
@@ -235,11 +272,36 @@ public final class MenuSlots implements Slots {
 		// click that ends here never reaches that line.
 		source.markDirty();
 
-		held.size += taken.size;
+		if (held == null) {
+			// An empty hand takes the whole stack rather than adding to
+			// nothing. That is what makes taking back what was just put down
+			// possible at all: by then the hand is usually empty.
+			this.player.cursorItem = taken;
+		} else {
+			held.size += taken.size;
+		}
 	}
 
-	/** What a slot in this role is willing to be handed, beyond what it says itself. */
-	private boolean takes(int to, ItemStack stack) {
+	/** Whether the slot still holds the kind of thing it was handed. */
+	public boolean holds(int index, int id, int metadata) {
+		ItemStack stack = slot(index).getItem();
+		return stack != null && stack.id == id && stack.metadata == metadata;
+	}
+
+	/** What the hand is holding, {@code null} when it is empty. */
+	public ItemStack cursorItem() {
+		return this.player.cursorItem;
+	}
+
+	/**
+	 * What a slot in this role is willing to be handed, beyond what it says
+	 * itself.
+	 *
+	 * <p>The crafting grid is the one answer that depends on who is asking. A
+	 * stack sent away has no business there -- there is no sensible square to
+	 * pick. A hand laid on a square has picked it.
+	 */
+	private boolean takes(int to, ItemStack stack, boolean intoCrafting) {
 		SlotRole role = role(to);
 		if (role == SlotRole.FURNACE_INPUT) {
 			return furnace(to).feinschliff$smeltingResult(stack.getItem().id) != DOES_NOT_SMELT;
@@ -252,7 +314,10 @@ public final class MenuSlots implements Slots {
 		// everything, and a wrong item in it stalls the furnace for good.
 		// The result and the crafting grid are likewise not places to put
 		// things from here.
-		return role != SlotRole.FURNACE_OUTPUT && role != SlotRole.RESULT && role != SlotRole.CRAFTING;
+		if (role == SlotRole.CRAFTING) {
+			return intoCrafting;
+		}
+		return role != SlotRole.FURNACE_OUTPUT && role != SlotRole.RESULT;
 	}
 
 	private FurnaceBlockEntityInvoker furnace(int index) {

@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.gui.screen.game.inventory.InventoryMenuScreen;
 
+import io.github.julianbvw.feinschliff.mc.alpha.inventory.Drags;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Gathers;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.QuickMoves;
 
@@ -39,9 +40,26 @@ public class InventoryMenuScreenMixin {
 	 */
 	@Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
 	private void feinschliff$readTheClickBeforeTheGameDoes(int mouseX, int mouseY, int button, CallbackInfo ci) {
+		// A press handed back to the game is the game's alone.
+		if (Drags.replaying()) {
+			return;
+		}
+
 		if (QuickMoves.handled(this.menuSlots, mouseX, mouseY, button)
-				|| Gathers.handled(this.menuSlots, mouseX, mouseY, button)) {
+				|| Gathers.handled(this.menuSlots, mouseX, mouseY, button)
+				|| Drags.startedOn(this.menuSlots, mouseX, mouseY, button)) {
 			ci.cancel();
 		}
+	}
+
+	/**
+	 * The game calls this for every mouse event that is not a press, which
+	 * includes plain pointer movement with the button reading -1. That makes
+	 * one empty method both the movement hook and the release hook, and it is
+	 * empty: there is nothing here to suppress, so nothing is cancelled.
+	 */
+	@Inject(method = "mouseReleased", at = @At("HEAD"))
+	private void feinschliff$followTheGesture(int mouseX, int mouseY, int button, CallbackInfo ci) {
+		Drags.released(this.menuSlots, mouseX, mouseY, button);
 	}
 }

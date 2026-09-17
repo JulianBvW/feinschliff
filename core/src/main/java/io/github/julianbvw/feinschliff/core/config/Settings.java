@@ -52,6 +52,7 @@ public final class Settings {
 
 	public static final BooleanOption INVENTORY_SHIFT_CLICK;
 	public static final BooleanOption INVENTORY_DOUBLE_CLICK;
+	public static final BooleanOption INVENTORY_DRAG;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
@@ -220,6 +221,13 @@ public final class Settings {
 			"Click a stack twice in quick succession to pull everything of the",
 			"same kind in the menu into your hand, up to a full stack. It takes",
 			"the part-used stacks first, so what is left behind is whole ones."));
+
+		INVENTORY_DRAG = SPEC.add(new BooleanOption(
+			"inventory.drag", true,
+			"Hold a stack, press and drag across several slots to lay it out",
+			"over them: the left button shares it out evenly, the right button",
+			"puts one in each. What does not divide stays in your hand. A press",
+			"that never leaves its slot is an ordinary click."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

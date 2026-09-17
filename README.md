@@ -41,6 +41,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | A5 | **Hide the hud.** `F1` clears the screen of everything drawn on top of the world — hotbar, crosshair, health, both debug screens and your own hand. The water and fire tints stay, so you can still tell that you are drowning. | HUD | on | `hud.hide` |
 | D1 | **Shift-click.** Hold shift and click a stack to send it across instead of picking it up: between you and a chest, into a furnace as fuel or as something to smelt, out of a furnace again, onto your armour, and otherwise between your hotbar and the rest of your inventory. On a crafting result it makes as many as the grid and your free space allow. | Inventory | on | `inventory.shiftClick` |
 | D2 | **Double-click fills a stack.** Click a stack twice in quick succession to pull everything of the same kind in the menu into your hand, up to a full stack. It takes the part-used stacks first, so what stays behind is whole ones. | Inventory | on | `inventory.doubleClick` |
+| D3 | **Drag across slots.** Hold a stack, press and drag over several slots to lay it out over them: the left button shares it out evenly, the right button puts one in each. What does not divide stays in your hand. | Inventory | on | `inventory.drag` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles the same
@@ -91,6 +92,15 @@ inventory, the chest and the crafting grid you are looking at. It never touches
 a crafting result, because taking one of those spends the ingredients and a
 gesture meant to tidy up should not craft. What the hand cannot hold stays
 where it is.
+
+Dragging keeps the press back until a second slot is touched, because until
+then there is no telling a drag from a click. Letting go on the slot you
+started on is therefore an ordinary click and behaves exactly as it would
+without the mod — it is the game's own click, handed back to it. From the
+second slot on the stack is really laid out as you go, and every further slot
+takes it back and shares it out again, so what you see while dragging is the
+outcome rather than a picture of it. Slots that cannot take what you are
+holding are not part of the line, and what does not fit stays in your hand.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

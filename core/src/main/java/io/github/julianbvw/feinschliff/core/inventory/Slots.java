@@ -60,8 +60,21 @@ public interface Slots {
 	boolean cursorStackable(int index);
 
 	/**
+	 * How much of what the hand is holding the slot could hold in total,
+	 * counting what is already in it. Zero when it will not take it at all.
+	 */
+	int cursorCapacity(int index);
+
+	/**
+	 * Moves exactly {@code amount} items out of the hand and into the slot.
+	 * The caller guarantees the amount is at least one, no more than the hand
+	 * holds, and no more than the slot has room for.
+	 */
+	void fromCursor(int to, int amount);
+
+	/**
 	 * Moves exactly {@code amount} items out of the slot and into the hand.
-	 * The caller guarantees the hand holds something of the same kind, the
+	 * The caller guarantees the hand is empty or holds the same kind, the
 	 * amount is at least one, no more than the slot holds, and no more than
 	 * the hand has room for.
 	 */

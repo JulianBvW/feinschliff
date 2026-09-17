@@ -11,6 +11,7 @@
 		"FurnaceBlockEntityInvoker",
 		"GameGuiMixin",
 		"GameRendererMixin",
+		"InventoryMenuScreenInvoker",
 		"InventoryMenuScreenMixin",
 		"ItemStackMixin",
 		"KeyboardInputMixin",
