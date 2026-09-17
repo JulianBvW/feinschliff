@@ -3,15 +3,11 @@ package io.github.julianbvw.feinschliff.mc.alpha.inventory;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
 
 import io.github.julianbvw.feinschliff.core.Feinschliff;
 import io.github.julianbvw.feinschliff.core.inventory.SlotRole;
 import io.github.julianbvw.feinschliff.core.inventory.Swap;
-import io.github.julianbvw.feinschliff.mc.alpha.FeinschliffClient;
 
 /** The number keys over a slot, from the keypress to the exchanged stacks. */
 public final class Hotbars {
@@ -43,7 +39,7 @@ public final class Hotbars {
 			return false;
 		}
 
-		int under = under(slots);
+		int under = Menus.under(slots);
 		if (under == NO_SLOT) {
 			return false;
 		}
@@ -64,19 +60,4 @@ public final class Hotbars {
 		return true;
 	}
 
-	/**
-	 * The slot under the pointer. A keypress carries no position, so it is
-	 * read off the mouse and scaled the way the game scales it for a click.
-	 */
-	private static int under(MenuSlots slots) {
-		Minecraft minecraft = FeinschliffClient.minecraft();
-		Screen screen = minecraft.screen;
-		if (screen == null || minecraft.width <= 0 || minecraft.height <= 0) {
-			return NO_SLOT;
-		}
-
-		int mouseX = Mouse.getX() * screen.width / minecraft.width;
-		int mouseY = screen.height - Mouse.getY() * screen.height / minecraft.height - 1;
-		return slots.under(mouseX, mouseY);
-	}
 }

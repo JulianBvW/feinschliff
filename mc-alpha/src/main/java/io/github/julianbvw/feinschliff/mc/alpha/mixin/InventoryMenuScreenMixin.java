@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.gui.screen.game.inventory.InventoryMenuScreen;
 
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Drags;
+import io.github.julianbvw.feinschliff.mc.alpha.inventory.Drops;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Gathers;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Hotbars;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.QuickMoves;
@@ -60,13 +61,14 @@ public class InventoryMenuScreenMixin {
 	}
 
 	/**
-	 * A keypress carries no position, so the one gesture on this hook reads
-	 * the pointer itself. The two keys the game uses here, escape and the
-	 * inventory key, are not among the nine this looks at.
+	 * A keypress carries no position, so the gestures on this hook read the
+	 * pointer themselves. The two keys the game uses here, escape and the
+	 * inventory key, are neither the nine numbers nor, unless someone binds
+	 * them so, the drop key.
 	 */
 	@Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
 	private void feinschliff$putOnTheHotbar(char chr, int key, CallbackInfo ci) {
-		if (Hotbars.handled(this.menuSlots, key)) {
+		if (Hotbars.handled(this.menuSlots, key) || Drops.handled(this.menuSlots, key)) {
 			ci.cancel();
 		}
 	}

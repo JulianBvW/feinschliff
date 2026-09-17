@@ -53,6 +53,7 @@ rather than in everyday play.
 | D6 | **Wheel moves single items.** Turn the wheel over a stack to move it one item at a time: down sends one across, up brings one back. Across means the same place a shift-click would send it. | Inventory | on | `inventory.scroll` |
 | D7 | **Quick stack into a chest.** Control and the middle mouse button put away everything the chest already has some of. What it has never held stays with you, and so does your hotbar. | Inventory | on | `inventory.quickStack` |
 | D8 | **Number keys.** Point at a stack in a menu and press 1 to 9 to put it on that place of your hotbar, trading places with whatever was there. It works on a crafting result too, but only onto a free place, and pointing at an empty slot fetches that place to you. | Inventory | on | `inventory.hotbarKeys` |
+| D9 | **Drop out of a menu.** Point at a stack in a menu and press the drop key to throw it out of there, without taking it into your hand first. With control held the whole stack goes. | Inventory | on | `inventory.dropFromMenu` |
 | E3d | **Drop a whole stack.** Hold control while pressing the drop key to throw all of it instead of one. The key itself stays yours to bind in the game's own controls screen. | Inventory | on | `inventory.dropStack` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
@@ -151,6 +152,11 @@ Dropping a whole stack changes one number and nothing else: how many the drop
 key takes out of your hand. It is the only safe place in that line to
 intervene, because the throwing and the taking out are one statement — stop
 the throw and the stack is out of your inventory and nowhere else.
+
+In a menu the drop key throws whatever you are pointing at, and what your hand
+happens to be holding stays in it — the same rule a shift-click follows. On a
+crafting result one press is one craft, thrown whole, because the inventory
+behind that slot hands over everything whatever amount is asked of it.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

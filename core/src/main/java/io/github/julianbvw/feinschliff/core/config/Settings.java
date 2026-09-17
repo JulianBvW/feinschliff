@@ -58,6 +58,7 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_SCROLL;
 	public static final BooleanOption INVENTORY_QUICK_STACK;
 	public static final BooleanOption INVENTORY_HOTBAR_KEYS;
+	public static final BooleanOption INVENTORY_DROP_FROM_MENU;
 	public static final BooleanOption INVENTORY_DROP_STACK;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
@@ -281,11 +282,18 @@ public final class Settings {
 			"only onto a free place: a full one would mean putting something",
 			"into a slot that never gives anything back."));
 
+		INVENTORY_DROP_FROM_MENU = SPEC.add(new BooleanOption(
+			"inventory.dropFromMenu", true,
+			"Point at a stack in a menu and press the drop key to throw it out",
+			"of there, without taking it into your hand first. On a crafting",
+			"result one press is one craft, thrown whole."));
+
 		INVENTORY_DROP_STACK = SPEC.add(new BooleanOption(
 			"inventory.dropStack", true,
 			"Hold control while pressing the drop key to throw the whole stack",
-			"instead of one of it. The key itself stays yours to bind in the",
-			"game's own controls screen."));
+			"instead of one of it -- out of your hand in the world, and out of",
+			"the slot you are pointing at in a menu. The key itself stays yours",
+			"to bind in the game's own controls screen."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",
