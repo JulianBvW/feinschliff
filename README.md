@@ -40,6 +40,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
 | A5 | **Hide the hud.** `F1` clears the screen of everything drawn on top of the world — hotbar, crosshair, health, both debug screens and your own hand. The water and fire tints stay, so you can still tell that you are drowning. | HUD | on | `hud.hide` |
 | D1 | **Shift-click.** Hold shift and click a stack to send it across instead of picking it up: between you and a chest, into a furnace as fuel or as something to smelt, out of a furnace again, onto your armour, and otherwise between your hotbar and the rest of your inventory. On a crafting result it makes as many as the grid and your free space allow. | Inventory | on | `inventory.shiftClick` |
+| D2 | **Double-click fills a stack.** Click a stack twice in quick succession to pull everything of the same kind in the menu into your hand, up to a full stack. It takes the part-used stacks first, so what stays behind is whole ones. | Inventory | on | `inventory.doubleClick` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles the same
@@ -84,6 +85,12 @@ stack where it is when there is no room rather than shuffling it somewhere
 else. Whatever you happen to be holding stays in your hand throughout. Crafting
 stops the moment the next result would not fit whole, so nothing is ever made
 that cannot be put down.
+
+A double click gathers from the whole menu, both sides of it at once: your
+inventory, the chest and the crafting grid you are looking at. It never touches
+a crafting result, because taking one of those spends the ingredients and a
+gesture meant to tidy up should not craft. What the hand cannot hold stays
+where it is.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

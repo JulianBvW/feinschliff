@@ -25,13 +25,31 @@ public final class MenuSlots implements Slots {
 	private static final int DOES_NOT_SMELT = -1;
 
 	private final List slots;
+	private final PlayerInventory player;
 
-	public MenuSlots(List slots) {
+	public MenuSlots(List slots, PlayerInventory player) {
 		this.slots = slots;
+		this.player = player;
 	}
 
 	public InventoryMenuSlot slot(int index) {
 		return (InventoryMenuSlot)this.slots.get(index);
+	}
+
+	/**
+	 * The slot under the pointer, or {@code -1} when there is none.
+	 *
+	 * <p>Asks the same public hit test vanilla's own private lookup asks, and
+	 * in the same order, so the two can never disagree about which of two
+	 * slots overlapping by a pixel was meant.
+	 */
+	public int under(int mouseX, int mouseY) {
+		for (int index = 0; index < this.slots.size(); index++) {
+			if (slot(index).mouseClicked(mouseX, mouseY)) {
+				return index;
+			}
+		}
+		return -1;
 	}
 
 	/**
@@ -43,10 +61,10 @@ public final class MenuSlots implements Slots {
 	 * even be a different length -- which would move the line between the
 	 * armour and the rest, and turn a helmet slot into a storage slot.
 	 */
-	public boolean belongTo(PlayerInventory player) {
+	public boolean belongToThePlayer() {
 		for (int index = 0; index < this.slots.size(); index++) {
 			Inventory inventory = slot(index).inventory;
-			if (inventory instanceof PlayerInventory && inventory != player) {
+			if (inventory instanceof PlayerInventory && inventory != this.player) {
 				return false;
 			}
 		}
@@ -170,6 +188,54 @@ public final class MenuSlots implements Slots {
 			// gone the next time its chunk is unloaded.
 			target.markDirty();
 		}
+	}
+
+	@Override
+	public int cursorSize() {
+		ItemStack held = this.player.cursorItem;
+		return held == null ? 0 : held.size;
+	}
+
+	@Override
+	public int cursorMax() {
+		ItemStack held = this.player.cursorItem;
+		// The hand is not part of an inventory, so only the item itself has a
+		// say in how much of it can be held at once.
+		return held == null || held.getItem() == null ? 0 : held.getMaxSize();
+	}
+
+	@Override
+	public boolean cursorStackable(int index) {
+		ItemStack held = this.player.cursorItem;
+		ItemStack stack = slot(index).getItem();
+		if (held == null || stack == null) {
+			return false;
+		}
+		return held.id == stack.id && held.metadata == stack.metadata;
+	}
+
+	@Override
+	public void toCursor(int from, int amount) {
+		ItemStack held = this.player.cursorItem;
+		InventoryMenuSlot source = slot(from);
+		ItemStack stack = source.getItem();
+		if (held == null || stack == null || amount <= 0 || amount > stack.size) {
+			throw new IllegalStateException("refusing to take " + amount + " out of a slot holding "
+				+ (stack == null ? "nothing" : String.valueOf(stack.size)));
+		}
+
+		ItemStack taken = source.inventory.removeItem(source.id, amount);
+		if (taken == null) {
+			return;
+		}
+		if (taken.size > amount) {
+			source.setItem(taken.split(taken.size - amount));
+		}
+		// Vanilla marks the clicked slot once at the end of every click, and a
+		// click that ends here never reaches that line.
+		source.markDirty();
+
+		held.size += taken.size;
 	}
 
 	/** What a slot in this role is willing to be handed, beyond what it says itself. */

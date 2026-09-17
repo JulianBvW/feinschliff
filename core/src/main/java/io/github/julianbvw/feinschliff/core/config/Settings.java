@@ -51,6 +51,7 @@ public final class Settings {
 	public static final DoubleOption MOVEMENT_FLY_SPEED;
 
 	public static final BooleanOption INVENTORY_SHIFT_CLICK;
+	public static final BooleanOption INVENTORY_DOUBLE_CLICK;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
@@ -213,6 +214,12 @@ public final class Settings {
 			"otherwise between your hotbar and the rest of your inventory.",
 			"On the crafting result it makes as many as the grid and your free",
 			"space allow."));
+
+		INVENTORY_DOUBLE_CLICK = SPEC.add(new BooleanOption(
+			"inventory.doubleClick", true,
+			"Click a stack twice in quick succession to pull everything of the",
+			"same kind in the menu into your hand, up to a full stack. It takes",
+			"the part-used stacks first, so what is left behind is whole ones."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

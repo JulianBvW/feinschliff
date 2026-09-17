@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.gui.screen.game.inventory.InventoryMenuScreen;
 
+import io.github.julianbvw.feinschliff.mc.alpha.inventory.Gathers;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.QuickMoves;
 
 /**
@@ -24,17 +25,22 @@ public class InventoryMenuScreenMixin {
 	protected List menuSlots;
 
 	/**
-	 * A shift-click is not a click with something suppressed, it is a
-	 * different move, so this cancels rather than conditions. The cost is one
+	 * A gesture is not a click with something suppressed, it is a different
+	 * move, so this cancels rather than conditions. The cost is one
 	 * CallbackInfo per click in an open menu -- not per frame, not per tick.
 	 *
 	 * <p>Whatever is skipped here includes the markDirty() vanilla does at the
 	 * end of every click, which is the only thing that ever tells a furnace it
-	 * has changed. Quick moves therefore mark every slot they touch.
+	 * has changed. Every gesture therefore marks every slot it touches.
+	 *
+	 * <p>The order matters: a shift-click is never a double click, and a fast
+	 * second click on the same slot is a double click rather than the start of
+	 * anything else.
 	 */
 	@Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-	private void feinschliff$sendStackAwayOnShiftClick(int mouseX, int mouseY, int button, CallbackInfo ci) {
-		if (QuickMoves.handled(this.menuSlots, mouseX, mouseY, button)) {
+	private void feinschliff$readTheClickBeforeTheGameDoes(int mouseX, int mouseY, int button, CallbackInfo ci) {
+		if (QuickMoves.handled(this.menuSlots, mouseX, mouseY, button)
+				|| Gathers.handled(this.menuSlots, mouseX, mouseY, button)) {
 			ci.cancel();
 		}
 	}

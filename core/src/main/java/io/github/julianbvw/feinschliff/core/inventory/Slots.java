@@ -9,6 +9,10 @@ package io.github.julianbvw.feinschliff.core.inventory;
  * index the menu does not list lands in a place the player can neither see nor
  * get back.
  *
+ * <p>The hand is not a slot and has no index. It is asked for by name,
+ * because an index that stands for the hand rather than for a place in the
+ * menu is exactly the mix-up that loses items.
+ *
  * <p>Everything the game knows and the core does not is folded into
  * {@link #capacity}: whether a helmet fits that armour slot, whether that lump
  * burns, whether that ore melts. The core only decides in which order to ask.
@@ -40,4 +44,26 @@ public interface Slots {
 	 * has room for.
 	 */
 	void move(int from, int to, int amount);
+
+	/** How many items the hand is holding, zero when it is empty. */
+	int cursorSize();
+
+	/**
+	 * The largest the held stack could grow to, zero when the hand is empty.
+	 */
+	int cursorMax();
+
+	/**
+	 * The held stack and what is in the slot are the same kind and could
+	 * therefore be one stack.
+	 */
+	boolean cursorStackable(int index);
+
+	/**
+	 * Moves exactly {@code amount} items out of the slot and into the hand.
+	 * The caller guarantees the hand holds something of the same kind, the
+	 * amount is at least one, no more than the slot holds, and no more than
+	 * the hand has room for.
+	 */
+	void toCursor(int from, int amount);
 }

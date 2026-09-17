@@ -39,22 +39,16 @@ public final class QuickMoves {
 			return false;
 		}
 
-		Minecraft minecraft = FeinschliffClient.minecraft();
-		if (minecraft == null || minecraft.player == null) {
-			return false;
-		}
-
 		// What the hand is holding stays in the hand: a quick move is about the
 		// slot that was clicked and nothing else. An empty slot falls through
 		// below, so a held stack can still be put down with shift held.
-		PlayerInventory inventory = minecraft.player.inventory;
-
-		MenuSlots slots = new MenuSlots(menuSlots);
-		if (!slots.belongTo(inventory)) {
+		MenuSlots slots = Menus.of(menuSlots);
+		if (slots == null) {
 			return false;
 		}
 
-		int from = under(slots, mouseX, mouseY);
+		Minecraft minecraft = FeinschliffClient.minecraft();
+		int from = slots.under(mouseX, mouseY);
 		if (from < 0 || slots.empty(from)) {
 			return false;
 		}
@@ -109,15 +103,6 @@ public final class QuickMoves {
 			// Exactly once per result taken: this is what eats the ingredients.
 			slot.onItemRemoved();
 		}
-	}
-
-	private static int under(MenuSlots slots, int mouseX, int mouseY) {
-		for (int index = 0; index < slots.count(); index++) {
-			if (slots.slot(index).mouseClicked(mouseX, mouseY)) {
-				return index;
-			}
-		}
-		return -1;
 	}
 
 	private static boolean shiftDown() {
