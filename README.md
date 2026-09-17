@@ -53,6 +53,7 @@ rather than in everyday play.
 | D6 | **Wheel moves single items.** Turn the wheel over a stack to move it one item at a time: down sends one across, up brings one back. Across means the same place a shift-click would send it. | Inventory | on | `inventory.scroll` |
 | D7 | **Quick stack into a chest.** Control and the middle mouse button put away everything the chest already has some of. What it has never held stays with you, and so does your hotbar. | Inventory | on | `inventory.quickStack` |
 | D8 | **Number keys.** Point at a stack in a menu and press 1 to 9 to put it on that place of your hotbar, trading places with whatever was there. It works on a crafting result too, but only onto a free place, and pointing at an empty slot fetches that place to you. | Inventory | on | `inventory.hotbarKeys` |
+| E3d | **Drop a whole stack.** Hold control while pressing the drop key to throw all of it instead of one. The key itself stays yours to bind in the game's own controls screen. | Inventory | on | `inventory.dropStack` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles: one
@@ -145,6 +146,11 @@ what stops a diamond going into a crafting result or a furnace output: those
 hand things out and take nothing back, so on them the key works onto a free
 place and does nothing at all onto a taken one. Whole stacks only — half a
 stack on a numbered key is nobody's idea of one.
+
+Dropping a whole stack changes one number and nothing else: how many the drop
+key takes out of your hand. It is the only safe place in that line to
+intervene, because the throwing and the taking out are one statement — stop
+the throw and the stack is out of your inventory and nowhere else.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

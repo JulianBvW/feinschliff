@@ -58,6 +58,7 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_SCROLL;
 	public static final BooleanOption INVENTORY_QUICK_STACK;
 	public static final BooleanOption INVENTORY_HOTBAR_KEYS;
+	public static final BooleanOption INVENTORY_DROP_STACK;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
@@ -209,8 +210,9 @@ public final class Settings {
 			"up."));
 
 		SPEC.section("Inventory",
-			"Comfort in the menus. Nothing here changes what an item is or does,",
-			"only how far your hand has to travel to move it.");
+			"Comfort in the menus and with what you are carrying. Nothing here",
+			"changes what an item is or does, only how far your hand has to",
+			"travel to move it.");
 
 		INVENTORY_SHIFT_CLICK = SPEC.add(new BooleanOption(
 			"inventory.shiftClick", true,
@@ -278,6 +280,12 @@ public final class Settings {
 			"gets picked. On a crafting result and a furnace output it works",
 			"only onto a free place: a full one would mean putting something",
 			"into a slot that never gives anything back."));
+
+		INVENTORY_DROP_STACK = SPEC.add(new BooleanOption(
+			"inventory.dropStack", true,
+			"Hold control while pressing the drop key to throw the whole stack",
+			"instead of one of it. The key itself stays yours to bind in the",
+			"game's own controls screen."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

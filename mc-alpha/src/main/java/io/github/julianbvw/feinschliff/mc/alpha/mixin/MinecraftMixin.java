@@ -12,6 +12,7 @@ import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -27,6 +28,7 @@ import io.github.julianbvw.feinschliff.core.movement.Fly;
 import io.github.julianbvw.feinschliff.core.window.Borderless;
 import io.github.julianbvw.feinschliff.core.window.Quit;
 import io.github.julianbvw.feinschliff.mc.alpha.FeinschliffClient;
+import io.github.julianbvw.feinschliff.mc.alpha.inventory.Drops;
 import io.github.julianbvw.feinschliff.mc.alpha.movement.FlyPhysics;
 
 @Mixin(Minecraft.class)
@@ -205,5 +207,26 @@ public class MinecraftMixin {
 		// The player this flight belonged to is about to be replaced, so there
 		// is nothing left to hand the movement back to.
 		FlyPhysics.forget();
+	}
+
+	/**
+	 * How many the drop key throws, and nothing else about it.
+	 *
+	 * <p>The line this sits in is
+	 * {@code dropItem(inventory.removeItem(selectedSlot, 1), false)}, and the
+	 * amount is the only safe place in it to intervene. Suppressing the throw
+	 * would leave removeItem to run anyway -- the stack would be out of the
+	 * inventory and nowhere else, which is not a cancelled action but a
+	 * destroyed item.
+	 *
+	 * <p>It is also the one removeItem call in the whole class, so this needs
+	 * neither a slice nor an ordinal to stay on target.
+	 */
+	@ModifyArg(method = "tick",
+		at = @At(value = "INVOKE",
+			target = "Lnet/minecraft/entity/mob/player/PlayerInventory;removeItem(II)Lnet/minecraft/item/ItemStack;"),
+		index = 1)
+	private int feinschliff$dropTheWholeStackWithControl(int amount) {
+		return Drops.amount(amount);
 	}
 }
