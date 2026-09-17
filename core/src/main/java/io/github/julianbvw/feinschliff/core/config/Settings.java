@@ -231,7 +231,9 @@ public final class Settings {
 			"inventory.drag", true,
 			"Hold a stack, press and drag across several slots to lay it out",
 			"over them: the left button shares it out evenly, the right button",
-			"puts one in each. What does not divide stays in your hand. A press",
+			"puts one in each. What does not divide stays in your hand. The",
+			"stack is laid out as you drag and shared out again at every",
+			"further slot, so what you see is already the outcome. A press",
 			"that never leaves its slot is an ordinary click."));
 
 		INVENTORY_SHIFT_DRAG = SPEC.add(new BooleanOption(
@@ -270,10 +272,12 @@ public final class Settings {
 		INVENTORY_HOTBAR_KEYS = SPEC.add(new BooleanOption(
 			"inventory.hotbarKeys", true,
 			"Point at a stack in a menu and press 1 to 9 to put it on that",
-			"place of your hotbar, trading places with whatever was there. It",
-			"works on a crafting result too, but only onto a free place: a full",
-			"one would mean putting something into a slot that never gives",
-			"anything back."));
+			"place of your hotbar, trading places with whatever was there, or",
+			"point at an empty slot to fetch that place to you. It reaches the",
+			"crafting grid as well, since pointing at a square is how a square",
+			"gets picked. On a crafting result and a furnace output it works",
+			"only onto a free place: a full one would mean putting something",
+			"into a slot that never gives anything back."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

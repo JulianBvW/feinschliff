@@ -28,6 +28,12 @@ Every feature can be switched on and off individually in `config/feinschliff.txt
 and every one of them is **on out of the box** — installing the mod is meant to be
 enough. Set a key to `false` to get the vanilla behaviour back for that one feature.
 
+Several of them have further keys of their own in that file: flying and camera
+speed, which lines the debug overlay draws, whether the window fills the screen
+from the start. `general.debugLogging` is the one setting that is off by
+default — it adds diagnostic output to the log and belongs in a bug report
+rather than in everyday play.
+
 | ID | Feature | Category | Default | Config key |
 |----|---------|----------|---------|------------|
 | B1 | **Borderless fullscreen.** Puts `F11` on a window that fills the screen at the desktop resolution with nothing drawn around it, one press each way. The fullscreen this version ships with changes the monitor's display mode and then only tells the game about the new size when a menu happens to be open. | Window | on | `window.borderless` |
@@ -42,18 +48,18 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | D1 | **Shift-click.** Hold shift and click a stack to send it across instead of picking it up: between you and a chest, into a furnace as fuel or as something to smelt, out of a furnace again, onto your armour, and otherwise between your hotbar and the rest of your inventory. On a crafting result it makes as many as the grid and your free space allow. | Inventory | on | `inventory.shiftClick` |
 | D2 | **Double-click fills a stack.** Click a stack twice in quick succession to pull everything of the same kind in the menu into your hand, up to a full stack. It takes the part-used stacks first, so what stays behind is whole ones. | Inventory | on | `inventory.doubleClick` |
 | D3 | **Drag across slots.** Hold a stack, press and drag over several slots to lay it out over them: the left button shares it out evenly, the right button puts one in each. What does not divide stays in your hand. | Inventory | on | `inventory.drag` |
-| D5 | **Shift-drag.** Keep shift and the button held after a shift-click and draw across more slots to send each of them across as well — a whole row of your inventory into a chest, or five stacks of cobble back out, in one movement. | Inventory | on | `inventory.shiftDrag` |
 | D4 | **Sort a chest.** The middle mouse button over a chest tidies it: everything of one kind together, stacks filled up, empty slots at the end. Over the three rows above your hotbar it tidies those instead. Plain sorts by item id, with shift held by how much of each you have. | Inventory | on | `inventory.sort` |
+| D5 | **Shift-drag.** Keep shift and the button held after a shift-click and draw across more slots to send each of them across as well — a whole row of your inventory into a chest, or five stacks of cobble back out, in one movement. | Inventory | on | `inventory.shiftDrag` |
 | D6 | **Wheel moves single items.** Turn the wheel over a stack to move it one item at a time: down sends one across, up brings one back. Across means the same place a shift-click would send it. | Inventory | on | `inventory.scroll` |
 | D7 | **Quick stack into a chest.** Control and the middle mouse button put away everything the chest already has some of. What it has never held stays with you, and so does your hotbar. | Inventory | on | `inventory.quickStack` |
-| D8 | **Number keys.** Point at a stack in a menu and press 1 to 9 to put it on that place of your hotbar, trading places with whatever was there. It works on a crafting result too, but only onto a free place. | Inventory | on | `inventory.hotbarKeys` |
+| D8 | **Number keys.** Point at a stack in a menu and press 1 to 9 to put it on that place of your hotbar, trading places with whatever was there. It works on a crafting result too, but only onto a free place, and pointing at an empty slot fetches that place to you. | Inventory | on | `inventory.hotbarKeys` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
-The free camera is on `hotkey.freecam`, `F6` by default, and it toggles the same
-way. While it is out you cannot mine, build, attack, drop or change items, and
-it stops at the edge of the world the game has drawn — there is nothing to see
-beyond it, since only the chunks around your body are rendered. Leaving the
-world puts the camera away.
+The free camera is on `hotkey.freecam`, `F6` by default, and it toggles: one
+press sends it off, the next brings it back. While it is out you cannot mine,
+build, attack, drop or change items, and it stops at the edge of the world the
+game has drawn — there is nothing to see beyond it, since only the chunks
+around your body are rendered. Leaving the world puts the camera away.
 
 Flying is on `hotkey.fly`, `L` by default. Letting go in mid-air means falling,
 with everything that comes with it, and flying is no kind of shield: lava still
@@ -134,10 +140,11 @@ simply keeps the rest with you.
 
 A number key means one slot and no other, so it reaches the crafting grid as
 well — pointing at a square is how a square gets picked. It trades places, and
-an exchange only happens when both sides would hold what the other has. That is what stops a diamond going into a crafting
-result or a furnace output: those hand things out and take nothing back, so on
-them the key works onto a free place and does nothing at all onto a taken one.
-Whole stacks only — half a stack on a numbered key is nobody's idea of one.
+an exchange only happens when both sides would hold what the other has. That is
+what stops a diamond going into a crafting result or a furnace output: those
+hand things out and take nothing back, so on them the key works onto a free
+place and does nothing at all onto a taken one. Whole stacks only — half a
+stack on a numbered key is nobody's idea of one.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching
@@ -154,7 +161,7 @@ press once to show the overlay, press again to hide it. Switching
 1. Create an Ornithe instance for `a1.1.2_01` with the
    [Ornithe installer](https://ornithemc.net/download), which can generate a
    ready-made PrismLauncher/MultiMC instance.
-2. Drop `feinschliff-<version>+mc<a1.1.2_01>.jar` into the instance's `mods`
+2. Drop `feinschliff-<version>+mca1.1.2_01.jar` into the instance's `mods`
    folder.
 3. Start the game once. Feinschliff writes a commented
    `config/feinschliff.txt` into the instance. Edit it, then press the reload
