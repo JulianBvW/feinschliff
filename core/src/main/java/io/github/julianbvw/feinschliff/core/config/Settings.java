@@ -56,6 +56,7 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_SHIFT_DRAG;
 	public static final BooleanOption INVENTORY_SORT;
 	public static final BooleanOption INVENTORY_SCROLL;
+	public static final BooleanOption INVENTORY_QUICK_STACK;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
@@ -257,6 +258,13 @@ public final class Settings {
 			"a shift-click would send it, so the wheel walks the same road in",
 			"both directions. Two sticks out of a stack of sixty-four without",
 			"counting them out by hand."));
+
+		INVENTORY_QUICK_STACK = SPEC.add(new BooleanOption(
+			"inventory.quickStack", true,
+			"Hold control and press the middle mouse button to put away",
+			"everything the chest already has some of. What it has never held",
+			"stays with you, and so does your hotbar -- this tidies up, it does",
+			"not empty your pockets into the first box you pass."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

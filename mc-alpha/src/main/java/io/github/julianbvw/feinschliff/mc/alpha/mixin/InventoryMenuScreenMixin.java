@@ -15,6 +15,7 @@ import io.github.julianbvw.feinschliff.mc.alpha.inventory.Gathers;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.QuickMoves;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Scrolls;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Sorts;
+import io.github.julianbvw.feinschliff.mc.alpha.inventory.Stows;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Sweeps;
 
 /**
@@ -50,6 +51,7 @@ public class InventoryMenuScreenMixin {
 
 		if (QuickMoves.handled(this.menuSlots, mouseX, mouseY, button)
 				|| Gathers.handled(this.menuSlots, mouseX, mouseY, button)
+				|| Stows.handled(this.menuSlots, mouseX, mouseY, button)
 				|| Sorts.handled(this.menuSlots, mouseX, mouseY, button)
 				|| Drags.startedOn(this.menuSlots, mouseX, mouseY, button)) {
 			ci.cancel();

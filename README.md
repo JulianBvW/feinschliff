@@ -45,6 +45,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | D5 | **Shift-drag.** Keep shift and the button held after a shift-click and draw across more slots to send each of them across as well — a whole row of your inventory into a chest, or five stacks of cobble back out, in one movement. | Inventory | on | `inventory.shiftDrag` |
 | D4 | **Sort a chest.** The middle mouse button over a chest tidies it: everything of one kind together, stacks filled up, empty slots at the end. Over the three rows above your hotbar it tidies those instead. Plain sorts by item id, with shift held by how much of each you have. | Inventory | on | `inventory.sort` |
 | D6 | **Wheel moves single items.** Turn the wheel over a stack to move it one item at a time: down sends one across, up brings one back. Across means the same place a shift-click would send it. | Inventory | on | `inventory.scroll` |
+| D7 | **Quick stack into a chest.** Control and the middle mouse button put away everything the chest already has some of. What it has never held stays with you, and so does your hotbar. | Inventory | on | `inventory.quickStack` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles the same
@@ -123,6 +124,12 @@ those slots. Turning it sixty-four times therefore ends where one shift-click
 ends. One turn is one item however far the wheel is pushed, and part-used
 stacks are emptied before whole ones are broken open. A crafting result is left
 out — that is made rather than moved, and it comes out whole or not at all.
+
+Quick stack is the one gesture you can press without looking, and the rule that
+makes it so is that the chest decides: only what it has already started on goes
+in. It uses the same route a shift-click uses, so part-used stacks in the chest
+are filled up before an empty slot is taken, and a chest that runs out of room
+simply keeps the rest with you.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

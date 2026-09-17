@@ -2,8 +2,6 @@ package io.github.julianbvw.feinschliff.mc.alpha.inventory;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.game.inventory.InventoryMenuSlot;
@@ -35,7 +33,7 @@ public final class QuickMoves {
 	 * {@code false} leaves the click to the game, untouched.
 	 */
 	public static boolean handled(List menuSlots, int mouseX, int mouseY, int button) {
-		if (button != LEFT_BUTTON || !QuickMove.enabled() || !shiftDown()) {
+		if (button != LEFT_BUTTON || !QuickMove.enabled() || !Modifiers.shift()) {
 			return false;
 		}
 
@@ -106,13 +104,5 @@ public final class QuickMoves {
 			// Exactly once per result taken: this is what eats the ingredients.
 			slot.onItemRemoved();
 		}
-	}
-
-	/** Shared with the line a held shift draws. */
-	static boolean shiftDown() {
-		// Polled, not read off an event, for the same reason every other key
-		// in this mod is: it must not take anything out of the vanilla event
-		// loops. See Hotkey.
-		return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
 	}
 }

@@ -66,7 +66,7 @@ public final class Sweeps {
 		// Letting go of either the button or shift ends the line, and so does
 		// a release the window never delivered.
 		if (minecraft == null || minecraft.screen != screen || released != MOVED
-				|| !Mouse.isButtonDown(LEFT_BUTTON) || !QuickMoves.shiftDown()) {
+				|| !Mouse.isButtonDown(LEFT_BUTTON) || !Modifiers.shift()) {
 			forget();
 			return;
 		}

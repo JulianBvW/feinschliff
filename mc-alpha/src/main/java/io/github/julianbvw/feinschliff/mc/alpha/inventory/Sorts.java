@@ -2,8 +2,6 @@ package io.github.julianbvw.feinschliff.mc.alpha.inventory;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.gui.screen.game.inventory.InventoryMenuSlot;
 import net.minecraft.item.ItemStack;
 
@@ -27,7 +25,8 @@ public final class Sorts {
 	 * click to the game, which does nothing with this button in a menu.
 	 */
 	public static boolean handled(List menuSlots, int mouseX, int mouseY, int button) {
-		if (button != MIDDLE_BUTTON || !Sort.enabled()) {
+		// Control on this button means putting away, not sorting.
+		if (button != MIDDLE_BUTTON || !Sort.enabled() || Modifiers.control()) {
 			return false;
 		}
 
@@ -51,7 +50,7 @@ public final class Sorts {
 		}
 
 		try {
-			sort(slots, role, shiftDown() ? SortOrder.COUNT : SortOrder.ID);
+			sort(slots, role, Modifiers.shift() ? SortOrder.COUNT : SortOrder.ID);
 		} catch (Throwable t) {
 			// Screen.handleMouse has no net of its own, and an escape here
 			// would be a crash report in the middle of a rewrite.
@@ -116,9 +115,5 @@ public final class Sorts {
 			// has changed.
 			slot.setItem(i < plan.length ? new ItemStack(plan[i][0], plan[i][2], plan[i][1]) : null);
 		}
-	}
-
-	private static boolean shiftDown() {
-		return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
 	}
 }
