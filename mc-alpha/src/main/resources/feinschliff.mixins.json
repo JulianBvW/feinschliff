@@ -7,8 +7,10 @@
 	],
 	"client": [
 		"EntityAccessor",
+		"FurnaceBlockEntityInvoker",
 		"GameGuiMixin",
 		"GameRendererMixin",
+		"InventoryMenuScreenMixin",
 		"ItemStackMixin",
 		"KeyboardInputMixin",
 		"MinecraftInvoker",

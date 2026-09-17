@@ -49,6 +49,8 @@ public final class Settings {
 	public static final BooleanOption MOVEMENT_FLY;
 	public static final DoubleOption MOVEMENT_FLY_SPEED;
 
+	public static final BooleanOption INVENTORY_SHIFT_CLICK;
+
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
@@ -191,6 +193,19 @@ public final class Settings {
 			"limit is deliberate: much faster and you outrun the terrain being",
 			"made for you, and the game stops moving you at all until it catches",
 			"up."));
+
+		SPEC.section("Inventory",
+			"Comfort in the menus. Nothing here changes what an item is or does,",
+			"only how far your hand has to travel to move it.");
+
+		INVENTORY_SHIFT_CLICK = SPEC.add(new BooleanOption(
+			"inventory.shiftClick", true,
+			"Hold shift and click a stack to send it across instead of picking",
+			"it up: between you and a chest, into a furnace as fuel or as",
+			"something to smelt, out of a furnace, onto your armour, and",
+			"otherwise between your hotbar and the rest of your inventory.",
+			"On the crafting result it makes as many as the grid and your free",
+			"space allow."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",
