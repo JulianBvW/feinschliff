@@ -33,6 +33,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | B1 | **Borderless fullscreen.** Puts `F11` on a window that fills the screen at the desktop resolution with nothing drawn around it, one press each way. The fullscreen this version ships with changes the monitor's display mode and then only tells the game about the new size when a menu happens to be open. | Window | on | `window.borderless` |
 | B2 | **Vertical sync.** Waits for the monitor before showing a frame, instead of rendering hundreds nobody sees. A driver forcing vsync on or off still overrides it. | Window | on | `window.vsync` |
 | B3 | **Clean exit.** Ends the process when you close the window, instead of leaving it on screen for half a minute. Nothing is saved on the way out — leave through *Save and Quit* as you would without the mod. | Window | on | `window.exitOnClose` |
+| B4 | **Quit Game button.** Puts one on the title screen beside *Options...*, both of them half as wide. This version has no way out of the game on it, and a window filling the screen shows no close button to reach for. | Window | on | `window.quitButton` |
 | F3 | **No eating at full health.** Keeps food in your hand instead of using it up for nothing. This version has no hunger bar, so a meal at full health heals nothing. | Gameplay | on | `gameplay.noEatingAtFullHealth` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
 | C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
@@ -61,6 +62,11 @@ The screenshot key is `hotkey.screenshot`, `F2` by default. The game pauses
 for a moment while the file is written, and a line above the hotbar says where
 it went; the log says the same. Two pictures taken in the same second get a
 `_1`, `_2` suffix, so nothing is ever overwritten.
+
+*Quit Game* ends the game the way closing the window does, and there is no
+world open on the title screen for it to leave behind. Out of a world the way
+out is still *Save and quit to title* first — that is what writes your world to
+disk, and nothing else does.
 
 Borderless fullscreen sits on `F11`, the key the game already uses for
 fullscreen, so there is no hotkey of its own. Set `window.borderless.onStart` to

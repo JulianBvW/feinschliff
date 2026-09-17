@@ -6,6 +6,7 @@
 	"mixins": [
 	],
 	"client": [
+		"ButtonWidgetAccessor",
 		"EntityAccessor",
 		"FurnaceBlockEntityInvoker",
 		"GameGuiMixin",
@@ -17,6 +18,8 @@
 		"MinecraftMixin",
 		"MobEntityMixin",
 		"MouseMixin",
+		"ScreenAccessor",
+		"TitleScreenMixin",
 		"WorldRendererMixin"
 	],
 	"server": [

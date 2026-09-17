@@ -25,6 +25,7 @@ import io.github.julianbvw.feinschliff.core.camera.Freecam;
 import io.github.julianbvw.feinschliff.core.config.Settings;
 import io.github.julianbvw.feinschliff.core.movement.Fly;
 import io.github.julianbvw.feinschliff.core.window.Borderless;
+import io.github.julianbvw.feinschliff.core.window.Quit;
 import io.github.julianbvw.feinschliff.mc.alpha.FeinschliffClient;
 import io.github.julianbvw.feinschliff.mc.alpha.movement.FlyPhysics;
 
@@ -62,7 +63,7 @@ public class MinecraftMixin {
 	 */
 	@Inject(method = "run", at = @At("TAIL"))
 	private void feinschliff$exitWhenTheGameEnds(CallbackInfo ci) {
-		if (!Settings.WINDOW_EXIT_ON_CLOSE.on()) {
+		if (!Quit.endsTheProcess()) {
 			return;
 		}
 		System.exit(0);

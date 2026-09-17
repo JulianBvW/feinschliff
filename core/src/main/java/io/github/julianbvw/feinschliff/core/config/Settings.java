@@ -38,6 +38,7 @@ public final class Settings {
 	public static final BooleanOption WINDOW_BORDERLESS_ON_START;
 	public static final BooleanOption WINDOW_VSYNC;
 	public static final BooleanOption WINDOW_EXIT_ON_CLOSE;
+	public static final BooleanOption WINDOW_QUIT_BUTTON;
 
 	public static final BooleanOption SCREENSHOT_ENABLED;
 
@@ -140,6 +141,12 @@ public final class Settings {
 			"the window starts. Without it the window stays on screen and the",
 			"process lives on for another thirty seconds, until the mod loader",
 			"gives up waiting and halts it."));
+
+		WINDOW_QUIT_BUTTON = SPEC.add(new BooleanOption(
+			"window.quitButton", true,
+			"Put a Quit Game button on the title screen, beside Options..., both",
+			"of them half as wide. This version has no way out of its own, and a",
+			"window filling the screen shows no close button to reach for."));
 
 		SPEC.section("Screenshots",
 			"Pictures land in screenshots/ beside your worlds, named after the",
