@@ -43,6 +43,7 @@ enough. Set a key to `false` to get the vanilla behaviour back for that one feat
 | D2 | **Double-click fills a stack.** Click a stack twice in quick succession to pull everything of the same kind in the menu into your hand, up to a full stack. It takes the part-used stacks first, so what stays behind is whole ones. | Inventory | on | `inventory.doubleClick` |
 | D3 | **Drag across slots.** Hold a stack, press and drag over several slots to lay it out over them: the left button shares it out evenly, the right button puts one in each. What does not divide stays in your hand. | Inventory | on | `inventory.drag` |
 | D5 | **Shift-drag.** Keep shift and the button held after a shift-click and draw across more slots to send each of them across as well — a whole row of your inventory into a chest, or five stacks of cobble back out, in one movement. | Inventory | on | `inventory.shiftDrag` |
+| D4 | **Sort a chest.** The middle mouse button over a chest tidies it: everything of one kind together, stacks filled up, empty slots at the end. Over the three rows above your hotbar it tidies those instead. Plain sorts by item id, with shift held by how much of each you have. | Inventory | on | `inventory.sort` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles the same
@@ -108,6 +109,12 @@ time the pointer moves on: every slot the line reaches is simply another
 shift-click, and each is visited once. The crafting result is left out of it,
 so a line passing over it does not craft the grid empty on its way — clicking
 it is how that is asked for.
+
+Sorting leaves your hotbar alone, however you sort: it is arranged by hand, and
+tidying it up every time would undo that. Armour, furnace and crafting grid are
+left alone too, where the order means something. This version has nothing to
+sort alphabetically by — an item here is a number and a count, with no name
+anywhere in the game — so those two are what there is.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

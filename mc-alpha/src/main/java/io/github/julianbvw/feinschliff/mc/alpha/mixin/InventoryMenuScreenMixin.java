@@ -13,6 +13,7 @@ import net.minecraft.client.gui.screen.game.inventory.InventoryMenuScreen;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Drags;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Gathers;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.QuickMoves;
+import io.github.julianbvw.feinschliff.mc.alpha.inventory.Sorts;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Sweeps;
 
 /**
@@ -48,6 +49,7 @@ public class InventoryMenuScreenMixin {
 
 		if (QuickMoves.handled(this.menuSlots, mouseX, mouseY, button)
 				|| Gathers.handled(this.menuSlots, mouseX, mouseY, button)
+				|| Sorts.handled(this.menuSlots, mouseX, mouseY, button)
 				|| Drags.startedOn(this.menuSlots, mouseX, mouseY, button)) {
 			ci.cancel();
 		}

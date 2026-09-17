@@ -54,6 +54,7 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_DOUBLE_CLICK;
 	public static final BooleanOption INVENTORY_DRAG;
 	public static final BooleanOption INVENTORY_SHIFT_DRAG;
+	public static final BooleanOption INVENTORY_SORT;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
@@ -237,6 +238,16 @@ public final class Settings {
 			"inventory into a chest, or five stacks of cobble back out, in one",
 			"movement. The crafting result is left out of it, so a line passing",
 			"over it does not craft the grid empty."));
+
+		INVENTORY_SORT = SPEC.add(new BooleanOption(
+			"inventory.sort", true,
+			"Press the middle mouse button over a chest to tidy it: everything",
+			"of one kind together, stacks filled up, empty slots at the end.",
+			"Over the three rows above your hotbar it tidies those instead; the",
+			"hotbar itself stays as you arranged it. Plain sorts by item id,",
+			"with shift held it sorts by how much of each you have. This",
+			"version has no names to sort by -- items have numbers and nothing",
+			"else."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",
