@@ -42,12 +42,77 @@ public final class QuickMove {
 	 * back.
 	 */
 	public static int roomFor(Slots slots, int from) {
-		return run(slots, from, false);
+		return run(slots, from, Integer.MAX_VALUE, false);
 	}
 
 	/** Moves as much as fits and answers how many items that was. */
 	public static int move(Slots slots, int from) {
-		return run(slots, from, true);
+		return run(slots, from, Integer.MAX_VALUE, true);
+	}
+
+	/** The same, but never more than {@code max} items. */
+	public static int move(Slots slots, int from, int max) {
+		return run(slots, from, max, true);
+	}
+
+	/**
+	 * Brings items back the way {@link #move} would have sent them: the slots
+	 * a stack in {@code to} would be offered to are exactly the ones it is
+	 * taken from again. One route, walked in both directions, so the two can
+	 * never drift apart.
+	 *
+	 * <p>Part-used stacks are emptied before whole ones, which is what turns
+	 * turning the wheel into tidying rather than into breaking a stack open.
+	 */
+	public static int pull(Slots slots, int to, int max) {
+		if (max <= 0 || slots.empty(to)) {
+			// An empty slot says nothing about what should be brought to it.
+			return 0;
+		}
+
+		SlotRole[] sources = targets(slots, slots.role(to));
+		int taken = 0;
+
+		for (int pass = 0; pass < 2; pass++) {
+			boolean fromPartUsedStacks = pass == 0;
+
+			for (int source = 0; source < sources.length; source++) {
+				for (int from = 0; from < slots.count(); from++) {
+					if (taken >= max) {
+						return taken;
+					}
+					if (from == to || slots.role(from) != sources[source]) {
+						continue;
+					}
+					if (slots.empty(from) || !slots.stackable(from, to)) {
+						continue;
+					}
+
+					// Zero when the slot would not take it back at all, which
+					// is how a furnace output stays a one-way street.
+					int capacity = slots.capacity(to, from);
+					if (fromPartUsedStacks && slots.size(from) >= capacity) {
+						continue;
+					}
+
+					int amount = capacity - slots.size(to);
+					if (amount > slots.size(from)) {
+						amount = slots.size(from);
+					}
+					if (amount > max - taken) {
+						amount = max - taken;
+					}
+					if (amount <= 0) {
+						continue;
+					}
+
+					slots.move(from, to, amount);
+					taken += amount;
+				}
+			}
+		}
+
+		return taken;
 	}
 
 	/**
@@ -85,12 +150,15 @@ public final class QuickMove {
 	 * same route, so what {@link #roomFor} promises is what {@link #move}
 	 * delivers.
 	 */
-	private static int run(Slots slots, int from, boolean apply) {
+	private static int run(Slots slots, int from, int max, boolean apply) {
 		SlotRole[] targets = targets(slots, slots.role(from));
 
 		// Counted here rather than read back from the slot, so that the answer
 		// pass and the acting pass can share every other line.
 		int left = slots.size(from);
+		if (left > max) {
+			left = max;
+		}
 		int moved = 0;
 
 		for (int pass = 0; pass < 2; pass++) {

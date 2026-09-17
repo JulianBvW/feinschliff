@@ -13,6 +13,7 @@ import net.minecraft.client.gui.screen.game.inventory.InventoryMenuScreen;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Drags;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Gathers;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.QuickMoves;
+import io.github.julianbvw.feinschliff.mc.alpha.inventory.Scrolls;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Sorts;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Sweeps;
 
@@ -63,6 +64,7 @@ public class InventoryMenuScreenMixin {
 	 */
 	@Inject(method = "mouseReleased", at = @At("HEAD"))
 	private void feinschliff$followTheGesture(int mouseX, int mouseY, int button, CallbackInfo ci) {
+		Scrolls.released(this.menuSlots, mouseX, mouseY, button);
 		Drags.released(this.menuSlots, mouseX, mouseY, button);
 		Sweeps.released(this.menuSlots, mouseX, mouseY, button);
 	}

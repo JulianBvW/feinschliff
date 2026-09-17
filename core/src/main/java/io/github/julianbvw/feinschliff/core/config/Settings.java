@@ -55,6 +55,7 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_DRAG;
 	public static final BooleanOption INVENTORY_SHIFT_DRAG;
 	public static final BooleanOption INVENTORY_SORT;
+	public static final BooleanOption INVENTORY_SCROLL;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
@@ -248,6 +249,14 @@ public final class Settings {
 			"with shift held it sorts by how much of each you have. This",
 			"version has no names to sort by -- items have numbers and nothing",
 			"else."));
+
+		INVENTORY_SCROLL = SPEC.add(new BooleanOption(
+			"inventory.scroll", true,
+			"Turn the wheel over a stack to move it one item at a time: down",
+			"sends one across, up brings one back. Across means the same place",
+			"a shift-click would send it, so the wheel walks the same road in",
+			"both directions. Two sticks out of a stack of sixty-four without",
+			"counting them out by hand."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",
