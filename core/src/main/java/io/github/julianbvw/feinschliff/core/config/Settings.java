@@ -58,6 +58,7 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_SCROLL;
 	public static final BooleanOption INVENTORY_QUICK_STACK;
 	public static final BooleanOption INVENTORY_HOTBAR_KEYS;
+	public static final BooleanOption INVENTORY_PICK_BLOCK;
 	public static final BooleanOption INVENTORY_DROP_FROM_MENU;
 	public static final BooleanOption INVENTORY_DROP_STACK;
 
@@ -281,6 +282,14 @@ public final class Settings {
 			"gets picked. On a crafting result and a furnace output it works",
 			"only onto a free place: a full one would mean putting something",
 			"into a slot that never gives anything back."));
+
+		INVENTORY_PICK_BLOCK = SPEC.add(new BooleanOption(
+			"inventory.pickBlock", true,
+			"Let the middle mouse button reach the rest of your inventory. It",
+			"already picks a block you are looking at when you have it on the",
+			"hotbar; this brings it to the hotbar when you have it further up,",
+			"onto the nearest free place or, if there is none, in exchange for",
+			"what you are holding. It still creates nothing."));
 
 		INVENTORY_DROP_FROM_MENU = SPEC.add(new BooleanOption(
 			"inventory.dropFromMenu", true,

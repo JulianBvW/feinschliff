@@ -53,6 +53,7 @@ rather than in everyday play.
 | D6 | **Wheel moves single items.** Turn the wheel over a stack to move it one item at a time: down sends one across, up brings one back. Across means the same place a shift-click would send it. | Inventory | on | `inventory.scroll` |
 | D7 | **Quick stack into a chest.** Control and the middle mouse button put away everything the chest already has some of. What it has never held stays with you, and so does your hotbar. | Inventory | on | `inventory.quickStack` |
 | D8 | **Number keys.** Point at a stack in a menu and press 1 to 9 to put it on that place of your hotbar, trading places with whatever was there. It works on a crafting result too, but only onto a free place, and pointing at an empty slot fetches that place to you. | Inventory | on | `inventory.hotbarKeys` |
+| E2 | **Pick block reaches further.** The middle mouse button already puts a block you are looking at into your hand when you have it on the hotbar. Now it fetches it from the rest of your inventory too, onto the nearest free place or in exchange for what you are holding. | Inventory | on | `inventory.pickBlock` |
 | D9 | **Drop out of a menu.** Point at a stack in a menu and press the drop key to throw it out of there, without taking it into your hand first. With control held the whole stack goes. | Inventory | on | `inventory.dropFromMenu` |
 | E3d | **Drop a whole stack.** Hold control while pressing the drop key to throw all of it instead of one. The key itself stays yours to bind in the game's own controls screen. | Inventory | on | `inventory.dropStack` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
@@ -157,6 +158,12 @@ In a menu the drop key throws whatever you are pointing at, and what your hand
 happens to be holding stays in it — the same rule a shift-click follows. On a
 crafting result one press is one craft, thrown whole, because the inventory
 behind that slot hands over everything whatever amount is asked of it.
+
+Pick block was always half there: the game searches your whole inventory for
+the block you are looking at and then only acts if what it found happens to be
+on the hotbar. The other half is a trade — the stack comes down, whatever was
+in the way goes up — so it still creates nothing, which is the point of that
+button.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

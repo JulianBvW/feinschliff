@@ -19,6 +19,7 @@
 		"MinecraftMixin",
 		"MobEntityMixin",
 		"MouseMixin",
+		"PlayerInventoryMixin",
 		"ScreenAccessor",
 		"TitleScreenMixin",
 		"WorldRendererMixin"
