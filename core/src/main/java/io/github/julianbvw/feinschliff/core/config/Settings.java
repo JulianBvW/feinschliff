@@ -62,6 +62,11 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_DROP_FROM_MENU;
 	public static final BooleanOption INVENTORY_DROP_STACK;
 
+	public static final BooleanOption BOAT_HANDLING;
+	public static final DoubleOption BOAT_TOP_SPEED;
+	public static final DoubleOption BOAT_DRAG;
+	public static final BooleanOption BOAT_FREE_VIEW;
+
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
@@ -303,6 +308,39 @@ public final class Settings {
 			"instead of one of it -- out of your hand in the world, and out of",
 			"the slot you are pointing at in a menu. The key itself stays yours",
 			"to bind in the game's own controls screen."));
+
+		SPEC.section("Boats",
+			"A boat keeps 99% of its speed every tick, which is why it takes",
+			"eleven seconds to get up to speed, five to slow down again, and",
+			"turns like a barge. Everything else about a boat stays as it is:",
+			"it still goes where you look, and it still breaks on the first",
+			"thing it touches at speed.");
+
+		BOAT_HANDLING = SPEC.add(new BooleanOption(
+			"boat.handling", true,
+			"Use the two numbers below instead of the vanilla ones. Off gives",
+			"you the vanilla boat back exactly, whatever they say."));
+
+		BOAT_TOP_SPEED = SPEC.add(new DoubleOption(
+			"boat.topSpeed", 9.0, 1.0, 40.0,
+			"How fast a boat goes, in blocks per second. Vanilla is 8, walking",
+			"is about 4. A boat that goes faster also crosses the speed at",
+			"which it shatters on contact more of the time -- that threshold",
+			"is vanilla's and is left alone."));
+
+		BOAT_DRAG = SPEC.add(new DoubleOption(
+			"boat.drag", 0.92, 0.5, 0.99,
+			"What is left of the speed after a tick. This one number is the",
+			"whole feel of the boat: it sets how quickly you get going, how",
+			"quickly you stop, and how tightly you turn. Vanilla is 0.99, and",
+			"the lower it goes the more the boat obeys and the less it glides."));
+
+		BOAT_FREE_VIEW = SPEC.add(new BooleanOption(
+			"boat.freeView", true,
+			"Stop a boat from turning your head. Vanilla points the boat at",
+			"whatever direction it happens to be drifting in and drags your",
+			"view after it, so looking at one spot while sailing past it is a",
+			"fight. Off restores the tug."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

@@ -29,8 +29,8 @@ and every one of them is **on out of the box** — installing the mod is meant t
 enough. Set a key to `false` to get the vanilla behaviour back for that one feature.
 
 Several of them have further keys of their own in that file: flying and camera
-speed, which lines the debug overlay draws, whether the window fills the screen
-from the start. `general.debugLogging` is the one setting that is off by
+speed, how a boat handles, which lines the debug overlay draws, whether the
+window fills the screen from the start. `general.debugLogging` is the one setting that is off by
 default — it adds diagnostic output to the log and belongs in a bug report
 rather than in everyday play.
 
@@ -41,6 +41,7 @@ rather than in everyday play.
 | B3 | **Clean exit.** Ends the process when you close the window, instead of leaving it on screen for half a minute. Nothing is saved on the way out — leave through *Save and Quit* as you would without the mod. | Window | on | `window.exitOnClose` |
 | B4 | **Quit Game button.** Puts one on the title screen beside *Options...*, both of them half as wide. This version has no way out of the game on it, and a window filling the screen shows no close button to reach for. | Window | on | `window.quitButton` |
 | F3 | **No eating at full health.** Keeps food in your hand instead of using it up for nothing. This version has no hunger bar, so a meal at full health heals nothing. | Gameplay | on | `gameplay.noEatingAtFullHealth` |
+| F5 | **Boat handling.** Takes the glide out of a boat. It gets up to speed in under a second and a half instead of eleven, comes to a stop in one instead of five, turns where you are already looking rather than where you were looking five seconds ago, and goes a little faster while it is at it. It also stops pulling your view around. How a boat breaks and what it leaves behind are untouched. | Boats | on | `boat.handling` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
 | C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
@@ -164,6 +165,26 @@ the block you are looking at and then only acts if what it found happens to be
 on the hotbar. The other half is a trade — the stack comes down, whatever was
 in the way goes up — so it still creates nothing, which is the point of that
 button.
+
+A boat's whole character is one number: how much of its speed it keeps from one
+tick to the next. Vanilla keeps 99% of it, and that single figure is why an
+alpha boat needs eleven seconds to get going, five to become harmless again,
+and half a lake to turn around in — acceleration, braking and turning are the
+same number seen from three sides. `boat.drag` is that number, 0.92 here, and
+it is the one to reach for if the boat feels wrong in either direction.
+
+`boat.topSpeed` is in blocks per second, 9 against vanilla's 8. There is no
+setting for the push, because there is nothing for one to decide: a boat
+settles where its push and its drag cancel out, so the push follows from the
+two numbers above and a boat therefore always reaches the speed it was
+promised. Everything else about sailing is as it was — the boat goes where you
+look, it still shatters on the first thing it touches at speed, and it still
+leaves behind exactly what it always did.
+
+`boat.freeView` is the other half, and it is a separate setting because it is a
+separate annoyance: vanilla turns a boat towards whatever direction it happens
+to be drifting in and then drags your view along after it, so keeping your eyes
+on one spot while sailing past it is a fight. Off, the tug comes back.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching
