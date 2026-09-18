@@ -62,6 +62,10 @@ public final class Settings {
 	public static final BooleanOption INVENTORY_DROP_FROM_MENU;
 	public static final BooleanOption INVENTORY_DROP_STACK;
 
+	public static final BooleanOption MINING_TOOL_ASSIGNMENTS;
+	public static final BooleanOption MINING_GOLD_IS_FAST;
+	public static final BooleanOption MINING_SWORD_CUTS;
+
 	public static final BooleanOption BOAT_HANDLING;
 	public static final DoubleOption BOAT_TOP_SPEED;
 	public static final DoubleOption BOAT_DRAG;
@@ -318,6 +322,41 @@ public final class Settings {
 			"instead of one of it -- out of your hand in the world, and out of",
 			"the slot you are pointing at in a menu. The key itself stays yours",
 			"to bind in the game's own controls screen."));
+
+		SPEC.section("Mining",
+			"Which tool a block is for, and what a tool is worth on it. Only the",
+			"time it takes changes, and only ever downwards -- nothing here makes",
+			"anything slower than it already was.");
+
+		MINING_TOOL_ASSIGNMENTS = SPEC.add(new BooleanOption(
+			"mining.toolAssignments", true,
+			"Give the twenty-one blocks that have no tool in this version the one",
+			"they are meant for. A pickaxe gets bricks, obsidian, redstone ore,",
+			"furnaces, spawners, stone stairs, pressure plates, the iron door,",
+			"buttons and rails; an axe gets stairs, the crafting table, doors,",
+			"signs, fences, jukeboxes and ladders; a shovel gets farmland; and the",
+			"hoe, which until now could only till, gets leaves and sponge. The",
+			"wooden pressure plate is the one thing here that changes a drop as",
+			"well: the game counts it as stone, so without a pickaxe it breaks",
+			"into nothing at all."));
+
+		MINING_GOLD_IS_FAST = SPEC.add(new BooleanOption(
+			"mining.goldIsFast", true,
+			"Let gold dig like gold. A golden tool is the fastest there is in",
+			"later versions and the slowest here, level with wood, because it",
+			"shares wood's place in the one table that sets both how fast a tool",
+			"is and what it may harvest. This raises the speed and nothing else:",
+			"a golden pickaxe still brings up no iron, gold, diamond or redstone,",
+			"which is the rule in every version and stays."));
+
+		MINING_SWORD_CUTS = SPEC.add(new BooleanOption(
+			"mining.swordCuts", true,
+			"Cut wool, leaves and cactus with a sword. Shears are four years away",
+			"from this version, and a sword is already a flat one and a half on",
+			"every block in the game -- that is the state of things before shears,",
+			"not a mistake. This makes it a machete on the three things one would",
+			"reach for shears for, whatever the blade is made of, since shears",
+			"have no material either."));
 
 		SPEC.section("Boats",
 			"A boat keeps 99% of its speed every tick, which is why it takes",

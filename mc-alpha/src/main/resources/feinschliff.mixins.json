@@ -27,6 +27,7 @@
 		"PlayerInventoryMixin",
 		"ScreenAccessor",
 		"TitleScreenMixin",
+		"ToolItemAccessor",
 		"WorldRendererMixin"
 	],
 	"server": [

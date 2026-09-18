@@ -44,6 +44,7 @@ rather than in everyday play.
 | F6 | **Pigs go where you look.** Sit on a saddled pig, hold wheat, and it walks wherever you are looking, a shade faster than you walk and without a movement key held down. Every half minute or so it grunts and spends a few seconds doing as it pleases. Right-click to feed it a piece of wheat: it hops, and then runs at sprinting speed for a quarter of a minute. A saddled pig also gives the saddle back when it dies. | Pigs | on | `pig.steer` |
 | F3 | **No eating at full health.** Keeps food in your hand instead of using it up for nothing. This version has no hunger bar, so a meal at full health heals nothing. | Gameplay | on | `gameplay.noEatingAtFullHealth` |
 | F5 | **Boat handling.** Takes the glide out of a boat. It gets up to speed in under a second and a half instead of eleven, comes to a stop in one instead of five, turns where you are already looking rather than where you were looking five seconds ago, and goes a little faster while it is at it. It also stops pulling your view around. How a boat breaks and what it leaves behind are untouched. | Boats | on | `boat.handling` |
+| F2 | **Every block gets its tool.** Twenty-one blocks in this version belong to no tool at all: bricks, obsidian, redstone ore, furnaces, spawners, stone stairs, pressure plates, the iron door, buttons and rails are pickaxe work; stairs, crafting tables, doors, signs, fences, jukeboxes and ladders are an axe's; farmland a shovel's; and leaves and sponge the hoe's, which until now could not mine anything at all. Gold digs like gold rather than like wood, and a sword cuts wool, leaves and cactus. | Mining | on | `mining.toolAssignments` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
 | C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
@@ -167,6 +168,36 @@ the block you are looking at and then only acts if what it found happens to be
 on the hotbar. The other half is a trade — the stack comes down, whatever was
 in the way goes up — so it still creates nothing, which is the point of that
 button.
+
+A tool in this version is three lists and a number: thirteen blocks the pickaxe
+knows about, four the axe, seven the shovel, none at all the hoe, and twice the
+tier plus two on anything that is on the list. The lists were written before
+most of the blocks that need them, which is why an iron pickaxe takes six times
+longer on bricks than on the cobblestone they are made of.
+`mining.toolAssignments` hands those twenty-one blocks to the tool every later
+version gives them. Nothing ever gets slower for it: every answer is the larger
+of the game's and the mod's, so a block the modern game left toolless keeps
+whatever this version gave it.
+
+The wooden pressure plate is the one place where that changes a drop rather
+than a duration. Its constructor is handed no material and takes the default,
+which is stone, so the game asks for a pickaxe before it will let go of one and
+gives you nothing at all for a bare hand. It is made of planks, sounds like
+planks, and now breaks like planks.
+
+`mining.goldIsFast` is about the one tool that is upside down. A golden pickaxe
+is the fastest in the game from Beta onwards and the slowest here, level with
+wood, because the single number that sets a tool's speed also sets what it is
+allowed to harvest — and gold has to sit at the bottom of it for the second
+reason. Separating the two gives gold what it is for: quick, and quickly gone.
+What it may harvest is untouched, so a golden pickaxe still brings up no iron.
+
+`mining.swordCuts` is the one thing here that no version of the game does.
+Shears arrive in Beta 1.7; until then a sword is a flat one and a half on every
+block there is, which is the state of things before shears rather than a
+mistake. This makes it a machete on the three things one would otherwise reach
+for shears for — wool, leaves and cactus — at the rate shears would manage,
+whatever the blade is made of, since shears have no material either.
 
 A boat's whole character is one number: how much of its speed it keeps from one
 tick to the next. Vanilla keeps 99% of it, and that single figure is why an
