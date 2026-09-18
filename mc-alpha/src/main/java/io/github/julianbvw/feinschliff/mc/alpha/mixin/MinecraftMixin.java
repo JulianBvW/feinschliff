@@ -28,6 +28,7 @@ import io.github.julianbvw.feinschliff.core.movement.Fly;
 import io.github.julianbvw.feinschliff.core.window.Borderless;
 import io.github.julianbvw.feinschliff.core.window.Quit;
 import io.github.julianbvw.feinschliff.mc.alpha.FeinschliffClient;
+import io.github.julianbvw.feinschliff.mc.alpha.mob.Pigs;
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.Drops;
 import io.github.julianbvw.feinschliff.mc.alpha.movement.FlyPhysics;
 
@@ -140,6 +141,31 @@ public class MinecraftMixin {
 	 * crosshair stays with the player while the camera is away, so a click
 	 * would land on a block the player cannot see.
 	 */
+	/**
+	 * A right click from the back of a pig. TAIL rather than HEAD: by the time
+	 * a click gets this far, whatever else it was going to do has been done,
+	 * and a click in freecam never arrives at all because that guard cancels
+	 * the whole method further up.
+	 */
+	@Inject(method = "handleMouseClick", at = @At("TAIL"))
+	private void feinschliff$feedThePig(int button, CallbackInfo ci) {
+		Pigs.rightClicked((Minecraft)(Object)this, button);
+	}
+
+	/**
+	 * Whether the block under the crosshair took the click for itself. With
+	 * wheat in hand that only happens for something that opens, which is
+	 * exactly the click that must not cost a piece of it.
+	 */
+	@ModifyExpressionValue(
+		method = "handleMouseClick",
+		at = @At(value = "INVOKE",
+			target = "Lnet/minecraft/client/ClientPlayerInteractionManager;useBlock(Lnet/minecraft/entity/mob/player/PlayerEntity;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;IIII)Z"))
+	private boolean feinschliff$noteTheBlockTookIt(boolean answered) {
+		Pigs.blockAnswered(answered);
+		return answered;
+	}
+
 	@Inject(method = "handleMouseClick", at = @At("HEAD"), cancellable = true)
 	private void feinschliff$blockClicksInFreecam(int button, CallbackInfo ci) {
 		if (Freecam.active()) {

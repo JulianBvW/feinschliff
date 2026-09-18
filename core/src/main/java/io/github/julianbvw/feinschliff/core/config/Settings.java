@@ -67,6 +67,16 @@ public final class Settings {
 	public static final DoubleOption BOAT_DRAG;
 	public static final BooleanOption BOAT_FREE_VIEW;
 
+	public static final BooleanOption PIG_SADDLE_DROP;
+	public static final BooleanOption PIG_STEER;
+	public static final DoubleOption PIG_SPEED;
+	public static final BooleanOption PIG_FEED;
+	public static final DoubleOption PIG_FEED_SPEED;
+	public static final DoubleOption PIG_FEED_SECONDS;
+	public static final BooleanOption PIG_MIND;
+	public static final DoubleOption PIG_MIND_EVERY;
+	public static final DoubleOption PIG_MIND_FOR;
+
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
@@ -341,6 +351,64 @@ public final class Settings {
 			"whatever direction it happens to be drifting in and drags your",
 			"view after it, so looking at one spot while sailing past it is a",
 			"fight. Off restores the tug."));
+
+		SPEC.section("Pigs",
+			"A saddled pig can be sat on and does nothing else with you on it:",
+			"it wanders wherever it was going anyway, a third slower than you",
+			"walk. Hold wheat and it comes round to where you are looking.",
+			"Every stretch of time below is rolled fresh within a third either",
+			"way, so nothing the pig does arrives on a schedule.");
+
+		PIG_SADDLE_DROP = SPEC.add(new BooleanOption(
+			"pig.saddleDrop", true,
+			"A saddled pig gives the saddle back when it dies. Without this it",
+			"is gone with the pig, which is what vanilla does."));
+
+		PIG_STEER = SPEC.add(new BooleanOption(
+			"pig.steer", true,
+			"Hold wheat while riding and the pig walks where you look, without",
+			"you touching a movement key. No wheat, no steering."));
+
+		PIG_SPEED = SPEC.add(new DoubleOption(
+			"pig.speed", 4.5, 1.0, 12.0,
+			"How fast that is, in blocks per second. For scale: walking is 4.3,",
+			"sneaking 1.3, and a pig left to itself trots at 3.0. The default",
+			"is a shade above walking, so getting on one is never a step down."));
+
+		PIG_FEED = SPEC.add(new BooleanOption(
+			"pig.feed", true,
+			"Right-click while riding to feed the pig one wheat. It hops, and",
+			"then runs. Feeding again while it is still running adds to the",
+			"time left, up to what one piece could have bought at best, so",
+			"there is a point to a second piece and a limit to a sack of them.",
+			"Pointing at the pig itself still gets you off it, and a click that",
+			"opens a chest or a door is that click and costs no wheat."));
+
+		PIG_FEED_SPEED = SPEC.add(new DoubleOption(
+			"pig.feed.speed", 5.7, 1.0, 20.0,
+			"How fast a fed pig runs, in blocks per second. 5.7 is what",
+			"sprinting is worth in the versions that have it."));
+
+		PIG_FEED_SECONDS = SPEC.add(new DoubleOption(
+			"pig.feed.seconds", 15.0, 1.0, 300.0,
+			"How long one piece of wheat lasts, give or take a third, and also",
+			"the ceiling that feeding again cannot push past. Nothing",
+			"interrupts it: a pig with wheat in its mouth has no opinions."));
+
+		PIG_MIND = SPEC.add(new BooleanOption(
+			"pig.mind", true,
+			"The pig has a mind of its own and now and then uses it. Off makes",
+			"it obedient, which is faster and much less of a pig."));
+
+		PIG_MIND_EVERY = SPEC.add(new DoubleOption(
+			"pig.mind.every", 45.0, 5.0, 600.0,
+			"Seconds of being steered between one of those moments and the",
+			"next. Time spent running on wheat does not count towards it."));
+
+		PIG_MIND_FOR = SPEC.add(new DoubleOption(
+			"pig.mind.for", 3.0, 0.5, 30.0,
+			"How long it then does as it pleases. It grunts as it starts, so",
+			"you know the next few steps are not yours."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

@@ -29,8 +29,9 @@ and every one of them is **on out of the box** — installing the mod is meant t
 enough. Set a key to `false` to get the vanilla behaviour back for that one feature.
 
 Several of them have further keys of their own in that file: flying and camera
-speed, how a boat handles, which lines the debug overlay draws, whether the
-window fills the screen from the start. `general.debugLogging` is the one setting that is off by
+speed, how a boat handles, how fast a pig is and how often it stops listening,
+which lines the debug overlay draws, whether the window fills the screen from
+the start. `general.debugLogging` is the one setting that is off by
 default — it adds diagnostic output to the log and belongs in a bug report
 rather than in everyday play.
 
@@ -40,6 +41,7 @@ rather than in everyday play.
 | B2 | **Vertical sync.** Waits for the monitor before showing a frame, instead of rendering hundreds nobody sees. A driver forcing vsync on or off still overrides it. | Window | on | `window.vsync` |
 | B3 | **Clean exit.** Ends the process when you close the window, instead of leaving it on screen for half a minute. Nothing is saved on the way out — leave through *Save and Quit* as you would without the mod. | Window | on | `window.exitOnClose` |
 | B4 | **Quit Game button.** Puts one on the title screen beside *Options...*, both of them half as wide. This version has no way out of the game on it, and a window filling the screen shows no close button to reach for. | Window | on | `window.quitButton` |
+| F6 | **Pigs go where you look.** Sit on a saddled pig, hold wheat, and it walks wherever you are looking, a shade faster than you walk and without a movement key held down. Every half minute or so it grunts and spends a few seconds doing as it pleases. Right-click to feed it a piece of wheat: it hops, and then runs at sprinting speed for a quarter of a minute. A saddled pig also gives the saddle back when it dies. | Pigs | on | `pig.steer` |
 | F3 | **No eating at full health.** Keeps food in your hand instead of using it up for nothing. This version has no hunger bar, so a meal at full health heals nothing. | Gameplay | on | `gameplay.noEatingAtFullHealth` |
 | F5 | **Boat handling.** Takes the glide out of a boat. It gets up to speed in under a second and a half instead of eleven, comes to a stop in one instead of five, turns where you are already looking rather than where you were looking five seconds ago, and goes a little faster while it is at it. It also stops pulling your view around. How a boat breaks and what it leaves behind are untouched. | Boats | on | `boat.handling` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
@@ -185,6 +187,28 @@ leaves behind exactly what it always did.
 separate annoyance: vanilla turns a boat towards whatever direction it happens
 to be drifting in and then drags your view along after it, so keeping your eyes
 on one spot while sailing past it is a fight. Off, the tug comes back.
+
+A pig is not a vehicle, and the riding is built so that it never quite becomes
+one. Wheat in your hand is the whole of the steering: the pig turns towards
+where you are looking and walks, at `pig.speed`, which is 4.5 blocks a second
+against the 4.3 you manage on foot and the 3.0 a pig manages on its own. Put
+the wheat away and it goes back to wandering. Every `pig.mind.every` seconds of
+being steered it grunts and takes `pig.mind.for` seconds for itself, and there
+is nothing to be done about that but wait.
+
+Feeding is the one thing that buys obedience. A right-click hands over one
+piece of wheat, the pig hops with it and then runs at `pig.feed.speed` for
+`pig.feed.seconds`, and for that time it has no opinions at all. Feeding again
+mid-run adds to what is left rather than replacing it, up to the longest a
+single piece could ever have lasted — a second piece is always worth something,
+a sackful is not worth more than one. A click that opens a chest or a door is
+that click and costs no wheat, and pointing at the pig itself is still how you
+get off it.
+
+Every stretch of time up there is rolled fresh within a third either way, so
+the pig keeps no schedule. All of it is worked out while you sit on it and
+written down nowhere: what a pig remembers between sessions is its saddle, and
+that tag is vanilla's own.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

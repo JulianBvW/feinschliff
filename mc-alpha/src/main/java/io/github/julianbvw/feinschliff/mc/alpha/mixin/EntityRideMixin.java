@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.BoatEntity;
 
 import io.github.julianbvw.feinschliff.core.vehicle.BoatHandling;
+import io.github.julianbvw.feinschliff.mc.alpha.mob.Pigs;
 
 /**
  * Keeps a boat from turning the head of whoever sits in it.
@@ -25,8 +26,9 @@ import io.github.julianbvw.feinschliff.core.vehicle.BoatHandling;
  * collected is the other half of the same job: without it the turns would pile
  * up unspent and arrive all at once the moment the feature is switched off.
  *
- * <p>Boats only. Everything else that can be ridden keeps the vanilla
- * behaviour, and so does a boat while {@code boat.freeView} is off.
+ * <p>Boats and pigs under the reins. Everything else that can be ridden keeps
+ * the vanilla behaviour, and so does a boat while {@code boat.freeView} is
+ * off.
  */
 @Mixin(Entity.class)
 public class EntityRideMixin {
@@ -54,6 +56,11 @@ public class EntityRideMixin {
 	}
 
 	private boolean feinschliff$freeOfTheBoat() {
-		return this.vehicle instanceof BoatEntity && BoatHandling.freeView();
+		if (this.vehicle instanceof BoatEntity) {
+			return BoatHandling.freeView();
+		}
+		// A steered pig turns because the rider turned. Handing that turn back
+		// to the rider's view would turn the pig again, and so on.
+		return Pigs.steering(this.vehicle);
 	}
 }
