@@ -83,6 +83,7 @@ public final class Settings {
 
 	public static final BooleanOption SPONGE_SOAKS_UP_WATER;
 	public static final BooleanOption SPONGE_KEEPS_DRY;
+	public static final BooleanOption SPONGE_IN_DUNGEONS;
 
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
@@ -473,6 +474,19 @@ public final class Settings {
 			"from outside gets no further than the last block before it. Off",
 			"dries the space the moment you place the sponge and leaves it at",
 			"that."));
+
+		SPONGE_IN_DUNGEONS = SPEC.add(new BooleanOption(
+			"sponge.inDungeons", true,
+			"Put a sponge in a dungeon chest, in about every second one. There is",
+			"otherwise no way to a sponge at all in this version: it is in no",
+			"chest, on no mob and in no recipe, and the creative list it sits in",
+			"cannot be opened in single player. It takes the place of something",
+			"the chest had already rolled, in that same slot, so a chest holds as",
+			"many stacks as it always would, and a saddle, a golden apple or a",
+			"record is never what it takes. Nothing is drawn from the generator",
+			"for it, so the ores, trees and springs of that chunk lie exactly",
+			"where they would have. Only dungeons made from here on -- the ones",
+			"already in your world are never filled again."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

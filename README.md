@@ -16,8 +16,14 @@ This is the core promise of the project, and every feature is checked against it
 
 Concretely, Feinschliff adds **no** blocks, items, entities, recipes, biomes or
 dimensions, writes **no** new NBT tags, changes **nothing** about the save
-format, and never touches world generation. Anything it changes in a world is
-expressed purely with means vanilla already has.
+format, and leaves the terrain a seed produces exactly as it is. Anything it
+changes in a world is expressed purely with means vanilla already has.
+
+There is one narrow exception, and it is deliberate: a dungeon chest can hold a
+sponge in place of one of the items it rolled. The same dungeon, in the same
+place, with the same number of stacks in the same chest — and not one number is
+drawn from the generator to decide it, so every ore vein, tree and spring in
+that chunk still lies where the seed put it.
 
 It is also not a bugfix pack. Old-version quirks are part of the appeal and are
 left alone unless they are genuinely in the way.
@@ -46,6 +52,7 @@ rather than in everyday play.
 | F5 | **Boat handling.** Takes the glide out of a boat. It gets up to speed in under a second and a half instead of eleven, comes to a stop in one instead of five, turns where you are already looking rather than where you were looking five seconds ago, and goes a little faster while it is at it. It also stops pulling your view around. How a boat breaks and what it leaves behind are untouched. | Boats | on | `boat.handling` |
 | F2 | **Every block gets its tool.** Twenty-one blocks in this version belong to no tool at all: bricks, obsidian, redstone ore, furnaces, spawners, stone stairs, pressure plates, the iron door, buttons and rails are pickaxe work; stairs, crafting tables, doors, signs, fences, jukeboxes and ladders are an axe's; farmland a shovel's; and leaves and sponge the hoe's, which until now could not mine anything at all. Gold digs like gold rather than like wood, and a sword cuts wool, leaves and cactus. | Mining | on | `mining.toolAssignments` |
 | G1 | **Sponges soak up water.** Put a sponge down and the water two blocks in every direction goes away; take it up again and the water comes back. It keeps drinking for as long as it lies there, so water pressing in from outside gets no further than the block beside it. The sponge is not used up — there is no wet sponge in this version — so a single one lasts for ever. | Sponges | on | `sponge.soaksUpWater` |
+| G2 | **Sponges in dungeon chests.** About every second one holds a sponge. Without this there is no way to a sponge at all in this version — it is in no chest, on no mob and in no recipe. It takes the place of something the chest had already rolled, never a saddle, a golden apple or a record, and only in dungeons made from here on. | Sponges | on | `sponge.inDungeons` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
 | C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
@@ -262,6 +269,23 @@ a fall passing through the cube for instance, is not told either and hangs where
 it is until something else disturbs it; breaking the sponge does that, and so
 does breaking any block near it. Nothing else about the block changes — it is as
 hard as it was, it drops itself, and it dams water like any other solid block.
+
+`sponge.inDungeons` is the other half of the same idea, because a block that
+drinks is worth nothing if there is no way to one — and there is none here.
+A dungeon chest is the only generated chest this version has, and its eight
+rolls are the whole of its loot system.
+
+The sponge takes a place rather than adding one, and that is not a matter of
+taste. The slot a rolled item goes into is drawn from the generator's own
+random, and that draw only happens when the roll produced something, so turning
+one of the empty rolls into a sponge would take one number more out of that
+stream than the game did. Everything the chunk makes after the dungeon hangs off
+that same stream: the other dungeon tries, clay, dirt, gravel, coal, iron, gold,
+redstone, diamond, how many trees and of which kind, flowers, mushrooms, sugar
+cane, cactus, and seventy water and lava springs. One extra draw moves all of
+it. So the sponge draws nothing at all: it decides from a random of its own,
+seeded from the world and the chest, and hands back a different stack for a slot
+the game had already picked.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

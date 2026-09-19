@@ -8,6 +8,7 @@
 	"client": [
 		"BoatEntityMixin",
 		"ButtonWidgetAccessor",
+		"DungeonFeatureMixin",
 		"EntityAccessor",
 		"EntityRideMixin",
 		"FurnaceBlockEntityInvoker",
