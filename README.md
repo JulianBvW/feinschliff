@@ -45,6 +45,7 @@ rather than in everyday play.
 | F3 | **No eating at full health.** Keeps food in your hand instead of using it up for nothing. This version has no hunger bar, so a meal at full health heals nothing. | Gameplay | on | `gameplay.noEatingAtFullHealth` |
 | F5 | **Boat handling.** Takes the glide out of a boat. It gets up to speed in under a second and a half instead of eleven, comes to a stop in one instead of five, turns where you are already looking rather than where you were looking five seconds ago, and goes a little faster while it is at it. It also stops pulling your view around. How a boat breaks and what it leaves behind are untouched. | Boats | on | `boat.handling` |
 | F2 | **Every block gets its tool.** Twenty-one blocks in this version belong to no tool at all: bricks, obsidian, redstone ore, furnaces, spawners, stone stairs, pressure plates, the iron door, buttons and rails are pickaxe work; stairs, crafting tables, doors, signs, fences, jukeboxes and ladders are an axe's; farmland a shovel's; and leaves and sponge the hoe's, which until now could not mine anything at all. Gold digs like gold rather than like wood, and a sword cuts wool, leaves and cactus. | Mining | on | `mining.toolAssignments` |
+| G1 | **Sponges soak up water.** Put a sponge down and the water two blocks in every direction goes away; take it up again and the water comes back. It keeps drinking for as long as it lies there, so water pressing in from outside gets no further than the block beside it. The sponge is not used up — there is no wet sponge in this version — so a single one lasts for ever. | Sponges | on | `sponge.soaksUpWater` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
 | C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
@@ -240,6 +241,27 @@ Every stretch of time up there is rolled fresh within a third either way, so
 the pig keeps no schedule. All of it is worked out while you sit on it and
 written down nowhere: what a pig remembers between sessions is its saddle, and
 that tag is vanilla's own.
+
+A sponge in this version is a block whose one job was left half done. The
+half that lets go is finished — take a sponge up and the game wakes the cube
+around it so the water flows back — and the half that drinks is an empty pair
+of braces inside three loops that already count to five. `sponge.soaksUpWater`
+fills them in, at the radius of two those loops already name.
+`sponge.soaksUpWater.keepsDry` is what makes one worth carrying: the sponge
+drinks again every time a block beside it changes, so a hole in a lake stays a
+hole. Off, it dries its cube once, the moment you place it, and the water finds
+its way back.
+
+The water goes without a word to its neighbours, and that is what keeps a sponge
+quiet. Settled water has no tick of its own — the only thing that ever sets it
+moving is being told that a block beside it changed — so announcing each removal
+would wake the whole pool, have it press at the cube, drink it, and wake the pool
+again. Taking the water out silently leaves everything outside the cube asleep.
+The one thing it costs is that water which lived off a source the sponge drank,
+a fall passing through the cube for instance, is not told either and hangs where
+it is until something else disturbs it; breaking the sponge does that, and so
+does breaking any block near it. Nothing else about the block changes — it is as
+hard as it was, it drops itself, and it dams water like any other solid block.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

@@ -81,6 +81,9 @@ public final class Settings {
 	public static final DoubleOption PIG_MIND_EVERY;
 	public static final DoubleOption PIG_MIND_FOR;
 
+	public static final BooleanOption SPONGE_SOAKS_UP_WATER;
+	public static final BooleanOption SPONGE_KEEPS_DRY;
+
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
@@ -448,6 +451,28 @@ public final class Settings {
 			"pig.mind.for", 3.0, 0.5, 30.0,
 			"How long it then does as it pleases. It grunts as it starts, so",
 			"you know the next few steps are not yours."));
+
+		SPEC.section("Sponges",
+			"A sponge is the one block here with a job written down and nothing to",
+			"show for it. The game still walks the five by five by five around a",
+			"freshly laid sponge looking for water, and does nothing with what it",
+			"finds.");
+
+		SPONGE_SOAKS_UP_WATER = SPEC.add(new BooleanOption(
+			"sponge.soaksUpWater", true,
+			"Put a sponge down and the water two blocks in every direction goes",
+			"away. Take it up again and the water comes back, which is the half",
+			"of this the version already does. The sponge is not used up: there",
+			"is no wet sponge here to turn into, so it stays what it is and",
+			"works again wherever you carry it."));
+
+		SPONGE_KEEPS_DRY = SPEC.add(new BooleanOption(
+			"sponge.soaksUpWater.keepsDry", true,
+			"Keep that space dry instead of drying it once. The sponge drinks",
+			"again whenever something beside it changes, so water pressing in",
+			"from outside gets no further than the last block before it. Off",
+			"dries the space the moment you place the sponge and leaves it at",
+			"that."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

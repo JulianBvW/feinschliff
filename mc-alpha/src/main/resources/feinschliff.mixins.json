@@ -26,6 +26,7 @@
 		"PathFinderMobEntityMixin",
 		"PlayerInventoryMixin",
 		"ScreenAccessor",
+		"SpongeBlockMixin",
 		"TitleScreenMixin",
 		"ToolItemAccessor",
 		"WorldRendererMixin"
