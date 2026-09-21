@@ -85,6 +85,8 @@ public final class Settings {
 	public static final BooleanOption SPONGE_KEEPS_DRY;
 	public static final BooleanOption SPONGE_IN_DUNGEONS;
 
+	public static final BooleanOption WORLD_EVEN_ORE_DISTRIBUTION;
+
 	public static final BooleanOption GAMEPLAY_NO_EATING_AT_FULL_HEALTH;
 
 	public static final KeyOption HOTKEY_RELOAD_CONFIG;
@@ -487,6 +489,28 @@ public final class Settings {
 			"for it, so the ores, trees and springs of that chunk lie exactly",
 			"where they would have. Only dungeons made from here on -- the ones",
 			"already in your world are never filled again."));
+
+		SPEC.section("World",
+			"The one part of the mod that changes what a seed makes of the ground.",
+			"No hill, no cave and no landmark moves; what changes is what some of",
+			"the stone turns out to be.");
+
+		WORLD_EVEN_ORE_DISTRIBUTION = SPEC.add(new BooleanOption(
+			"world.evenOreDistribution", true,
+			"Give a vein its full size wherever it lies. The game lays one out as",
+			"a line of spheres and walks a box around each, and that box is",
+			"rounded towards zero instead of downwards -- so west and north of",
+			"the origin it sits a block off the sphere and a slice of every vein",
+			"is never written. The same four hundred and forty-one chunks,",
+			"generated twice: 2.5 diamond ore a chunk with this off, 4.2 with it",
+			"on -- and 4.1 is what that seed gives at positive coordinates. It",
+			"covers all seven things that generate as veins: dirt, gravel, coal,",
+			"iron, gold, redstone and diamond.",
+			"This is the one setting that makes a seed give you something other",
+			"than vanilla gives you. Ground that was already right stays right to",
+			"the bit -- measured, ore for ore -- nothing but stone ever becomes",
+			"ore, and a world made with it works without the mod. Chunks you have",
+			"already been to never change."));
 
 		SPEC.section("Gameplay",
 			"Unlike the sections above, these change how the game plays rather than",

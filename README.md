@@ -16,14 +16,26 @@ This is the core promise of the project, and every feature is checked against it
 
 Concretely, Feinschliff adds **no** blocks, items, entities, recipes, biomes or
 dimensions, writes **no** new NBT tags, changes **nothing** about the save
-format, and leaves the terrain a seed produces exactly as it is. Anything it
-changes in a world is expressed purely with means vanilla already has.
+format, and leaves the *shape* of the world a seed produces exactly as it is —
+every hill, cave, lake, overhang and dungeon where that seed puts it, down to
+the block. Anything it changes in a world is expressed purely with means vanilla
+already has.
 
-There is one narrow exception, and it is deliberate: a dungeon chest can hold a
-sponge in place of one of the items it rolled. The same dungeon, in the same
-place, with the same number of stacks in the same chest — and not one number is
-drawn from the generator to decide it, so every ore vein, tree and spring in
-that chunk still lies where the seed put it.
+Two things it does change about a chunk being generated. Both are deliberate,
+both are switchable, and neither of them is terrain:
+
+- A dungeon chest can hold a sponge in place of one of the items it rolled. The
+  same dungeon, in the same place, with the same number of stacks in the same
+  chest.
+- An ore vein gets the full size it was meant to have. This version rounds a
+  vein's bounds towards zero rather than downwards, so west and north of the
+  origin every vein loses a slice; correcting it turns stone into ore and does
+  nothing else.
+
+Neither draws a single number from the world generator, so the terrain, the
+caves, the trees and the springs of that chunk are exactly the ones the seed
+asked for. And a world either has touched loads and plays in unmodified Alpha
+with nothing missing, which is the promise that matters.
 
 It is also not a bugfix pack. Old-version quirks are part of the appeal and are
 left alone unless they are genuinely in the way.
@@ -53,6 +65,7 @@ rather than in everyday play.
 | F2 | **Every block gets its tool.** Twenty-one blocks in this version belong to no tool at all: bricks, obsidian, redstone ore, furnaces, spawners, stone stairs, pressure plates, the iron door, buttons and rails are pickaxe work; stairs, crafting tables, doors, signs, fences, jukeboxes and ladders are an axe's; farmland a shovel's; and leaves and sponge the hoe's, which until now could not mine anything at all. Gold digs like gold rather than like wood, and a sword cuts wool, leaves and cactus. | Mining | on | `mining.toolAssignments` |
 | G1 | **Sponges soak up water.** Put a sponge down and the water two blocks in every direction goes away; take it up again and the water comes back. It keeps drinking for as long as it lies there, so water pressing in from outside gets no further than the block beside it. The sponge is not used up — there is no wet sponge in this version — so a single one lasts for ever. | Sponges | on | `sponge.soaksUpWater` |
 | G2 | **Sponges in dungeon chests.** About every second one holds a sponge. Without this there is no way to a sponge at all in this version — it is in no chest, on no mob and in no recipe. It takes the place of something the chest had already rolled, never a saddle, a golden apple or a record, and only in dungeons made from here on. | Sponges | on | `sponge.inDungeons` |
+| G4 | **Even ore distribution.** A vein is laid out as a line of spheres, and the box the game walks around each one is rounded towards zero instead of downwards — so west and north of the origin it sits a block off the sphere and a slice of every vein is never written. The same four hundred and forty-one chunks generated twice: 2.5 diamond ore a chunk without this, 4.2 with it, against the 4.1 that seed gives at positive coordinates. Veins now come out the same size wherever you dig, dirt and gravel along with the ores. | World | on | `world.evenOreDistribution` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
 | C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
@@ -286,6 +299,26 @@ cane, cactus, and seventy water and lava springs. One extra draw moves all of
 it. So the sponge draws nothing at all: it decides from a random of its own,
 seeded from the world and the chest, and hands back a different stack for a slot
 the game had already picked.
+
+`world.evenOreDistribution` is the one setting here that makes a seed give you
+something other than vanilla gives you, and it is worth saying plainly what it
+does and does not move. It moves no ground at all: the hills, the caves, the
+lakes and the dungeons of a seed are untouched, and so is every number the
+generator draws. What changes is that some blocks of stone turn out to be ore
+which, but for a rounding mistake, would have been ore anyway.
+
+The mistake is a cast, and a cast is not a call, so there is nothing in the
+method for a mixin to take hold of. The vein is therefore laid down where the
+cast rounds the way it was meant to, and the blocks are carried back when they
+are written. How far it moves is the whole of the care in it: the game works a
+vein out in `float`, which keeps its fraction only while the number carrying it
+stays small, so moving a vein somewhere far away would not correct it but grind
+it to dust. Twice the coordinate carries it to its own magnitude, where a float
+keeps exactly what it kept before — and a coordinate that is already positive
+does not move at all. Ground that was right comes out bit for bit as it did,
+ore for ore; only what was clipped is made whole. Chunks you have already
+visited never change, so an old world keeps its thin half and its generous half
+exactly as it found them.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching
