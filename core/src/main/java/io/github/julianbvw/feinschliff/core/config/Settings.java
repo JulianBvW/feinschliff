@@ -66,6 +66,8 @@ public final class Settings {
 	public static final BooleanOption MINING_GOLD_IS_FAST;
 	public static final BooleanOption MINING_SWORD_CUTS;
 
+	public static final BooleanOption PLACING_FACES_YOU;
+
 	public static final BooleanOption BOAT_HANDLING;
 	public static final DoubleOption BOAT_TOP_SPEED;
 	public static final DoubleOption BOAT_DRAG;
@@ -363,6 +365,23 @@ public final class Settings {
 			"not a mistake. This makes it a machete on the three things one would",
 			"reach for shears for, whatever the blade is made of, since shears",
 			"have no material either."));
+
+		SPEC.section("Placing",
+			"Which way a block ends up pointing once you have put it down. Only",
+			"blocks that already carry a facing in this version are turned, and",
+			"only to values the game writes for itself.");
+
+		PLACING_FACES_YOU = SPEC.add(new BooleanOption(
+			"placing.facesYou", true,
+			"Let a staircase and a furnace take their facing from you instead of",
+			"from the blocks beside them. A staircase here has no facing of its",
+			"own at all: it reads its neighbours again every time one of them",
+			"changes, which is why it turns under you while you build. A furnace",
+			"reads them once, when it is placed, and puts its front on whichever",
+			"side has nothing against it, so a furnace standing free faces",
+			"nowhere in particular. With this on, a staircase rises the way you",
+			"are looking and a furnace comes back at you, and neither turns again",
+			"afterwards. Stairs already standing keep the facing they have."));
 
 		SPEC.section("Boats",
 			"A boat keeps 99% of its speed every tick, which is why it takes",

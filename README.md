@@ -66,6 +66,7 @@ rather than in everyday play.
 | G1 | **Sponges soak up water.** Put a sponge down and the water two blocks in every direction goes away; take it up again and the water comes back. It keeps drinking for as long as it lies there, so water pressing in from outside gets no further than the block beside it. The sponge is not used up — there is no wet sponge in this version — so a single one lasts for ever. | Sponges | on | `sponge.soaksUpWater` |
 | G2 | **Sponges in dungeon chests.** About every second one holds a sponge. Without this there is no way to a sponge at all in this version — it is in no chest, on no mob and in no recipe. It takes the place of something the chest had already rolled, never a saddle, a golden apple or a record, and only in dungeons made from here on. | Sponges | on | `sponge.inDungeons` |
 | G4 | **Even ore distribution.** A vein is laid out as a line of spheres, and the box the game walks around each one is rounded towards zero instead of downwards — so west and north of the origin it sits a block off the sphere and a slice of every vein is never written. The same four hundred and forty-one chunks generated twice: 2.5 diamond ore a chunk without this, 4.2 with it, against the 4.1 that seed gives at positive coordinates. Veins now come out the same size wherever you dig, dirt and gravel along with the ores. | World | on | `world.evenOreDistribution` |
+| G3 | **Stairs and furnaces face you.** A staircase in this version carries no facing of its own: it works one out from the blocks around it, and works it out again every time one of them changes, so it turns under you while you build. A furnace asks once, when it is placed, and answers with whichever side has nothing against it. With this on, a staircase rises the way you are looking and a furnace comes back at you, and neither turns again afterwards. | Placing | on | `placing.facesYou` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
 | C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
@@ -319,6 +320,24 @@ does not move at all. Ground that was right comes out bit for bit as it did,
 ore for ore; only what was clipped is made whole. Chunks you have already
 visited never change, so an old world keeps its thin half and its generous half
 exactly as it found them.
+
+`placing.facesYou` gives a staircase and a furnace the one thing this version
+never asks them: where you were standing. Both work their facing out from what
+is around them, and a staircase does it again on every change to a neighbour,
+which is why one laid last week turns when you build beside it today. A furnace
+asks once and looks for the side with nothing against it, so one standing free
+faces wherever the search happens to end. Both are given the facing you placed
+them with instead, and the working-out is switched off so that it stays. Only
+values the game writes for itself are ever written, so a stair or a furnace
+turned this way is one vanilla can draw; without the mod they simply go back to
+reading their neighbours. Vanilla does this itself from Alpha v1.2.0 on.
+
+Stairs already standing keep the facing they have. A staircase also still turns
+into the block it is made of when something solid is set above it, which is
+this version's own idea of a stair running into a wall and is left alone.
+Chests are not part of this: a chest stores no facing at all but works one out
+afresh every time it is drawn, so giving one a memory would mean rewriting how
+a chest is drawn. Vanilla gets to them in Beta 1.8.
 
 The debug key is `hotkey.debugOverlay`, `F3` by default, and it toggles:
 press once to show the overlay, press again to hide it. Switching

@@ -6,6 +6,7 @@
 	"mixins": [
 	],
 	"client": [
+		"BlockItemMixin",
 		"BoatEntityMixin",
 		"ButtonWidgetAccessor",
 		"DungeonFeatureMixin",
@@ -28,6 +29,7 @@
 		"PlayerInventoryMixin",
 		"ScreenAccessor",
 		"SpongeBlockMixin",
+		"StairsBlockMixin",
 		"TitleScreenMixin",
 		"ToolItemAccessor",
 		"VeinFeatureMixin",
