@@ -3,7 +3,7 @@
 	"id": "feinschliff",
 	"version": "${version}",
 	"name": "Feinschliff",
-	"description": "German for 'the final polish'. A quality-of-life collection for Minecraft Alpha: HUD information, window and performance options, camera helpers and inventory comfort. Adds no blocks, items or entities and never touches world generation, so a world stays playable in unmodified vanilla.",
+	"description": "German for 'the final polish'. A quality-of-life collection for Minecraft Alpha: HUD information, window and performance options, camera and flight, inventory comfort, a tool for every block, and a handful of things this version left half-finished. It adds no blocks, items or entities, writes no new NBT, and leaves every hill, cave and dungeon where the seed puts it, so a world stays playable in unmodified vanilla after the mod is removed.",
 	"authors": [
 		"JulianBvW"
 	],
