@@ -383,7 +383,8 @@ press once to show the overlay, press again to hide it. Switching
 ## Requirements
 
 - Minecraft **Alpha v1.1.2_01**
-- An **Ornithe** instance (Fabric Loader)
+- An **Ornithe** instance (Fabric Loader), started with
+  `-Djava.util.Arrays.useLegacyMergeSort=true` — see step 2 below
 - Java 8 or newer
 
 ## Installation
@@ -391,9 +392,26 @@ press once to show the overlay, press again to hide it. Switching
 1. Create an Ornithe instance for `a1.1.2_01` with the
    [Ornithe installer](https://ornithemc.net/download), which can generate a
    ready-made PrismLauncher/MultiMC instance.
-2. Drop `feinschliff-<version>+mca1.1.2_01.jar` into the instance's `mods`
+
+2. **Add `-Djava.util.Arrays.useLegacyMergeSort=true` to that instance's Java
+   arguments** — in PrismLauncher under *Edit → Settings → Java → Java
+   arguments*. Without it the game dies with
+   `IllegalArgumentException: Comparison method violates its general contract!`
+   the moment a world is drawn.
+
+   This is the version's own bug and is not fixed here: the sorter that orders
+   chunks for rebuilding answers `-1` to both `compare(a, b)` and `compare(b, a)`
+   when two chunks are the same distance away, and Java 7 and newer throw that
+   exception rather than sort with a comparator that contradicts itself. The
+   flag asks for the older sort, which does not check. Prism's **vanilla**
+   a1.1.2_01 component carries it; the Ornithe installer replaces that component
+   and does not carry it over, so a freshly made instance needs it set by hand
+   — with this mod or without it.
+
+3. Drop `feinschliff-<version>+mca1.1.2_01.jar` into the instance's `mods`
    folder.
-3. Start the game once. Feinschliff writes a commented
+
+4. Start the game once. Feinschliff writes a commented
    `config/feinschliff.txt` into the instance. Edit it, then press the reload
    hotkey (`F10` by default) or restart.
 
