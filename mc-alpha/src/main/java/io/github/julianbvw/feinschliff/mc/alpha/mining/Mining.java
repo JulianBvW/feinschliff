@@ -106,7 +106,7 @@ public final class Mining {
 	}
 
 	/** Gold sits at wood's tier, so the tier alone cannot tell the two apart. */
-	private static boolean golden(Item item) {
+	static boolean golden(Item item) {
 		return item == Item.GOLDEN_PICKAXE
 			|| item == Item.GOLDEN_AXE
 			|| item == Item.GOLDEN_SHOVEL

@@ -30,6 +30,7 @@
 		"ScreenAccessor",
 		"SpongeBlockMixin",
 		"StairsBlockMixin",
+		"SurvivalInteractionManagerMixin",
 		"TitleScreenMixin",
 		"ToolItemAccessor",
 		"VeinFeatureMixin",

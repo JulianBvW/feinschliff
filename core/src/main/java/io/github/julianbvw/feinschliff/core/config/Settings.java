@@ -65,6 +65,7 @@ public final class Settings {
 	public static final BooleanOption MINING_TOOL_ASSIGNMENTS;
 	public static final BooleanOption MINING_GOLD_IS_FAST;
 	public static final BooleanOption MINING_GOLD_HARVESTS_LIKE_IRON;
+	public static final BooleanOption MINING_GOLD_SILK_TOUCH;
 	public static final BooleanOption MINING_SWORD_CUTS;
 
 	public static final BooleanOption PLACING_FACES_YOU;
@@ -370,6 +371,22 @@ public final class Settings {
 			"either. Gold sits at the bottom of that table in every version of",
 			"the game, so this one is a house rule rather than a later version",
 			"arriving early."));
+
+		MINING_GOLD_SILK_TOUCH = SPEC.add(new BooleanOption(
+			"mining.goldSilkTouch", true,
+			"Break a block with any golden tool and get the block itself rather",
+			"than what it is made of: stone instead of cobblestone, a grass",
+			"block instead of dirt, gravel instead of the odd piece of flint,",
+			"leaves instead of the odd sapling, coal, diamond and redstone ore",
+			"instead of what is inside them, a block of snow or of clay instead",
+			"of the four handfuls it comes apart into, a layer of snow instead of",
+			"a snowball, and glass, ice and a bookshelf, which leave nothing at",
+			"all behind without this. Blocks that already hand themselves back",
+			"are untouched -- iron and gold ore are two of them here -- and so is",
+			"anything a golden tool may not harvest in the first place: a golden",
+			"sword still gets nothing out of stone. Silk Touch is an enchantment",
+			"four years away from this version and has never hung on a material,",
+			"so this one is a house rule."));
 
 		MINING_SWORD_CUTS = SPEC.add(new BooleanOption(
 			"mining.swordCuts", true,
