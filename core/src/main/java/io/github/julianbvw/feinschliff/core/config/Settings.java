@@ -24,6 +24,7 @@ public final class Settings {
 	private static final ConfigSpec SPEC = new ConfigSpec();
 
 	public static final BooleanOption DEBUG_LOGGING;
+	public static final BooleanOption GENERAL_QUIET_WHEAT;
 
 	public static final BooleanOption HUD_HIDE;
 
@@ -107,6 +108,14 @@ public final class Settings {
 			"general.debugLogging", false,
 			"Write extra diagnostic output to the log.",
 			"Turn this on before reporting a problem."));
+
+		GENERAL_QUIET_WHEAT = SPEC.add(new BooleanOption(
+			"general.quietWheat", true,
+			"Stop wheat from writing a line to the log every time it is asked",
+			"what it drops. The line is somebody's debugging left in the crop,",
+			"and it comes once for every stalk harvested, trampled or washed",
+			"away. Only the printing is skipped; what the wheat drops is",
+			"untouched."));
 
 		SPEC.section("HUD",
 			"The hotbar, the crosshair, the hearts and everything else the game",

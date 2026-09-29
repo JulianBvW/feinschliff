@@ -51,7 +51,9 @@ speed, how a boat handles, how fast a pig is and how often it stops listening,
 which lines the debug overlay draws, whether the window fills the screen from
 the start. `general.debugLogging` is the one setting that is off by
 default — it adds diagnostic output to the log and belongs in a bug report
-rather than in everyday play.
+rather than in everyday play. `general.quietWheat` goes the other way and takes
+a line out of it: wheat prints its growth stage every time it is asked what it
+drops, which is a line for every stalk you harvest.
 
 | ID | Feature | Category | Default | Config key |
 |----|---------|----------|---------|------------|
@@ -69,6 +71,7 @@ rather than in everyday play.
 | G3 | **Stairs and furnaces face you.** A staircase in this version carries no facing of its own: it works one out from the blocks around it, and works it out again every time one of them changes, so it turns under you while you build. A furnace asks once, when it is placed, and answers with whichever side has nothing against it. With this on, a staircase rises the way you are looking and a furnace comes back at you, and neither turns again afterwards. | Placing | on | `placing.facesYou` |
 | F1a | **A golden pickaxe harvests like an iron one.** Iron, gold and diamond ore, redstone ore and the three mineral blocks. This version checks one number for both how fast a tool is and what it is allowed to bring up, and gold shares wood's place in it, so a golden pickaxe breaks all of those into nothing at all and takes a hundred times as long doing it. Obsidian stays out: it asks for diamond, and an iron pickaxe cannot have it either. | Mining | on | `mining.goldHarvestsLikeIron` |
 | F1b | **Golden tools have silk touch.** Break a block with any golden tool and get the block itself instead of what it is made of: stone rather than cobblestone, a grass block rather than dirt, gravel rather than the odd piece of flint, leaves rather than the odd sapling, coal, diamond and redstone ore rather than what is inside them, a block of snow or of clay rather than the four handfuls it comes apart into, a layer of snow rather than a snowball — and glass, ice and a bookshelf, which without this leave nothing behind at all. Blocks that already hand themselves back are untouched, iron and gold ore among them, and so is everything a golden tool may not harvest: a golden sword still gets nothing out of stone. | Mining | on | `mining.goldSilkTouch` |
+| G5 | **Quiet wheat.** A line of somebody's debugging is still sitting in the crop: every time wheat is asked what it drops it writes its growth stage to the log, once for every stalk harvested, trampled or washed away. Only the printing goes; what wheat drops is untouched. | General | on | `general.quietWheat` |
 | C2 | **Free camera.** Sends the camera off on its own while your body stays where it is. Steered with your usual movement keys, jump and sneak, speed on the mouse wheel. Nothing you do with it touches the world — the game keeps drawing everything from where you actually are, so no chunk is ever loaded or generated for the camera. | Camera | on | `camera.freecam` |
 | C1 | **Flight.** Takes off with `L` and flies with the usual movement keys, jump and sneak. You keep colliding with the world. Unlike the free camera this moves you, so it loads and generates terrain wherever you go — which is the point of it. | Movement | on | `movement.fly` |
 | A1 | **Debug overlay.** Replaces the F3 screen with one that also shows position, chunk, facing, light level, world time, the block under the crosshair and the seed — colour-coded, on a translucent panel. | HUD | on | `hud.debugOverlay` |
