@@ -64,6 +64,7 @@ public final class Settings {
 
 	public static final BooleanOption MINING_TOOL_ASSIGNMENTS;
 	public static final BooleanOption MINING_GOLD_IS_FAST;
+	public static final BooleanOption MINING_GOLD_HARVESTS_LIKE_IRON;
 	public static final BooleanOption MINING_SWORD_CUTS;
 
 	public static final BooleanOption PLACING_FACES_YOU;
@@ -332,9 +333,10 @@ public final class Settings {
 			"to bind in the game's own controls screen."));
 
 		SPEC.section("Mining",
-			"Which tool a block is for, and what a tool is worth on it. Only the",
-			"time it takes changes, and only ever downwards -- nothing here makes",
-			"anything slower than it already was.");
+			"Which tool a block is for, what a tool is worth on it, and what the",
+			"block leaves behind. Nothing here makes anything slower than it",
+			"already was, and nothing that gave you something now gives you",
+			"nothing.");
 
 		MINING_TOOL_ASSIGNMENTS = SPEC.add(new BooleanOption(
 			"mining.toolAssignments", true,
@@ -353,9 +355,21 @@ public final class Settings {
 			"Let gold dig like gold. A golden tool is the fastest there is in",
 			"later versions and the slowest here, level with wood, because it",
 			"shares wood's place in the one table that sets both how fast a tool",
-			"is and what it may harvest. This raises the speed and nothing else:",
-			"a golden pickaxe still brings up no iron, gold, diamond or redstone,",
-			"which is the rule in every version and stays."));
+			"is and what it may harvest. This raises the speed and nothing else;",
+			"what a golden pickaxe is allowed to bring up is the next key's",
+			"business."));
+
+		MINING_GOLD_HARVESTS_LIKE_IRON = SPEC.add(new BooleanOption(
+			"mining.goldHarvestsLikeIron", true,
+			"Let a golden pickaxe bring up what an iron one can: iron, gold and",
+			"diamond ore, redstone ore, and the three mineral blocks. Without",
+			"this it brings up none of them -- it shares wood's tier, and that",
+			"tier is what the game checks -- so those blocks break into nothing",
+			"at all and take a hundred times as long doing it. Obsidian is not",
+			"included: it asks for diamond, and an iron pickaxe cannot have it",
+			"either. Gold sits at the bottom of that table in every version of",
+			"the game, so this one is a house rule rather than a later version",
+			"arriving early."));
 
 		MINING_SWORD_CUTS = SPEC.add(new BooleanOption(
 			"mining.swordCuts", true,

@@ -2,18 +2,23 @@ package io.github.julianbvw.feinschliff.mc.alpha.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.mob.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 
 import io.github.julianbvw.feinschliff.mc.alpha.inventory.PickBlocks;
 import io.github.julianbvw.feinschliff.mc.alpha.mining.Mining;
 
 @Mixin(PlayerInventory.class)
-public class PlayerInventoryMixin {
+public abstract class PlayerInventoryMixin {
+
+	@Shadow
+	public abstract ItemStack getSelectedItem();
 
 	/**
 	 * Pick block already searches the whole inventory and then only acts when
@@ -39,6 +44,6 @@ public class PlayerInventoryMixin {
 	 */
 	@ModifyReturnValue(method = "canMineBlock", at = @At("RETURN"))
 	private boolean feinschliff$plankIsNotStone(boolean vanilla, Block block) {
-		return Mining.drops(block, vanilla);
+		return Mining.drops(this.getSelectedItem(), block, vanilla);
 	}
 }

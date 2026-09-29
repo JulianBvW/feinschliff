@@ -19,6 +19,10 @@ import io.github.julianbvw.feinschliff.core.config.Settings;
  * what they are keyed on because ids are the one thing that has never moved
  * between these versions.
  *
+ * <p>One table is not version data and never shrinks: the blocks a golden
+ * pickaxe is let past. Gold sits at wood's tier in every version there has ever
+ * been, this one included, so no version ever takes that entry back.
+ *
  * <p>Nothing here is ever slower than the game already was. Every answer is the
  * larger of the game's and this one's, so no combination of settings can take a
  * bonus away, and a block that a later version left toolless keeps whatever
@@ -70,6 +74,22 @@ public final class Tools {
 		18, // leaves
 		35, // wool
 		81  // cactus
+	};
+
+	/**
+	 * What a pickaxe of iron's tier brings up and one of wood's does not.
+	 * Obsidian is deliberately absent: it asks for diamond, and gold standing
+	 * level with iron is not allowed past it either.
+	 */
+	private static final int[] IRON_TIER = {
+		14, // gold ore
+		15, // iron ore
+		41, // block of gold
+		42, // block of iron
+		56, // diamond ore
+		57, // block of diamond
+		73, // redstone ore
+		74  // lit redstone ore
 	};
 
 	private static final int[] NONE = {};
@@ -134,13 +154,26 @@ public final class Tools {
 	/**
 	 * Whether the block gives anything up for the tool in hand.
 	 *
-	 * @param vanilla the game's answer, which is only ever turned from no to yes
+	 * <p>The harvest tier is the pickaxe's alone. A shovel is asked about snow
+	 * and nothing else, and an axe, a sword and a hoe are never asked at all,
+	 * so the golden pickaxe is the whole of what the second answer covers.
+	 *
+	 * @param goldenPickaxe whether that is what is being swung
+	 * @param vanilla       the game's answer, which is only ever turned from no
+	 *                      to yes
 	 */
-	public static boolean drops(int blockId, boolean vanilla) {
-		if (vanilla || !Settings.MINING_TOOL_ASSIGNMENTS.on()) {
-			return vanilla;
+	public static boolean drops(int blockId, boolean goldenPickaxe, boolean vanilla) {
+		if (vanilla) {
+			return true;
 		}
-		return blockId == WOODEN_PRESSURE_PLATE;
+
+		if (Settings.MINING_TOOL_ASSIGNMENTS.on() && blockId == WOODEN_PRESSURE_PLATE) {
+			return true;
+		}
+
+		return goldenPickaxe
+			&& Settings.MINING_GOLD_HARVESTS_LIKE_IRON.on()
+			&& listed(IRON_TIER, blockId);
 	}
 
 	/**

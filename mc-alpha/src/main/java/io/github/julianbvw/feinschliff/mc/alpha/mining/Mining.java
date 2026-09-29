@@ -43,9 +43,17 @@ public final class Mining {
 		return Tools.speed(kind, tierOf(item, kind), golden(item), block.id, vanilla);
 	}
 
-	/** Whether the block gives anything up for the tool in hand. */
-	public static boolean drops(Block block, boolean vanilla) {
-		return Tools.drops(block.id, vanilla);
+	/**
+	 * Whether the block gives anything up for the stack in hand.
+	 *
+	 * @param stack what is held, which is null for a bare hand
+	 */
+	public static boolean drops(ItemStack stack, Block block, boolean vanilla) {
+		return Tools.drops(block.id, goldenPickaxe(stack), vanilla);
+	}
+
+	private static boolean goldenPickaxe(ItemStack stack) {
+		return stack != null && stack.id == Item.GOLDEN_PICKAXE.id;
 	}
 
 	private static ToolKind kindOf(Item item) {
