@@ -1,5 +1,7 @@
 package io.github.julianbvw.feinschliff.core.config;
 
+import io.github.julianbvw.feinschliff.core.texture.TileGrid;
+
 /**
  * Every setting the mod has, in the order they appear in
  * {@code feinschliff.txt}.
@@ -44,6 +46,7 @@ public final class Settings {
 	public static final BooleanOption SCREENSHOT_ENABLED;
 
 	public static final StringOption TEXTUREPACK_NAME;
+	public static final ChoiceOption TEXTUREPACK_ERA;
 
 	public static final BooleanOption CAMERA_FREECAM;
 	public static final DoubleOption CAMERA_FREECAM_SPEED;
@@ -227,6 +230,22 @@ public final class Settings {
 			"pack does not carry stays the game's own, so a partial pack is",
 			"fine, and files that later versions moved out of the root are",
 			"found where those versions put them."));
+
+		TEXTUREPACK_ERA = SPEC.add(new ChoiceOption(
+			"texturepack.era", TileGrid.ALPHA, TileGrid.ERAS,
+			"Which era the pack was drawn for. A pack made for this version",
+			"leaves this alone.",
+			"",
+			"Packs from the beta line file two things elsewhere. They keep",
+			"their redstone wire four tiles further down and draw it once",
+			"instead of twice, in grey, because that version colours it as it",
+			"draws; and they carry a single texture for an iron, gold or",
+			"diamond block where this version wants a top, a side and a",
+			"bottom. Setting this to beta puts both back in place, the wire",
+			"dark where it carries nothing and bright where it does.",
+			"",
+			"If your redstone wire turns up as a trapdoor, the pack wants",
+			"beta. If blocks of iron grow grass on their sides, so does it."));
 
 		SPEC.section("Camera",
 			"The free camera flies on its own while you stay where you are. You",

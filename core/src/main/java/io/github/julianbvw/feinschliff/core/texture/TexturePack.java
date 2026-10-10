@@ -192,6 +192,10 @@ public final class TexturePack {
 					return null;
 				}
 				bytes = clean(bytes);
+
+				if (TERRAIN.equals(path)) {
+					bytes = TileGrid.regrid(bytes, Settings.TEXTUREPACK_ERA.text());
+				}
 			}
 
 			Feinschliff.log().debug("texture pack: serving " + path);
