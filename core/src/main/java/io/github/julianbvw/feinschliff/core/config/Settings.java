@@ -224,13 +224,17 @@ public final class Settings {
 			"The reload key reads the pack again from disk every time, so",
 			"editing a file and looking at the result takes a keypress. Two",
 			"things do not follow until the game is restarted: the font and the",
-			"compass, both of which the game builds once and never again.",
+			"compass, both of which the game builds once and never again, down",
+			"to the size they were built at.",
 			"",
-			"Packs drawn at more than sixteen pixels per block are refused with",
-			"a line in the log -- this version cannot upload them. Anything a",
-			"pack does not carry stays the game's own, so a partial pack is",
-			"fine, and files that later versions moved out of the root are",
-			"found where those versions put them."));
+			"Packs are shown at whatever size they are drawn, up to a hundred",
+			"and twenty-eight pixels a block. Fire, lava, water and the compass",
+			"are the exception: the game works those out as it draws them, so",
+			"they stay as coarse as it draws them, however fine the rest is.",
+			"",
+			"Anything a pack does not carry stays the game's own, so a partial",
+			"pack is fine, and files that later versions moved out of the root",
+			"are found where those versions put them."));
 
 		TEXTUREPACK_ERA = SPEC.add(new ChoiceOption(
 			"texturepack.era", TileGrid.ALPHA, TileGrid.ERAS,

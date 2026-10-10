@@ -43,40 +43,32 @@ public final class TexturePack {
 	/** Sixteen tiles across, in every version there has ever been. */
 	private static final int TILES = 16;
 
-	/**
-	 * The one tile size this version can show. Its upload buffer is a fixed
-	 * megabyte, which is 512 by 512 pixels exactly, and its animated sprites
-	 * write sixteen pixels wherever they write -- so a larger pack does not
-	 * look wrong, it fails to load.
-	 */
+	/** The tile this version was drawn at, and the smallest one that works. */
 	private static final int TILE_SIZE = 16;
 
-	/** Four bytes a pixel, and the buffer is 1 MiB, so this is 512 by 512. */
-	private static final int MAX_BYTES = 1048576;
+	/**
+	 * The largest tile that is let in. Nothing here breaks above it -- the
+	 * upload buffer grows to whatever it is handed -- but a tile of 128 is a
+	 * sheet of 2048 and sixteen megabytes of buffer, and no pack of this era
+	 * was ever drawn larger.
+	 */
+	private static final int MAX_TILE = 128;
+
+	/** The item sheet, which the compass cuts its needle out of. */
+	private static final String ITEMS = "/gui/items.png";
+
+	/** The font, whose character widths the game measures off the picture. */
+	private static final String FONT = "/default.png";
 
 	/**
-	 * The three files the game walks with hardcoded pixel arithmetic, and the
-	 * size it walks them at. Everything else is read through coordinates that
-	 * divide out, so only these three care.
-	 *
-	 * <p>Two of them are a crash rather than a blemish, and not a caught one:
-	 * a font below 128 square runs the width measurement off the end of its
-	 * own pixel array, and an item sheet below 256 square does the same to the
-	 * compass. Both happen while the game is starting, before anything is on
-	 * screen.
+	 * The smallest font that can be let in. The game measures its character
+	 * widths in cells of eight over an array of the picture's own size, so a
+	 * smaller font reads off the end of it -- and that happens while the game
+	 * is starting, in a constructor, where nothing catches it. The mod
+	 * measures the widths again afterwards, but only after that walk has
+	 * already run.
 	 */
-	private static final String[] FIXED_SIZE_PATHS = {
-		"/terrain.png",
-		"/gui/items.png",
-		"/default.png"
-	};
-
-	/** Side length in pixels, one per path above. */
-	private static final int[] FIXED_SIZE_PIXELS = {
-		256,
-		256,
-		128
-	};
+	private static final int MIN_FONT = 128;
 
 	/**
 	 * Where a later pack keeps what this version looks for in the root. The
@@ -119,6 +111,9 @@ public final class TexturePack {
 	private static Path folder;
 	private static String opened = "";
 
+	private static int terrainTile = TILE_SIZE;
+	private static int itemTile = TILE_SIZE;
+
 	private TexturePack() {
 	}
 
@@ -134,6 +129,20 @@ public final class TexturePack {
 	/** True while a pack is answering for at least some of the game's art. */
 	public static boolean inUse() {
 		return zip != null || folder != null;
+	}
+
+	/**
+	 * How many pixels a block is drawn with, which is sixteen unless a pack
+	 * says otherwise. The game writes its own animated tiles at sixteen and
+	 * has to be told where they go.
+	 */
+	public static int terrainTile() {
+		return terrainTile;
+	}
+
+	/** The same for the item sheet, which a pack may draw at another size. */
+	public static int itemTile() {
+		return itemTile;
 	}
 
 	/**
@@ -186,11 +195,6 @@ public final class TexturePack {
 			}
 
 			if (isPng(bytes)) {
-				if (tooLarge(bytes)) {
-					Feinschliff.log().debug("texture pack: " + path
-						+ " is larger than this version can upload, using the game's own");
-					return null;
-				}
 				bytes = clean(bytes);
 
 				if (TERRAIN.equals(path)) {
@@ -245,7 +249,12 @@ public final class TexturePack {
 
 	/**
 	 * Whether this version can show the pack at all, answered once rather than
-	 * once per file. A pack with larger tiles is not wrong, it is early.
+	 * once per file, and the place the two tile sizes are measured.
+	 *
+	 * <p>Three files are weighed, because three are walked by counting pixels
+	 * rather than by coordinates that divide out: the terrain sets the size a
+	 * block is drawn at, the item sheet the size the compass is cut from, and
+	 * the font the size its character widths are measured over.
 	 */
 	private static boolean accepted(String wanted) {
 		byte[] terrain;
@@ -272,33 +281,42 @@ public final class TexturePack {
 		}
 
 		int tile = width / TILES;
-		if (tile != TILE_SIZE) {
+		if (tile < TILE_SIZE || tile > MAX_TILE) {
 			Feinschliff.log().warn("'" + wanted + "' draws its blocks at " + tile + " pixels,"
-				+ " and this version can only show " + TILE_SIZE + "; the game keeps its own art");
+				+ " and this version can show " + TILE_SIZE + " to " + MAX_TILE
+				+ "; the game keeps its own art");
 			return false;
 		}
 
-		for (int i = 0; i < FIXED_SIZE_PATHS.length; i++) {
-			String path = FIXED_SIZE_PATHS[i];
-			int expected = FIXED_SIZE_PIXELS[i];
-			if (!sized(path, expected)) {
-				Feinschliff.log().warn("'" + wanted + "' draws " + path + " at a size this"
-					+ " version cannot read; it wants " + expected + " square."
-					+ " The game keeps its own art");
-				return false;
-			}
+		int items = grid(ITEMS);
+		if (items == 0) {
+			Feinschliff.log().warn("'" + wanted + "' has an items sheet that is not a square"
+				+ " grid of sixteen tiles; the game keeps its own art");
+			return false;
 		}
 
-		Feinschliff.log().info("texture pack: " + wanted + (zip != null ? " (zip)" : " (folder)"));
+		int font = grid(FONT);
+		if (font == 0 || (font > 0 && font < MIN_FONT)) {
+			Feinschliff.log().warn("'" + wanted + "' has a font this version cannot measure;"
+				+ " it wants a square grid of sixteen characters, at least " + MIN_FONT
+				+ " across. The game keeps its own art");
+			return false;
+		}
+
+		terrainTile = tile;
+		itemTile = items < 0 ? TILE_SIZE : items / TILES;
+
+		Feinschliff.log().info("texture pack: " + wanted + (zip != null ? " (zip)" : " (folder)")
+			+ ", " + tile + " pixels a block");
 		return true;
 	}
 
 	/**
-	 * Whether the pack leaves that file at the size the game walks it at. A
-	 * file the pack does not carry is fine -- the game keeps its own, which is
-	 * the right size by definition.
+	 * The side length of a file that has to be a square grid of sixteen:
+	 * {@code -1} when the pack does not carry it and the game keeps its own,
+	 * {@code 0} when it carries something unusable.
 	 */
-	private static boolean sized(String path, int expected) {
+	private static int grid(String path) {
 		byte[] png;
 		try {
 			png = read(path);
@@ -307,16 +325,20 @@ public final class TexturePack {
 				png = alias == null ? null : read(alias);
 			}
 		} catch (Throwable t) {
-			return false;
+			return 0;
 		}
 
 		if (png == null) {
-			return true;
+			return -1;
 		}
 
-		return isPng(png)
-			&& intAt(png, IHDR_SIZE_AT) == expected
-			&& intAt(png, IHDR_SIZE_AT + 4) == expected;
+		if (!isPng(png)) {
+			return 0;
+		}
+
+		int width = intAt(png, IHDR_SIZE_AT);
+		int height = intAt(png, IHDR_SIZE_AT + 4);
+		return width == height && width % TILES == 0 && width > 0 ? width : 0;
 	}
 
 	private static void close() {
@@ -330,6 +352,8 @@ public final class TexturePack {
 		}
 		folder = null;
 		opened = "";
+		terrainTile = TILE_SIZE;
+		itemTile = TILE_SIZE;
 	}
 
 	/** The file's bytes, or {@code null} when the pack does not carry it. */
@@ -383,11 +407,6 @@ public final class TexturePack {
 			}
 		}
 		return true;
-	}
-
-	private static boolean tooLarge(byte[] png) {
-		long pixels = (long) intAt(png, IHDR_SIZE_AT) * intAt(png, IHDR_SIZE_AT + 4);
-		return pixels * 4L > MAX_BYTES;
 	}
 
 	/**
