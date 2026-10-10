@@ -47,6 +47,7 @@ public final class Settings {
 
 	public static final StringOption TEXTUREPACK_NAME;
 	public static final ChoiceOption TEXTUREPACK_ERA;
+	public static final DoubleOption TEXTUREPACK_TINT_BELOW;
 
 	public static final BooleanOption CAMERA_FREECAM;
 	public static final DoubleOption CAMERA_FREECAM_SPEED;
@@ -246,6 +247,18 @@ public final class Settings {
 			"",
 			"If your redstone wire turns up as a trapdoor, the pack wants",
 			"beta. If blocks of iron grow grass on their sides, so does it."));
+
+		TEXTUREPACK_TINT_BELOW = SPEC.add(new DoubleOption(
+			"texturepack.tintBelowSaturation", 0.35, 0.0, 1.0,
+			"Packs made for a later version draw grass and leaves grey and let",
+			"the game colour them as it draws. This one colours nothing, so the",
+			"colour is put into the tile when the pack is loaded, taken from the",
+			"pack's own misc/grasscolor.png and misc/foliagecolor.png.",
+			"",
+			"A tile already carrying more colour than this is left alone, so a",
+			"pack that painted its own grass cannot come out painted twice.",
+			"Zero turns the colouring off. A pack either paints its tiles or it",
+			"does not, so there is a wide gap to put this in."));
 
 		SPEC.section("Camera",
 			"The free camera flies on its own while you stay where you are. You",

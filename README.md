@@ -92,6 +92,7 @@ leaving it empty is what keeps the game's own art.
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
 | H1 | **Texture packs.** Put a pack as a folder or a zip into `texturepacks/` and name it in the config; the reload key reads it again from disk every time, so editing a texture and looking at the result takes a keypress. Anything the pack does not carry stays the game's own, and the files that later versions moved out of the root are found where those versions put them. This version draws its blocks at sixteen pixels and cannot be talked out of it, so a pack drawn larger is refused with a line in the log rather than shown wrongly. | Texture packs | on | `texturepack.name` |
 | H2 | **Packs from a later version.** A pack drawn for the beta line files two things elsewhere: its redstone wire sits four tiles further down and is drawn once instead of twice, in grey, because that version colours it as it draws; and an iron, gold or diamond block carries one texture where this version wants a top, a side and a bottom. Set the era to `beta` and both are put back where this version looks, the wire dark when it carries nothing and bright when it does. | Texture packs | `alpha` | `texturepack.era` |
+| H3 | **Grey grass and leaves.** A pack made for a later version draws both in grey and lets the game colour them as it draws; this version colours nothing, so they stay grey. The colour is put into the tile when the pack is loaded, taken from the pack's own `misc/grasscolor.png` and `misc/foliagecolor.png` — a pack that painted its own grass carries those as plain white and is left exactly as it is. Only the grass top and the two leaf tiles are touched: the grass side is painted in every pack, and the snowed side is pale because it is snow. | Texture packs | `0.35` | `texturepack.tintBelowSaturation` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles: one
 press sends it off, the next brings it back. While it is out you cannot mine,
@@ -426,8 +427,10 @@ the file to get a fresh one with all defaults and comments back.
 Texture packs go into a `texturepacks/` folder beside `saves/`, as a folder or
 as a zip, and are picked by name with `texturepack.name`. A pack drawn for a
 later version is told so with `texturepack.era`, which moves the handful of
-tiles that version keeps elsewhere. The mod only reads a pack; nothing in that
-folder is ever written to, and the tiles move in a copy on the way to the game.
+tiles that version keeps elsewhere, and grass and leaves such a pack left grey
+are coloured from the colour maps it carries. The mod only reads a pack;
+nothing in that folder is ever written to, and the tiles are changed in a copy
+on the way to the game.
 
 ## Building
 

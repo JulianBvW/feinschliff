@@ -195,6 +195,9 @@ public final class TexturePack {
 
 				if (TERRAIN.equals(path)) {
 					bytes = TileGrid.regrid(bytes, Settings.TEXTUREPACK_ERA.text());
+					bytes = Foliage.tint(bytes, read("/misc/grasscolor.png"),
+						read("/misc/foliagecolor.png"),
+						Settings.TEXTUREPACK_TINT_BELOW.value());
 				}
 			}
 
