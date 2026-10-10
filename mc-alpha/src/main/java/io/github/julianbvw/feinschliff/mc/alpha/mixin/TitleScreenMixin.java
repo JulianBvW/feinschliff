@@ -1,5 +1,9 @@
 package io.github.julianbvw.feinschliff.mc.alpha.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+
+import java.io.InputStream;
 import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,6 +17,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 
 import io.github.julianbvw.feinschliff.core.window.Quit;
 import io.github.julianbvw.feinschliff.mc.alpha.FeinschliffClient;
+import io.github.julianbvw.feinschliff.mc.alpha.texture.TexturePacks;
 
 /** The title screen, which in this version has no way out of the game on it. */
 @Mixin(TitleScreen.class)
@@ -86,5 +91,26 @@ public class TitleScreenMixin {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * The splash line over the logo is picked from a list the screen reads in
+	 * its constructor. It is the only thing a pack can replace here that is
+	 * not an image, and the one file of the forty this version asks for that
+	 * is text.
+	 *
+	 * <p>The game wraps this read in a catch of its own and falls back to a
+	 * placeholder, so nothing here can cost more than a line of nonsense over
+	 * the logo.
+	 */
+	@WrapOperation(
+		method = "<init>",
+		at = @At(value = "INVOKE",
+			target = "Ljava/lang/Class;getResourceAsStream(Ljava/lang/String;)Ljava/io/InputStream;"),
+		require = 1)
+	private InputStream feinschliff$splashesFromThePack(Class<?> owner, String path,
+			Operation<InputStream> original) {
+		InputStream fromPack = TexturePacks.open(path);
+		return fromPack != null ? fromPack : original.call(owner, path);
 	}
 }

@@ -11,6 +11,7 @@ import io.github.julianbvw.feinschliff.core.input.Hotkey;
 import io.github.julianbvw.feinschliff.core.movement.Fly;
 import io.github.julianbvw.feinschliff.core.platform.Log;
 import io.github.julianbvw.feinschliff.core.screenshot.Screenshots;
+import io.github.julianbvw.feinschliff.core.texture.TexturePack;
 import io.github.julianbvw.feinschliff.core.window.Borderless;
 import io.github.julianbvw.feinschliff.core.window.VSync;
 
@@ -60,6 +61,8 @@ public final class Feinschliff {
 		config.loadOrCreate();
 
 		Screenshots.setRoot(gameDir);
+		TexturePack.setRoot(gameDir);
+		TexturePack.reopen();
 
 		reloadConfigHotkey = new Hotkey(Settings.HOTKEY_RELOAD_CONFIG);
 
@@ -110,6 +113,11 @@ public final class Feinschliff {
 			return;
 		}
 		config.load();
+
+		// Always from disk, even when the name did not change: a pack being
+		// edited is the reason this key exists.
+		TexturePack.reopen();
+
 		log.info("reloaded " + Settings.FILE_NAME);
 	}
 

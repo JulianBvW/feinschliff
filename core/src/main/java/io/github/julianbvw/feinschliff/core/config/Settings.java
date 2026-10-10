@@ -43,6 +43,8 @@ public final class Settings {
 
 	public static final BooleanOption SCREENSHOT_ENABLED;
 
+	public static final StringOption TEXTUREPACK_NAME;
+
 	public static final BooleanOption CAMERA_FREECAM;
 	public static final DoubleOption CAMERA_FREECAM_SPEED;
 	public static final BooleanOption CAMERA_FREECAM_SHOW_PLAYER;
@@ -204,6 +206,27 @@ public final class Settings {
 			"screenshot.enabled", true,
 			"Save a picture of the screen to a file. It holds exactly what you",
 			"see, including the hud, the debug screen and your own hand."));
+
+		SPEC.section("Texture packs",
+			"A pack is a folder or a zip in texturepacks/, beside your worlds.",
+			"This version has no texture packs of its own, so a pack here is",
+			"simply a set of files named the way the game names its own.");
+
+		TEXTUREPACK_NAME = SPEC.add(new StringOption(
+			"texturepack.name", "",
+			"Which pack to use, by the name of its folder or of its zip without",
+			"the .zip. Empty means the game keeps its own art.",
+			"",
+			"The reload key reads the pack again from disk every time, so",
+			"editing a file and looking at the result takes a keypress. Two",
+			"things do not follow until the game is restarted: the font and the",
+			"compass, both of which the game builds once and never again.",
+			"",
+			"Packs drawn at more than sixteen pixels per block are refused with",
+			"a line in the log -- this version cannot upload them. Anything a",
+			"pack does not carry stays the game's own, so a partial pack is",
+			"fine, and files that later versions moved out of the root are",
+			"found where those versions put them."));
 
 		SPEC.section("Camera",
 			"The free camera flies on its own while you stay where you are. You",

@@ -54,6 +54,8 @@ default — it adds diagnostic output to the log and belongs in a bug report
 rather than in everyday play. `general.quietWheat` goes the other way and takes
 a line out of it: wheat prints its growth stage every time it is asked what it
 drops, which is a line for every stalk you harvest.
+`texturepack.name` is the one key that holds a name rather than a yes or a no;
+leaving it empty is what keeps the game's own art.
 
 | ID | Feature | Category | Default | Config key |
 |----|---------|----------|---------|------------|
@@ -88,6 +90,7 @@ drops, which is a line for every stalk you harvest.
 | D9 | **Drop out of a menu.** Point at a stack in a menu and press the drop key to throw it out of there, without taking it into your hand first. With control held the whole stack goes. | Inventory | on | `inventory.dropFromMenu` |
 | E3d | **Drop a whole stack.** Hold control while pressing the drop key to throw all of it instead of one. The key itself stays yours to bind in the game's own controls screen. | Inventory | on | `inventory.dropStack` |
 | E3c | **Screenshots.** `F2` saves a picture to `screenshots/`, named after the moment it was taken. It holds exactly what is on the monitor — hud, debug screen and your own hand included — at the size of the window. | Screenshots | on | `screenshot.enabled` |
+| H1 | **Texture packs.** Put a pack as a folder or a zip into `texturepacks/` and name it in the config; the reload key reads it again from disk every time, so editing a texture and looking at the result takes a keypress. Anything the pack does not carry stays the game's own, and the files that later versions moved out of the root are found where those versions put them. This version draws its blocks at sixteen pixels and cannot be talked out of it, so a pack drawn larger is refused with a line in the log rather than shown wrongly. | Texture packs | on | `texturepack.name` |
 
 The free camera is on `hotkey.freecam`, `F6` by default, and it toggles: one
 press sends it off, the next brings it back. While it is out you cannot mine,
@@ -418,6 +421,10 @@ press once to show the overlay, press again to hide it. Switching
 The config lives in the instance, never inside a world folder, so removing the
 mod leaves your worlds untouched. Existing files are never overwritten — delete
 the file to get a fresh one with all defaults and comments back.
+
+Texture packs go into a `texturepacks/` folder beside `saves/`, as a folder or
+as a zip, and are picked by name with `texturepack.name`. The mod only reads
+them; nothing in that folder is ever written to.
 
 ## Building
 

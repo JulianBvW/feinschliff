@@ -10,12 +10,14 @@ import io.github.julianbvw.feinschliff.core.config.KeyOption;
 import io.github.julianbvw.feinschliff.core.input.Keys;
 import io.github.julianbvw.feinschliff.core.platform.Game;
 import io.github.julianbvw.feinschliff.core.platform.WindowMode;
+import io.github.julianbvw.feinschliff.core.texture.TexturePack;
 import io.github.julianbvw.feinschliff.core.window.Borderless;
 import io.github.julianbvw.feinschliff.core.window.VSync;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.MinecraftGameHost;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.Log4jLog;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.LwjglDisplay;
 import io.github.julianbvw.feinschliff.mc.alpha.adapter.LwjglKeys;
+import io.github.julianbvw.feinschliff.mc.alpha.texture.TexturePacks;
 import io.github.julianbvw.feinschliff.mc.alpha.window.BorderlessWindow;
 
 /**
@@ -67,6 +69,7 @@ public final class FeinschliffClient {
 				}
 			});
 			Game.setHost(new MinecraftGameHost(minecraft));
+			TexturePack.setTextures(TexturePacks::reloadAll);
 
 			// The instance directory, i.e. where feinschliff.txt belongs.
 			// Minecraft.getWorkingDirectory() is not usable here: it is only
