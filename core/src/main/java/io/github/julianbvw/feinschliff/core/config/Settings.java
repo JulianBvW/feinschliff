@@ -92,6 +92,8 @@ public final class Settings {
 	public static final DoubleOption PIG_MIND_EVERY;
 	public static final DoubleOption PIG_MIND_FOR;
 
+	public static final BooleanOption LEAVES_DECAY;
+
 	public static final BooleanOption SPONGE_SOAKS_UP_WATER;
 	public static final BooleanOption SPONGE_KEEPS_DRY;
 	public static final BooleanOption SPONGE_IN_DUNGEONS;
@@ -572,6 +574,30 @@ public final class Settings {
 			"pig.mind.for", 3.0, 0.5, 30.0,
 			"How long it then does as it pleases. It grunts as it starts, so",
 			"you know the next few steps are not yours."));
+
+		SPEC.section("Leaves",
+			"How a leaf works out whether it still belongs to a tree. The number",
+			"it keeps for that travels from leaf to leaf, and that is what makes",
+			"a felled wood keep its canopy.");
+
+		LEAVES_DECAY = SPEC.add(new BooleanOption(
+			"leaves.decay", true,
+			"Let a leaf go when no trunk stands within three blocks of it. This",
+			"version works the distance out by passing a number from leaf to",
+			"leaf, which reaches six blocks and so travels across the leaves two",
+			"crowns share: fell a tree in a wood and most of its canopy is still",
+			"within reach of the next tree's trunk, and hangs there for good. A",
+			"solid block below a leaf counts as a trunk as well, and leaves are",
+			"solid, so a stack of leaves holds itself up too. Asking for a trunk",
+			"in the cube of seven around the leaf has neither problem. The leaf",
+			"is taken down the game's own way, so it still gives a sapling one",
+			"time in twenty, and a wood yields more saplings than before rather",
+			"than fewer -- leaves that used to hang now come down and roll at",
+			"all. Two things worth expecting: leaves resting on the ground or on",
+			"a block you placed go now, where this version kept them for ever;",
+			"and a standing big oak sheds the odd leaf from the outer edge of",
+			"its crown, which is the price of a cube small enough to clear a",
+			"felled wood."));
 
 		SPEC.section("Sponges",
 			"A sponge is the one block here with a job written down and nothing to",

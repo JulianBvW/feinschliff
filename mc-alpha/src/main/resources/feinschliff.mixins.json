@@ -20,6 +20,8 @@
 		"InventoryMenuScreenMixin",
 		"ItemStackMixin",
 		"KeyboardInputMixin",
+		"LeavesBlockInvoker",
+		"LeavesBlockMixin",
 		"MinecraftInvoker",
 		"MinecraftMixin",
 		"MobEntityAccessor",
